@@ -1,0 +1,690 @@
+1. Suppose you have 3 microservices: A, B, and C. A posts a message to a Kafka topic of B. How does Microservice B consume the message and post it to the REST API endpoint of Microservice C?
+2. How do we post a message to a REST API endpoint, and what is the difference between HttpClient and RestTemplate?
+3. What is the difference between CrudRepository and JpaRepository?
+4. What is the difference between SessionFactory and EntityManager?
+5. In Spring JPA, what does it internally use: SessionFactory or EntityManager?
+6. In Hibernate, what do we use: SessionFactory or EntityManager?
+7. Suppose you consume a Kafka message in XML, convert it, and publish it to a downstream Kafka topic, but while doing this, the data is persisted in the database and the message is not published to the Kafka topic due to some error. How do you roll back the database data? How do you handle this scenario in a microservice?
+8. How does Spring communicate with the database? How does Spring Data JPA do the same?
+9. How do you control the number of users who can access your microservice? Suppose there are billions of users, but you want only 10K users to be able to access the service.
+10. How do you store user details and passwords in AWS?
+11. How does pagination work in Spring Boot? How does Spring Boot and the database know that only 10 records should be fetched and displayed at a time? Explain the internal working and flow from the Controller to the Service and Repository levels.
+12. Suppose you have to design a flow where a message has to be put at a place from where 5 different microservices can read those messages asynchronously. Now, what approaches can we take here, and why?
+13. How does Spring Boot decide which auto-configuration to apply?
+14. What happens internally when you add the spring-boot-starter-web dependency?
+15. Why does Spring Boot prefer convention over configuration?
+16. What is the exact startup flow of a Spring Boot application?
+17. What will happen if you define @Controller, @Service, and @Repository over the same class?
+18. How does Spring Boot detect the embedded Tomcat and configure it?
+19. How do we configure a health check in a Spring Boot application?
+20. How do we make sure no external person can check or hit the health-check URL of your service? How do we secure it?
+21. How does Spring Boot reduce XML configuration completely?
+22. What is the role of SpringFactoriesLoader?
+23. How does Spring Boot handle profile-specific configuration?
+24. How does Spring Boot manage dependency versions internally?
+25. How does Spring Boot handle externalized configuration?
+
+
+☕ Core Java & Concurrency
+1️⃣ Abstract Class vs Interface after Java 8
+2️⃣ Explain Locking in Java.
+3️⃣ wait() vs notify() vs notifyAll()
+4️⃣ ReentrantLock vs ReentrantReadWriteLock
+5️⃣ Future vs CompletableFuture
+6️⃣ Explain the internal working of HashMap.
+7️⃣ Fail-Fast vs Fail-Safe
+8️⃣ What is ConcurrentModificationException and when does it occur?
+9️⃣ Explain Optional and its practical usage.
+🔟 Explain Generics — extends vs super.
+🌱 Spring & Spring Boot
+1️⃣1️⃣ Difference between:
+@RestController vs @Service vs @Repository vs @Component
+1️⃣2️⃣ @Component vs @Configuration + @Bean
+1️⃣3️⃣ How would you implement a Global Exception Handler?
+1️⃣4️⃣ Filter vs Interceptor — what's the difference and when would you use each?
+🗄️ Hibernate & JPA
+1️⃣5️⃣ Explain Hibernate Second-Level Cache.
+1️⃣6️⃣ What is the N+1 Query Problem?
+👉 How would you identify and solve it?
+🏗️ Microservices & Resilience
+1️⃣7️⃣ Saga Pattern — Orchestration vs Choreography
+1️⃣8️⃣ Explain resilience patterns:
+🔹 Circuit Breaker
+🔹 Retry
+🔹 Bulkhead
+🔹 Jitter
+1️⃣9️⃣ How do Microservices communicate securely?
+2️⃣0️⃣ What are the different approaches for Microservice-to-Microservice communication?
+⚡ Kafka
+2️⃣1️⃣ What is a Kafka Consumer Group?
+2️⃣2️⃣ Explain Kafka Offsets.
+2️⃣3️⃣ What are Topics and Partitions?
+2️⃣4️⃣ What is a Dead Letter Queue (DLQ)?
+2️⃣5️⃣ Explain Kafka Acknowledgements (ACKs).
+2️⃣6️⃣ How does Kafka Replication work?
+🗄️ SQL & Database
+2️⃣7️⃣ What are Database Indexes?
+2️⃣8️⃣ What is a Composite Key?
+2️⃣9️⃣ What are Stored Procedures and Triggers?
+3️⃣0️⃣ Write an SQL query to find employees whose salary is greater than their manager's salary.
+☕ Java Streams
+3️⃣1️⃣ Given a list of integers:
+👉 Reverse the order
+👉 Keep distinct values
+👉 Place odd numbers first
+👉 Place even numbers after them
+💻 Coding Round
+3️⃣2️⃣ Valid Brackets
+Given an expression containing:
+() [] {}
+
+
+
+
+𝗦𝘁𝗲𝗽 𝟭: 𝗖𝗼𝗿𝗲 𝗝𝗮𝘃𝗮
+- Data Types
+- Loops & Conditionals
+- OOP
+- Exception Handling
+- Collections Framework (List, Set, Map, Queue)
+- Java 8+ Features (Streams, Lambda, Functional Interfaces)
+
+𝗦𝘁𝗲𝗽 𝟮: 𝗔𝗱𝘃𝗮𝗻𝗰𝗲𝗱 𝗝𝗮𝘃𝗮
+- Multithreading & Concurrency
+- JVM Internals & Garbage Collection
+- Design Patterns (Singleton, Factory, Builder, Observer)
+- Annotations & Reflection
+- File Handling & Serialization
+
+𝗦𝘁𝗲𝗽 𝟯: 𝗦𝗽𝗿𝗶𝗻𝗴 𝗙𝗿𝗮𝗺𝗲𝘄𝗼𝗿𝗸
+- Spring Core & IoC
+- Spring Boot (Auto Configuration, Starters)
+- REST API Development
+- Spring Data JPA & Hibernate
+- Security (JWT, OAuth2)
+
+𝗦𝘁𝗲𝗽 𝟰: 𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲
+- SQL (DDL, DML, Joins, Indexes, Transactions)
+- Query Optimization
+- NoSQL Basics (MongoDB, Redis)
+
+𝗦𝘁𝗲𝗽 𝟱: 𝗧𝗲𝘀𝘁𝗶𝗻𝗴 & 𝗕𝗲𝘀𝘁 𝗣𝗿𝗮𝗰𝘁𝗶𝗰𝗲𝘀
+- JUnit & Mockito
+- Integration Testing
+- Logging (SLF4J, Logback)
+- Code Quality (SonarQube, Clean Code Principles)
+
+𝗦𝘁𝗲𝗽 𝟲: 𝗗𝗲𝘃𝗢𝗽𝘀 & 𝗖𝗹𝗼𝘂𝗱 𝗘𝘀𝘀𝗲𝗻𝘁𝗶𝗮𝗹𝘀
+- Git & GitHub
+- CI/CD Basics (Jenkins, GitHub Actions)
+- Docker & Kubernetes Fundamentals
+- AWS/Azure/GCP Basics
+
+
+
+🔹 JAVA
+• 01) Explain HashMap internals and how collisions are handled in Java 8+.
+• 02) When would you use ConcurrentHashMap over synchronizedMap?
+• 03) How do Streams differ from traditional loops, and when can parallel streams hurt performance?
+• 04) Explain CompletableFuture composition using thenCompose, allOf and exceptionally.
+• 05) How do virtual threads in Java 21 change concurrency and thread-pool design?
+• 06) What JVM/GC issues can cause sudden latency spikes in production?
+• 07) How would you use Records, Sealed Classes and Pattern Matching in a backend domain model?
+• 08) Explain happens-before, volatile and atomic operations in concurrent Java code.
+• 09) How would you diagnose a memory leak or excessive object allocation in a Java service?
+
+🔹 SPRING + SPRING BOOT
+• 10) Explain Spring IoC, bean scopes and the lifecycle of a singleton bean.
+• 11) How does Spring Boot 3 differ from earlier Boot versions in migration and runtime behavior?
+• 12) Explain @Transactional propagation, isolation and common rollback pitfalls.
+• 13) How does Spring AOP work, and why can self-invocation bypass advice?
+• 14) How would you design global REST exception handling and API validation?
+• 15) How would you secure REST APIs using Spring Security and OAuth2/JWT?
+• 16) How do Spring Boot Actuator, metrics and distributed tracing support observability?
+• 17) How would you implement caching with Spring Cache while avoiding stale or inconsistent data?
+• 18) How would you configure resilience using timeouts, retries, circuit breakers and bulkheads?
+
+🔹 MICROSERVICES
+• 19) How would you define service boundaries and data ownership in a microservices architecture?
+• 20) Design an idempotent Kafka consumer handling retries, duplicates and ordering.
+• 21) How would you handle distributed transactions without using 2PC?
+• 22) Compare synchronous REST, asynchronous Kafka and event-driven communication.
+• 23) How would you diagnose latency across multiple services using correlation IDs and tracing?
+• 24) Design a scalable microservice deployment using Docker and Kubernetes.
+• 25) How would you implement service discovery, configuration and graceful shutdown?
+
+🔹 CODING QUESTIONS
+• 26) Find the first non-repeating character in a String using Java Streams.
+• 27) Merge overlapping intervals efficiently and return the consolidated ranges.
+• 28) Implement a thread-safe LRU cache with O(1) get and put operations.
+
+
+𝗝𝗮𝘃𝗮 & 𝗖𝗼𝗻𝗰𝘂𝗿𝗿𝗲𝗻𝗰𝘆:
+1. Your `HashMap` is being accessed by multiple threads. What problems can occur, and how would you fix them?
+2. Your application has a race condition causing duplicate payments. How would you identify and solve it?
+3. Your application creates thousands of threads and CPU usage spikes. What would you do?
+4. A REST API is taking 30 seconds because it calls three downstream services. How would you optimize it?
+5. Multiple threads are updating the same record. How would you ensure consistency?
+
+𝗦𝗽𝗿𝗶𝗻𝗴 𝗕𝗼𝗼𝘁:
+6. Your Spring Boot application startup time increased from 15 seconds to 2 minutes. How would you investigate?
+7. A circular dependency error appears after deployment. How would you resolve it?
+8. One API works locally but fails in production with `LazyInitializationException`. What could be the reason?
+9. A transaction partially updates data even though you expected a rollback. Why might this happen?
+10. Your application suddenly starts throwing `OutOfMemoryError`. How would you debug it?
+
+𝗠𝗶𝗰𝗿𝗼𝘀𝗲𝗿𝘃𝗶𝗰𝗲𝘀:
+11. Service A calls Service B, which calls Service C. Service C is down. How would you prevent the failure from cascading?
+12. A customer reports that the same payment was processed twice. How would you prevent duplicate processing?
+13. One microservice becomes slow and starts affecting the entire system. What patterns would you implement?
+14. How would you trace a request across 15 microservices?
+15. One microservice must communicate with another. Would you choose REST, Kafka, or gRPC? Why?
+
+𝗞𝗮𝗳𝗸𝗮:
+16. A Kafka consumer processes the same message twice. How would you handle it?
+17. One Kafka partition has much higher traffic than others. How would you fix it?
+18. Consumer lag keeps increasing. How would you investigate?
+19. A message fails repeatedly during processing. What should happen next?
+20. How would you guarantee message ordering for a customer?
+
+𝗗𝗮𝘁𝗮𝗯𝗮𝘀𝗲:
+21. A query that used to take 50 ms now takes 10 seconds. How would you troubleshoot it?
+22. Your database CPU reaches 100% during peak hours. What steps would you take?
+23. Two transactions update the same row simultaneously. How would you handle concurrency?
+24. A table has grown to hundreds of millions of records. How would you improve performance?
+25. Would you choose optimistic locking or pessimistic locking for an inventory system? Why?
+
+𝗦𝘆𝘀𝘁𝗲𝗺 𝗗𝗲𝘀𝗶𝗴𝗻 & 𝗔𝗪𝗦:
+26. Your API receives 100,000 requests per minute. How would you scale it?
+27. Users are abusing your API. How would you implement rate limiting?
+28. Your Redis cache crashes unexpectedly. How should your application behave?
+29. An EC2 instance needs to access S3 securely. How would you configure it without storing credentials?
+30. A deployment causes increased latency. How would you identify the root cause and roll back safely?
+likeinsightfulsupport
+
+
+1. How does consistent hashing work and why does it minimize reshuffling?
+2. What happens internally when a write hits a distributed database?
+3. Why do we prefer eventual consistency over strong consistency at scale?
+4. How does a CDN decide which edge node to serve content from?
+5. What is the exact flow of a request through an API Gateway?
+6. Difference between horizontal and vertical scaling internally?
+7. How does a load balancer detect that a node is unhealthy?
+8. What happens if two services write to the same DB row simultaneously?
+9. How does database sharding affect JOIN queries?
+10. What is the role of a message queue in decoupling services?
+11. How did Netflix remove single points of failure almost completely?
+12. Difference between optimistic and pessimistic locking internally?
+13. How does Redis handle expiry of keys under the hood?
+14. What is the complete lifecycle of a distributed transaction?
+15. How does a search engine index 1 billion documents efficiently?
+16. What happens if Kafka consumer lag grows unbounded?
+17. How does rate limiting work per user across multiple servers?
+18. Difference between a reverse proxy and a forward proxy internally?
+19. How does a distributed cache handle cache invalidation?
+20. What happens when a microservice call times out mid-transaction?
+21. How does Zookeeper achieve leader election?
+22. Difference between a monolith and microservices at the infrastructure level?
+23. What happens when you scale a stateful service horizontally?
+24. How does a real-time notification system guarantee delivery?
+25. Difference between push and pull architecture in event-driven systems?
+26. How does a distributed system handle clock skew between nodes?
+27. How does columnar storage make analytics queries faster?
+28. What happens internally when you hit a URL shortener endpoint?
+29. Why is idempotency critical in payment systems?
+30. What are the most common System Design mistakes senior engineers make?
+
+
+𝐅𝐫𝐞𝐬𝐡𝐞𝐫 / 𝐒𝐃𝐄-𝟏 𝐋𝐞𝐯𝐞𝐥 𝐒𝐲𝐬𝐭𝐞𝐦 𝐃𝐞𝐬𝐢𝐠𝐧
+1. Design a URL shortening service.
+2. Design a basic notification system (email/SMS/push).
+3. Design a simple pastebin/text-sharing service.
+4. Design a rate limiter.
+5. Design a basic library management system.
+6. Design a simple polling/voting app.
+7. Design a parking lot management system.
+8. Design a basic hotel booking system.
+9. Design a simple job scheduler.
+10. Design a basic expense-sharing app (Splitwise).
+11. Design a simple in-memory key-value store.
+12. Design a basic online quiz platform.
+
+𝐒𝐃𝐄-𝟐 / 𝐌𝐢𝐝 𝐋𝐞𝐯𝐞𝐥 𝐒𝐲𝐬𝐭𝐞𝐦 𝐃𝐞𝐬𝐢𝐠𝐧
+1. Design a scalable food delivery system like Swiggy.
+2. Design a ride-sharing system like Uber.
+3. Design a distributed cache like Memcached.
+4. Design a real-time chat application like Slack.
+5. Design a content delivery network (CDN) like Cloudflare.
+6. Design a payment gateway/transaction processing system.
+7. Design a ticket booking system with seat locking (BookMyShow-style).
+8. Design an inventory management system for e-commerce.
+9. Design a rate-limited API gateway.
+10. Design a job queue/task processing system like Celery.
+11. Design a scalable logging and monitoring system.
+12. Design a collaborative document editing system like Google Docs.
+
+𝐒𝐃𝐄-𝟑 / 𝐒𝐞𝐧𝐢𝐨𝐫 𝐋𝐞𝐯𝐞𝐥 𝐒𝐲𝐬𝐭𝐞𝐦 𝐃𝐞𝐬𝐢𝐠𝐧
+1. Design a distributed messaging system like WhatsApp/Kafka.
+2. Design a globally distributed database with multi-region replication.
+3. Design a search engine's indexing pipeline like Google/Elasticsearch.
+4. Design a fraud detection system for real-time transactions.
+5. Design a video streaming platform like YouTube/Netflix.
+6. Design a distributed file storage system like HDFS/S3.
+7. Design a recommendation engine at Instagram/Netflix scale.
+8. Design a distributed rate limiter across multiple data centers.
+9. Design an ad-serving system with real-time bidding.
+10. Design a highly available leader-election/consensus system.
+11. Design a global CDN with edge caching and cache invalidation.
+12. Design a distributed transaction system with eventual consistency guarantees.
+
+
+SPRING BOOT INTERNALS
+1. How does Spring Boot decide which Auto-Configuration to apply?
+2. What happens internally when you add spring-boot-starter-web?
+3. Why does Spring Boot follow Convention over Configuration?
+4. How does Spring Boot load application.properties and application.yml?
+5. What is the startup flow of a Spring Boot application?
+6. What is the difference between @ComponentScan and @SpringBootApplication?
+7. How does Spring Boot detect and configure embedded Tomcat?
+8. What happens when two beans of the same type exist without @Qualifier?
+9. How does Spring Boot load profile-specific configuration?
+10. What is the role of SpringFactoriesLoader?
+
+SPRING CORE + BEANS
+11. How did Spring Boot reduce the need for XML configuration?
+12. What is the difference between @RestController and @Controller internally?
+13. How does Spring Boot manage dependency versions?
+14. What is the complete Spring Bean lifecycle?
+15. How does Spring Boot handle externalized configuration?
+16. What happens when both application.yml and application.properties exist?
+17. How does Spring Boot integrate with Spring Actuator?
+18. What is the difference between @Configuration and a normal class?
+19. How does Spring Boot auto-configure a DataSource?
+20. What is the practical use of CommandLineRunner?
+
+DATABASE + REST + PRODUCTION
+21. How does Spring handle exception translation?
+22. Difference between @EnableAutoConfiguration and @Import?
+23. What happens when an Auto-Configuration class is excluded?
+24. Why is Spring Boot widely used for microservices?
+25. What is the difference between a Fat JAR and a normal JAR?
+26. How does Spring Boot handle logging by default?
+27. How can you configure and override the server port?
+28. What happens internally when a REST API endpoint is called?
+29. Why is Spring Boot popular for cloud-native applications?
+30. What are the most common Spring Boot performance mistakes?
+
+THE REAL INTERVIEW PREPARATION
+Don't just memorize annotations.
+Understand the flow:
+Request → Controller → Service → Repository → Database
+And for application startup:
+Main Method → SpringApplication → ApplicationContext → Component Scanning → Auto-Configuration → Bean Creation → Dependency Injection → Embedded Server
+
+
+𝗖𝗢𝗥𝗘 𝗝𝗔𝗩𝗔:
+1. HashMap internal working. What happens when a bucket turns into a tree.
+2. HashMap vs ConcurrentHashMap vs Hashtable.
+3. equals and hashCode contract. Break it and watch your Set duplicate.
+4. Why is String immutable.
+5. Comparable vs Comparator.
+6. Checked vs unchecked exceptions.
+7. Can you override a static method.
+8. try with resources.
+9. Which Java 8, 11 and 17 features you have actually shipped.
+
+𝗦𝗧𝗥𝗘𝗔𝗠𝗦:
+10. Find duplicate strings in a list using Streams.
+11. map vs flatMap.
+12. Sort a map by value.
+13. Optional. Where it actually saves you.
+
+𝗠𝗨𝗟𝗧𝗜𝗧𝗛𝗥𝗘𝗔𝗗𝗜𝗡𝗚:
+14. Runnable vs Callable.
+15. ExecutorService and how you size a thread pool.
+16. synchronized vs ReentrantLock.
+17. volatile vs AtomicInteger.
+18. Deadlock. How you detect it in a running JVM.
+
+𝗦𝗣𝗥𝗜𝗡𝗚 𝗕𝗢𝗢𝗧:
+19. Spring vs Spring Boot.
+20. How autoconfiguration works.
+21. Component vs Service vs Repository.
+22. How dependency injection resolves at startup.
+23. Transactional. What rolls back on a checked exception.
+24. ControllerAdvice and global exception handling.
+25. Spring Security and the JWT flow.
+
+𝗠𝗜𝗖𝗥𝗢𝗦𝗘𝗥𝗩𝗜𝗖𝗘:
+26. How two services find each other.
+27. What an API gateway actually does.
+28. Circuit breaker. Why retries alone make the outage worse.
+29. Tracing one request across five services.
+
+𝗦𝗤𝗟 𝗔𝗡𝗗 𝗛𝗜𝗕𝗘𝗥𝗡𝗔𝗧𝗘:
+30. When an index hurts instead of helps.
+31. Find duplicate rows.
+32. Second highest salary without LIMIT.
+33. N plus 1 problem. How you kill it.
+34. Lazy vs eager loading.
+
+𝗖𝗢𝗗𝗜𝗡𝗚 𝗥𝗢𝗨𝗡𝗗:
+35. Move all zeroes to the end.
+36. Check if two strings are anagrams.
+37. Longest common prefix.
+38. Missing number in a consecutive array.
+
+𝗠𝗔𝗡𝗔𝗚𝗘𝗥𝗜𝗔𝗟:
+39. Draw your project architecture end to end.
+40. A production bug you owned.
+41. Notice period and relocation.
+
+
+Most commonly asked Interview Design Patterns- 
+1) Singleton- 
+How would you create a singleton?
+How to make a singleton thread-safe?
+When would you make a class singleton?
+How to prevent a singleton from being cloned? 
+What is double checked locking? 
+How do you prevent singleton from serialization attack?
+How do you prevent singleton from reflection attack? 
+
+2) Prototype-
+What is the difference between singleton and prototype? 
+
+3) Factory- 
+When do we need to a factory? 
+
+4) Builder Patter- What is builder pattern?
+
+
+
+System Design – Top 25 Interview Questions for Senior Java Developers
+
+Answer is shared in this link - https://lnkd.in/giemiaNq
+
+1. How would you design a URL Shortener like Bitly?
+
+2. How would you design a scalable E-commerce platform?
+
+3. How would you design a Payment Processing System?
+
+4. How would you design a Food Delivery System?
+
+5. How would you design a Ride Booking System?
+
+6. How would you design a Notification System supporting Email, SMS, and Push Notifications?
+
+7. How would you design a scalable API Gateway?
+
+8. How would you design a Rate Limiting system?
+
+9. How would you design a Distributed Cache?
+
+10. How would you design a File Storage System similar to Google Drive?
+
+11. How would you design a Social Media News Feed?
+
+12. How would you design a Chat Application like WhatsApp?
+
+13. How would you design a Video Streaming Platform?
+
+14. How would you design a Search System for millions of products?
+
+15. How would you design an Order Management System using Microservices?
+
+16. How would you handle millions of concurrent requests in a Java application?
+
+17. How would you design a system that requires 99.99% availability?
+
+18. How would you design a system that can scale horizontally?
+
+19. How would you handle database scaling when a single database becomes a bottleneck?
+
+20. How would you choose between SQL, NoSQL, Redis, and Elasticsearch?
+
+21. How would you design asynchronous processing using Kafka?
+
+22. How would you handle distributed transactions across microservices?
+
+23. How would you design a system that remains available when a dependency fails?
+
+24. How would you design observability for a large Java microservices platform?
+
+25. Design a production-ready Java/Spring Boot system running on Kubernetes and AWS that can handle millions of requests while providing high availability, scalability, security, and observability.
+
+Java Spring Boot & Microservices Interview Q&A (200 Qs) - https://lnkd.in/gqhJhmcZ
+Full interview kit (Java, Springboot, database, devops, cloud, system design, microservice) - https://lnkd.in/gPi2W587
+
+Final Senior-Level Question
+
+You are asked to design a system for 10 million users.
+
+The interviewer doesn't care only about the components you choose.
+
+They want to know:
+
+How will it scale?
+
+What happens when something fails?
+
+How will you keep data consistent?
+
+How will you monitor it?
+
+And most importantly...
+
+Why did you choose that architecture?
+
+Real-World Java Backend Interview Scenarios | 15 Production-Level Questions
+
+In a Java + Spring Boot + Microservices interview, knowing definitions is not enough, Interviewers increasingly ask scenario-based questions to understand how you think, troubleshoot problems, and design reliable systems in a real production environment
+
+Instead of asking:
+✕ What is Kafka
+✕ What is a HashMap
+✕ What is JWT
+
+They may ask: Your Kafka consumer is down for 30 minutes. What happens to the messages
+
+Here are 15 real-world scenarios worth preparing for:
+1. Duplicate Payment
+Two identical payment requests arrive at almost the same time
+
+Question: How would you prevent the customer from being charged twice
+Think about idempotency keys, database constraints, transactions, and distributed systems
+
+2. Double Hotel Booking
+Two users try to book the same room simultaneously. Both requests see the room as available
+
+Question: How would you prevent double booking
+Think about database locking, transactions, unique constraints, and concurrency control
+
+3. Slow REST API
+Your API takes 30 seconds because it calls three downstream services
+
+Question: How would you reduce the response time
+Think about parallel calls, caching, timeouts, connection pools, asynchronous processing, and service design
+
+4. Kafka Consumer Goes Down
+Your Kafka consumer is unavailable for 30 minutes
+
+Question: What happens to the messages, and what happens when the consumer comes back?
+Think about partitions, offsets, consumer groups, retention, acknowledgments, and retries
+
+5. HashMap Concurrency
+Multiple threads are simultaneously reading and updating the same HashMap.
+
+Question: What problems can occur, and how would you make it thread-safe?
+Think about HashMap vs ConcurrentHashMap, synchronization, race conditions, and atomic operations
+
+6. Spring Boot CPU Suddenly Reaches 95%
+Your production application suddenly reaches 95% CPU, and the number of threads keeps increasing
+
+Question: How would you investigate the issue?
+Think about thread dumps, CPU profiling, infinite loops, thread pools, database calls, GC, and application metrics
+
+7. Application Memory Keeps Increasing
+Your application gradually consumes more memory until the Kubernetes pod crashes with: OutOfMemoryError
+
+Question: How would you find the root cause?
+Think about heap dumps, GC logs, memory profiling, object retention, caches, static collections, and memory leaks
+
+8. Kubernetes Pod Has High CPU
+You have 10 pods running, but one pod is consuming 95% CPU while the others are normal
+
+Question: What would you investigate first?
+Think about traffic distribution, requests/limits, pod metrics, logs, thread behaviour, GC, and load balancing
+
+9. JWT Returns 401 Unauthorized
+The client sends a JWT token, but the Spring Boot API returns:
+401 Unauthorized
+Question: How would you troubleshoot it?
+Check token expiration, signature, secret/public key, issuer, audience, Authorization header, filter configuration, and roles/authorities
+
+
+
+ Technical Interview Questions
+Microservices & API Gateway
+1. How does an API Gateway know which microservice or endpoint should receive a request?
+2. Explain request routing in an API Gateway.
+3. What is Service Discovery and how does it work with API Gateway?
+4. What happens if one of the downstream services is unavailable?
+5. Which Gateway pattern have you used in your project?
+Security
+6. How is security implemented in your project?
+7. Explain the complete authentication flow.
+8. How do microservices communicate securely with each other?
+Java
+9. Which Java versions have you worked on?
+10. What are the major features introduced in Java 8, 11, 17 and 21?
+11. What are Virtual Threads?
+JVM
+12. Explain the complete JVM lifecycle.
+13. Class Loading Process.
+
+JVM startup process.
+Java Streams Coding
+14. Sort Employee objects first by Name and then by Department.
+Example:
+Input
+
+Employee("Rahul","IT")
+Employee("Amit","HR")
+Employee("Rahul","Admin")
+Employee("Amit","IT")
+Expected Output:
+Amit HR
+Amit IT
+Rahul Admin
+Rahul IT
+Write the code using Java Streams.
+Coding Question
+15. Merge Two Sorted Arrays.
+Example:
+Array1 = [1,3,5,7]
+
+Array2 = [2,4,6,8]
+Expected Output:
+[1,2,3,4,5,6,7,8]
+
+Spring Boot
+16. How are transactions managed in your project?
+17. Explain @Transactional internal working.
+18. What happens if one database operation fails?
+19. How do you maintain data consistency across multiple services?
+Redis
+20. Why did you use Redis in your project?
+21. Which data did you cache in Redis?
+22. If data is updated in the database, how does Redis provide updated data?
+23. Explain the CAP Theorem.
+24. Difference between Consistency, Availability and Partition Tolerance.
+
+SOLID Principles
+25. Which SOLID principles have you applied in your project?
+
+💡 Overall Interview Focus
+The interview was more focused on practical project experience than theoretical definitions. Most questions were scenario-based, and the interviewer frequently asked follow-up questions to understand the reasoning behind design decisions.
+Key focus areas:
+Java Core & Latest Java Features
+JVM Internals
+Spring Boot Internals
+Microservices Architecture
+API Gateway
+Security
+Redis Caching
+Distributed Systems (CAP Theorem)
+SOLID Principles
+Java Streams
+
+
+
+ Real-World Java Backend Interview Scenarios
+In a Java/Spring Boot Microservices interview, interviewers often ask scenario-based questions instead of only theoretical questions.
+Here are some interesting scenarios 👇
+🔹 1. Duplicate Payment
+Two identical payment requests arrive at the same time. How would you prevent the customer from being charged twice?
+🔹 2. Double Booking
+Two users try to book the same hotel room simultaneously. Both see the room as available. How would you prevent double booking?
+🔹 3. Slow REST API
+Your API takes 30 seconds because it calls three downstream services. How would you optimize the response time?
+🔹 4. Kafka Consumer Down
+Your Kafka consumer is unavailable for 30 minutes. What happens to the messages when the consumer comes back?
+🔹 5. HashMap Concurrency
+Multiple threads are reading and updating the same HashMap. What problems can occur and how would you fix them?
+🔹 6. High CPU Usage
+Your Spring Boot application suddenly reaches 95% CPU and thousands of threads are created. How would you troubleshoot it?
+🔹 7. Memory Issue
+Application memory keeps increasing and eventually the pod crashes with OutOfMemoryError. How would you identify the root cause?
+🔹 8. Kubernetes Issue
+One pod is consuming 95% CPU while other pods are normal. What would you check first?
+🔹 9. JWT / 401 Error
+A user sends a JWT token, but the REST API still returns 401 Unauthorized. How would you troubleshoot it?
+🔹 10. Database Performance
+An API that was previously fast becomes slow after the database grows to millions of records. What would you check?
+💡 The key skill is not just knowing the definition — it is knowing how to troubleshoot and solve the problem in a real production environment.
+Which scenario would you like to discuss first? 👇
+
+
+
+ Java interviews aren't difficult. The follow-up questions are.
+1. Why can a Java application become slow even when CPU usage is low?
+
+2. How would you find a memory leak in a production Java application?
+
+3. What happens when multiple threads modify the same "HashMap"?
+
+4. When would you choose "ConcurrentHashMap" over "HashMap"?
+
+5. How would you identify a deadlock in production?
+
+6. Why can "CompletableFuture" still block your application?
+
+7. What happens when your thread pool is completely exhausted?
+
+8. How would you handle 10,000 concurrent requests in a Java backend?
+
+9. Why can "OutOfMemoryError" happen even when Garbage Collection is enabled?
+
+10. How would you investigate unusually long GC pauses?
+
+11. What happens if "equals()" and "hashCode()" are implemented incorrectly?
+
+12. Why can an "ArrayList" become a performance problem with a large dataset?
+
+13. When would you use "volatile" instead of "synchronized"?
+
+14. How would you make a Java API thread-safe?
+
+15. What happens when an exception occurs inside an ExecutorService task?
+
+16. How would you prevent race conditions in a payment workflow?
+
+17. Why can creating too many threads actually make an application slower?
+
+18. How would you investigate an API that is fast normally but extremely slow during peak traffic?
+
+19. Your application suddenly starts consuming 90% memory. What would you check first?
+
+20. You have 10 minutes to debug a production Java performance issue. What's your first move?

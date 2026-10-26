@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>34 Interview Q&amp;A — Java 17+, Spring, Microservices, K8s</title>
+  <link rel="stylesheet" href="guide-styles.css" />
+</head>
+<body>
+
+<header>
+  <h1>34 Interview Questions — Deep Answers</h1>
+  <p>Java 17+ · Spring Boot · Microservices · Coding · Kafka · Kubernetes · SQL · Docker</p>
+</header>
+
+<div class="layout">
+<nav aria-label="Table of contents">
+  <h2>Java 17+</h2>
+  <ul>
+    <li><a href="#q1-sealed">1. Sealed classes</a></li>
+    <li><a href="#q2-virtual-threads">2. Virtual threads</a></li>
+    <li><a href="#q3-optional-map">3. Optional map vs flatMap</a></li>
+    <li><a href="#q4-gc">4. GC collectors</a></li>
+    <li><a href="#q5-var">5. var inference</a></li>
+    <li><a href="#q6-copyonwrite">6. CopyOnWrite vs ArrayList</a></li>
+    <li><a href="#q7-completable">7. CompletableFuture</a></li>
+    <li><a href="#q8-pattern-switch">8. Pattern matching switch</a></li>
+    <li><a href="#q9-text-blocks">9. Text blocks</a></li>
+    <li><a href="#q10-immutability">10. Immutability</a></li>
+  </ul>
+  <h2>Spring Boot</h2>
+  <ul>
+    <li><a href="#q11-di">11. Dependency injection</a></li>
+    <li><a href="#q12-config-bean">12. @Configuration / @Bean</a></li>
+    <li><a href="#q13-profiles">13. Multi-environment properties</a></li>
+    <li><a href="#q14-jwt">14. JWT security</a></li>
+    <li><a href="#q15-embedded">15. Embedded servers</a></li>
+    <li><a href="#q16-actuator">16. Actuator</a></li>
+    <li><a href="#q17-transaction">17. Transaction propagation</a></li>
+    <li><a href="#q18-advice">18. @ControllerAdvice vs @ExceptionHandler</a></li>
+    <li><a href="#q19-async">19. Async execution</a></li>
+    <li><a href="#q20-cloud">20. Cloud integration</a></li>
+  </ul>
+  <h2>Microservices</h2>
+  <ul>
+    <li><a href="#q21-communication">21. Inter-service communication</a></li>
+    <li><a href="#q22-gateway-mesh">22. API Gateway vs Service Mesh</a></li>
+    <li><a href="#q23-eventual">23. Eventual consistency</a></li>
+    <li><a href="#q24-rate-limit-ms">24. Rate limiting</a></li>
+  </ul>
+  <h2>Coding</h2>
+  <ul>
+    <li><a href="#q25-palindrome">25. Palindrome (no string)</a></li>
+    <li><a href="#q26-sort-stack">26. Sort a stack</a></li>
+    <li><a href="#q27-kadane">27. Kadane's algorithm</a></li>
+  </ul>
+  <h2>Others</h2>
+  <ul>
+    <li><a href="#q28-kafka">28. Kafka topics vs partitions</a></li>
+    <li><a href="#q29-statefulset">29. StatefulSet vs Deployment</a></li>
+    <li><a href="#q30-2nd-salary">30. 2nd highest salary SQL</a></li>
+    <li><a href="#q31-probes">31. Readiness vs liveness</a></li>
+    <li><a href="#q32-tracing">32. Distributed tracing</a></li>
+    <li><a href="#q33-docker-volumes">33. Docker volumes vs bind mounts</a></li>
+    <li><a href="#q34-rolling-k8s">34. Rolling updates in K8s</a></li>
+  </ul>
+  <p class="nav-intro" style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;">
+    <a href="interview-questions-deep-dive.html">← Deep Dive Guide</a> · <a href="index.html">Roadmap</a>
+  </p>
+</nav>
+
+<main>
+
+<section id="java-17-plus">
+  <h2 class="section-title">Java 17+ (Questions 1–10)</h2>
+
+  <article id="q1-sealed">
+    <h3>1. Benefits of sealed classes (Java 17)</h3>
+    <span class="tag">Java 17</span>
+    <p>Sealed classes/interfaces <strong>restrict which classes can extend or implement them</strong> using <code>permits</code>. The compiler knows the full set of subtypes.</p>
+    <table>
+      <tr><th>Benefit</th><th>Why it matters</th></tr>
+      <tr><td>Exhaustive pattern matching</td><td><code>switch</code> on sealed hierarchy — compiler warns if a case is missing</td></tr>
+      <tr><td>Controlled domain model</td><td>Payment types: <code>Card | UPI | Wallet</code> only — no random subclasses</td></tr>
+      <tr><td>Better API design</td><td>Library authors expose fixed extension points</td></tr>
+      <tr><td>Safer refactoring</td><td>Adding a new permitted subtype forces updating all switches</td></tr>
+    </table>
+    <pre><code>public sealed interface Shape permits Circle, Rectangle, Triangle { }
+
+public final class Circle implements Shape {
+    private final double radius;
+    public Circle(double radius) { this.radius = radius; }
+}
+
+// Exhaustive switch (Java 21+)
+double area = switch (shape) {
+    case Circle c    -> Math.PI * c.radius() * c.radius();
+    case Rectangle r -> r.width() * r.height();
+    case Triangle t  -> t.area();
+    // no default needed — compiler checks all permitted types
+};</code></pre>
+  </article>
+
+  <article id="q2-virtual-threads">
+    <h3>2. Virtual threads (Java 21) in high-load systems</h3>
+    <span class="tag">Java 21 · Concurrency</span>
+    <p><strong>Platform threads</strong> (1:1 with OS threads) are expensive — ~1MB stack, limited to thousands. <strong>Virtual threads</strong> are lightweight JVM-managed threads; blocking I/O no longer wastes a precious OS thread.</p>
+    <table>
+      <tr><th>Platform threads</th><th>Virtual threads</th></tr>
+      <tr><td>~few thousand max practical</td><td>Millions possible</td></tr>
+      <tr><td>Blocking HTTP/DB ties up OS thread</td><td>Block releases carrier thread — high concurrency for I/O-bound work</td></tr>
+      <tr><td>Thread pool tuning critical</td><td>Often <code>Executors.newVirtualThreadPerTaskExecutor()</code></td></tr>
+    </table>
+    <pre><code>// Spring Boot 3.2+: spring.threads.virtual.enabled=true
+try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+    List&lt;Future&lt;OrderDto&gt;&gt; futures = orderIds.stream()
+        .map(id -> executor.submit(() -> orderClient.fetch(id)))
+        .toList();
+}
+
+// Best for: REST APIs waiting on DB/HTTP. Not for: CPU-heavy computation (use platform threads + pool).</code></pre>
+    <div class="highlight-box">
+      <strong>Interview line:</strong> "Virtual threads improve throughput for I/O-bound request handling by removing platform thread pool exhaustion — each request can have its own virtual thread without tuning a 200-thread Tomcat pool."
+    </div>
+  </article>
+
+  <article id="q3-optional-map">
+    <h3>3. Optional.map() vs Optional.flatMap()</h3>
+    <span class="tag">Java 8+</span>
+    <table>
+      <tr><th>Method</th><th>Function</th><th>Result type</th></tr>
+      <tr><td><code>map(f)</code></td><td><code>T → U</code></td><td><code>Optional&lt;U&gt;</code></td></tr>
+      <tr><td><code>flatMap(f)</code></td><td><code>T → Optional&lt;U&gt;</code></td><td><code>Optional&lt;U&gt;</code> (no nested Optional)</td></tr>
+    </table>
+    <pre><code>Optional&lt;User&gt; user = userRepo.findByEmail("a@x.com");
+
+// map — mapper returns plain value
+Optional&lt;String&gt; city = user.map(User::getCity);  // Optional&lt;String&gt;
+
+// flatMap — mapper returns Optional (chaining lookups)
+Optional&lt;String&gt; zip = user.flatMap(User::getAddress)   // Optional&lt;Address&gt;
+                           .flatMap(Address::getZipCode); // Optional&lt;String&gt;
+
+// WRONG: user.map(User::getAddress) → Optional&lt;Optional&lt;Address&gt;&gt; effectively awkward
+// RIGHT: user.flatMap(User::getAddress) → Optional&lt;Address&gt;</code></pre>
+  </article>
+
+  <article id="q4-gc">
+    <h3>4. Serial vs Parallel vs G1 garbage collectors</h3>
+    <span class="tag">JVM</span>
+    <table>
+      <tr><th>Collector</th><th>Threads</th><th>Heap size</th><th>Use case</th></tr>
+      <tr><td><strong>Serial</strong></td><td>Single GC thread</td><td>Small (&lt; ~100MB)</td><td>Client apps, single-core, minimal footprint</td></tr>
+      <tr><td><strong>Parallel (Throughput)</strong></td><td>Multiple GC threads</td><td>Medium–large</td><td>Batch jobs — maximize throughput, accept longer pauses</td></tr>
+      <tr><td><strong>G1 (Garbage-First)</strong></td><td>Parallel + concurrent</td><td>Large (&gt; 4GB typical)</td><td>Server apps — target predictable pause times (default JDK 9+)</td></tr>
+    </table>
+    <p>G1 divides heap into regions, collects regions with most garbage first, and aims for <code>-XX:MaxGCPauseMillis</code>. Serial stops the world with one thread; Parallel stops the world but uses multiple threads; G1 mixes concurrent marking with incremental evacuation.</p>
+    <pre><code># Examples
+java -XX:+UseSerialGC -jar small-client.jar
+java -XX:+UseParallelGC -jar batch-job.jar
+java -XX:+UseG1GC -XX:MaxGCPauseMillis=200 -jar spring-boot.jar</code></pre>
+  </article>
+
+  <article id="q5-var">
+    <h3>5. How var helps with type inference (Java 10+)</h3>
+    <span class="tag">Java 10</span>
+    <p><code>var</code> lets the compiler infer the type from the initializer. Variable is still <strong>statically typed</strong> — not dynamic typing.</p>
+    <pre><code>var list = new ArrayList&lt;String&gt;();  // ArrayList&lt;String&gt;
+var map  = Map.of("k", 1);             // Map&lt;String, Integer&gt;
+var path = Path.of("/tmp", "data.json");
+
+// Good: long generic types
+var response = restTemplate.exchange(url, HttpMethod.GET, entity, OrderDto.class);
+
+// Invalid: var without initializer, method params, fields (except local)
+// var x;  // compile error</code></pre>
+    <p>Use when type is obvious from RHS; avoid when it hurts readability (<code>var result = process()</code> — unclear type).</p>
+  </article>
+
+  <article id="q6-copyonwrite">
+    <h3>6. CopyOnWriteArrayList vs ArrayList</h3>
+    <span class="tag">Collections</span>
+    <table>
+      <tr><th></th><th>ArrayList</th><th>CopyOnWriteArrayList</th></tr>
+      <tr><td>Thread-safe</td><td>No</td><td>Yes (copy-on-write)</td></tr>
+      <tr><td>Read</td><td>Fast O(1)</td><td>Fast — no locks on read</td></tr>
+      <tr><td>Write</td><td>Fast O(1) amortized</td><td>Slow — copies entire array</td></tr>
+      <tr><td>Iterator</td><td>Fail-fast on concurrent mod</td><td>Snapshot iterator — no ConcurrentModificationException</td></tr>
+    </table>
+    <p><strong>Use CopyOnWriteArrayList</strong> when reads dominate (listener lists, cache snapshots). <strong>Use ArrayList</strong> for single-threaded or externally synchronized frequent writes.</p>
+  </article>
+
+  <article id="q7-completable">
+    <h3>7. Purpose of CompletableFuture</h3>
+    <span class="tag">Async</span>
+    <p>Non-blocking composition of asynchronous tasks — chain, combine, handle errors without callback hell.</p>
+    <pre><code>CompletableFuture&lt;User&gt; userFuture =
+    CompletableFuture.supplyAsync(() -> userService.load(userId));
+
+CompletableFuture&lt;OrderSummary&gt; summary = userFuture
+    .thenCompose(user -> orderService.loadOrdersAsync(user.getId()))
+    .thenApply(orders -> new OrderSummary(orders))
+    .exceptionally(ex -> OrderSummary.empty());
+
+// Combine two independent calls
+CompletableFuture&lt;Dashboard&gt; dash = userFuture
+    .thenCombine(recommendationFuture, Dashboard::new);
+
+userFuture.orTimeout(3, TimeUnit.SECONDS);</code></pre>
+    <p>Used in microservices to parallelize independent remote calls and merge results.</p>
+  </article>
+
+  <article id="q8-pattern-switch">
+    <h3>8. Pattern matching for switch (Java 17+ / 21+)</h3>
+    <span class="tag">Java 17+</span>
+    <p>Combines type test, cast, and deconstruction in <code>switch</code> — less boilerplate than <code>instanceof</code> chains.</p>
+    <pre><code>// Before
+String formatted;
+if (obj instanceof Integer i) formatted = String.format("int %d", i);
+else if (obj instanceof String s) formatted = String.format("String %s", s);
+else formatted = obj.toString();
+
+// After (Java 21)
+String formatted = switch (obj) {
+    case Integer i -> String.format("int %d", i);
+    case String s   -> String.format("String %s", s);
+    case null       -> "null";
+    default         -> obj.toString();
+};
+
+// With sealed types — compiler ensures exhaustiveness</code></pre>
+  </article>
+
+  <article id="q9-text-blocks">
+    <h3>9. Text blocks (Java 15+)</h3>
+    <span class="tag">Java 15</span>
+    <p>Multi-line string literals with <code>"""</code> — no escape hell for JSON/SQL/HTML.</p>
+    <pre><code>String json = """
+        {
+          "orderId": 99281,
+          "status": "PENDING",
+          "items": [
+            { "sku": "A1", "qty": 2 }
+          ]
+        }
+        """;
+
+String sql = """
+        SELECT id, name, salary
+        FROM employees
+        WHERE dept_id = ?
+        ORDER BY salary DESC
+        """;
+
+// .stripIndent() and .formatted(args) for templates</code></pre>
+  </article>
+
+  <article id="q10-immutability">
+    <h3>10. Immutability and enforcing it in Java</h3>
+    <span class="tag">Design</span>
+    <p>An immutable object’s state cannot change after construction — thread-safe, safe to share, good for value objects.</p>
+    <pre><code>public final class Money {
+    private final BigDecimal amount;
+    private final String currency;
+
+    public Money(BigDecimal amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+    public BigDecimal getAmount() { return amount; }
+    public String getCurrency() { return currency; }
+    // no setters
+}
+
+// Collections: List.copyOf(), Map.copyOf(), unmodifiable wrappers
+// Defensive copy in constructor for mutable fields:
+public Person(String name, List&lt;String&gt; tags) {
+    this.name = name;
+    this.tags = List.copyOf(tags);
+}
+
+// Records (Java 16+) — immutable data carriers by default
+public record Point(int x, int y) { }</code></pre>
+  </article>
+</section>
+
+<section id="spring-boot-batch">
+  <h2 class="section-title">Spring + Spring Boot (11–20)</h2>
+
+  <article id="q11-di">
+    <h3>11. How dependency injection works in Spring</h3>
+    <span class="tag">Spring Core</span>
+    <p>Spring IoC container creates objects, resolves dependencies, and injects them — you define beans, Spring wires the graph.</p>
+    <pre><code>@Service
+public class OrderService {
+    private final PaymentClient paymentClient;
+    private final OrderRepository orderRepo;
+
+    // Constructor injection (recommended — immutable, testable)
+    public OrderService(PaymentClient paymentClient, OrderRepository orderRepo) {
+        this.paymentClient = paymentClient;
+        this.orderRepo = orderRepo;
+    }
+}
+
+// Container startup:
+// 1. Component scan finds @Component/@Service/@Repository
+// 2. Creates bean definitions
+// 3. Instantiates beans, injects dependencies (topological order)
+// 4. @PostConstruct, BeanPostProcessors, proxies (AOP, @Transactional)</code></pre>
+  </article>
+
+  <article id="q12-config-bean">
+    <h3>12. Role of @Configuration and @Bean</h3>
+    <span class="tag">Spring Core</span>
+    <p><code>@Configuration</code> marks a class as a source of bean definitions. <code>@Bean</code> methods register objects in the container (third-party libs, custom clients).</p>
+    <pre><code>@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder
+            .setConnectTimeout(Duration.ofSeconds(2))
+            .setReadTimeout(Duration.ofSeconds(5))
+            .build();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "feature.x.enabled", havingValue = "true")
+    public FeatureClient featureClient() {
+        return new FeatureClient();
+    }
+}</code></pre>
+    <p><code>@Configuration</code> classes are proxied so repeated <code>@Bean</code> method calls return the same singleton instance.</p>
+  </article>
+
+  <article id="q13-profiles">
+    <h3>13. Application properties for multiple environments</h3>
+    <span class="tag">Spring Boot</span>
+    <pre><code># application.yml — shared defaults
+spring:
+  application.name: order-service
+
+---
+# application-dev.yml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders_dev
+
+---
+# application-prod.yml
+spring:
+  datasource:
+    url: jdbc:postgresql://rds.aws.com:5432/orders
+
+# Activate: spring.profiles.active=prod
+# Or env: SPRING_PROFILES_ACTIVE=prod
+# Or K8s ConfigMap / externalized config (Spring Cloud Config)</code></pre>
+    <p>Use profile-specific files, environment variables for secrets (<code>SPRING_DATASOURCE_PASSWORD</code>), never commit prod credentials.</p>
+  </article>
+
+  <article id="q14-jwt">
+    <h3>14. Secure Spring Boot REST APIs with JWT</h3>
+    <span class="tag">Security</span>
+    <p>Stateless: client sends <code>Authorization: Bearer &lt;jwt&gt;</code>; resource server validates signature and claims.</p>
+    <pre><code>@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated())
+            .oauth2ResourceServer(oauth -> oauth.jwt(Customizer.withDefaults()))
+            .build();
+    }
+}
+
+// application.yml
+spring.security.oauth2.resourceserver.jwt.issuer-uri: https://auth.example.com/realms/app</code></pre>
+    <p><a class="cross-link" href="interview-questions-deep-dive.html#secure-rest-api">→ Deep dive: Secure REST APIs</a></p>
+  </article>
+
+  <article id="q15-embedded">
+    <h3>15. Embedded Tomcat/Jetty in Spring Boot</h3>
+    <span class="tag">Spring Boot</span>
+    <p>Spring Boot embeds a servlet container in the same JVM — no WAR deploy to external server required (WAR still supported).</p>
+    <ul style="margin:0.5rem 0 0 1.2rem;color:var(--muted);">
+      <li><code>spring-boot-starter-web</code> → Tomcat by default</li>
+      <li>Switch: exclude Tomcat, add <code>spring-boot-starter-jetty</code></li>
+      <li><code>main()</code> calls <code>SpringApplication.run()</code> → starts embedded server on <code>server.port</code></li>
+      <li>Auto-configures connectors, thread pool, compression via properties</li>
+    </ul>
+  </article>
+
+  <article id="q16-actuator">
+    <h3>16. Spring Boot Actuator — monitoring &amp; metrics</h3>
+    <span class="tag">Operations</span>
+    <pre><code># dependency: spring-boot-starter-actuator
+management.endpoints.web.exposure.include=health,info,metrics,prometheus
+management.endpoint.health.show-details=when_authorized
+
+# Endpoints:
+# /actuator/health     — liveness/readiness style checks
+# /actuator/metrics    — JVM, HTTP, custom metrics
+# /actuator/prometheus — scrape for Grafana
+
+@Component
+public class OrderMetrics {
+    private final Counter ordersCreated = Counter.builder("orders.created")
+        .register(Metrics.globalRegistry);
+}</code></pre>
+  </article>
+
+  <article id="q17-transaction">
+    <h3>17. Transaction propagation in Spring</h3>
+    <span class="tag">Transactions</span>
+    <table>
+      <tr><th>Propagation</th><th>Behavior</th></tr>
+      <tr><td><code>REQUIRED</code> (default)</td><td>Join existing transaction or create new</td></tr>
+      <tr><td><code>REQUIRES_NEW</code></td><td>Always new transaction — suspend current</td></tr>
+      <tr><td><code>NESTED</code></td><td>Savepoint within existing transaction</td></tr>
+      <tr><td><code>NOT_SUPPORTED</code></td><td>Run non-transactionally</td></tr>
+      <tr><td><code>MANDATORY</code></td><td>Must run inside existing tx — else exception</td></tr>
+    </table>
+    <pre><code>@Transactional(propagation = Propagation.REQUIRED)
+public void placeOrder(OrderRequest req) { ... }
+
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void writeAuditLog(AuditEntry entry) {
+    // commits even if outer transaction rolls back
+}</code></pre>
+  </article>
+
+  <article id="q18-advice">
+    <h3>18. @ControllerAdvice vs @ExceptionHandler</h3>
+    <span class="tag">Spring MVC</span>
+    <table>
+      <tr><th>Annotation</th><th>Scope</th></tr>
+      <tr><td><code>@ExceptionHandler</code></td><td>On a method — handles exceptions for that controller (or globally if on @ControllerAdvice)</td></tr>
+      <tr><td><code>@ControllerAdvice</code></td><td>Class-level — global exception handling across all controllers</td></tr>
+    </table>
+    <pre><code>@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity&lt;ErrorDto&gt; handleNotFound(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body(new ErrorDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;ErrorDto&gt; handleValidation(MethodArgumentNotValidException ex) {
+        return ResponseEntity.badRequest().body(toErrorDto(ex));
+    }
+}</code></pre>
+  </article>
+
+  <article id="q19-async">
+    <h3>19. Async method execution in Spring Boot</h3>
+    <span class="tag">Async</span>
+    <pre><code>@EnableAsync
+@SpringBootApplication
+public class Application { }
+
+@Service
+public class NotificationService {
+
+    @Async("emailExecutor")
+    public CompletableFuture&lt;Void&gt; sendEmail(String to, String body) {
+        mailClient.send(to, body);
+        return CompletableFuture.completedFuture(null);
+    }
+}
+
+@Configuration
+@EnableAsync
+public class AsyncConfig {
+    @Bean(name = "emailExecutor")
+    public Executor emailExecutor() {
+        ThreadPoolTaskExecutor ex = new ThreadPoolTaskExecutor();
+        ex.setCorePoolSize(5);
+        ex.setMaxPoolSize(20);
+        ex.setQueueCapacity(100);
+        ex.initialize();
+        return ex;
+    }
+}</code></pre>
+    <p><code>@Async</code> methods must be called from another Spring bean (proxy), not same class.</p>
+  </article>
+
+  <article id="q20-cloud">
+    <h3>20. Spring Boot + cloud services (AWS S3, RDS)</h3>
+    <span class="tag">Cloud</span>
+    <ul style="margin:0.5rem 0 0 1.2rem;color:var(--muted);">
+      <li><strong>RDS:</strong> JDBC URL in profile config; use HikariCP; IAM auth optional; Secrets Manager for credentials</li>
+      <li><strong>S3:</strong> AWS SDK v2 <code>S3Client</code> bean; Spring Cloud AWS or manual config with IAM role on EC2/EKS</li>
+      <li><strong>Best practice:</strong> IAM roles over static keys; health indicators for DB; retry/circuit breaker on SDK calls</li>
+    </ul>
+    <pre><code>@Bean
+public S3Client s3Client() {
+    return S3Client.builder()
+        .region(Region.AP_SOUTH_1)
+        .credentialsProvider(DefaultCredentialsProvider.create())
+        .build();
+}</code></pre>
+  </article>
+</section>
+
+<section id="microservices-batch">
+  <h2 class="section-title">Microservices (21–24)</h2>
+
+  <article id="q21-communication">
+    <h3>21. Inter-service communication</h3>
+    <span class="tag">Microservices</span>
+    <table>
+      <tr><th>Style</th><th>Tech</th><th>When</th></tr>
+      <tr><td>Synchronous</td><td>REST, gRPC</td><td>Request/response, low latency, simple flows</td></tr>
+      <tr><td>Asynchronous</td><td>Kafka, RabbitMQ, SQS</td><td>Decouple, peak buffering, event-driven</td></tr>
+    </table>
+    <p>Use service discovery (Eureka, K8s DNS), client-side load balancing (Spring Cloud LoadBalancer), timeouts, and circuit breakers on sync calls. Prefer events for cross-boundary notifications.</p>
+  </article>
+
+  <article id="q22-gateway-mesh">
+    <h3>22. API Gateway vs Service Mesh</h3>
+    <span class="tag">Architecture</span>
+    <table>
+      <tr><th></th><th>API Gateway</th><th>Service Mesh (e.g. Istio)</th></tr>
+      <tr><td>Position</td><td>North-south — edge, client → cluster</td><td>East-west — service ↔ service inside cluster</td></tr>
+      <tr><td>Features</td><td>Auth, rate limit, routing, API versioning</td><td>mTLS, retries, traffic split, observability per sidecar</td></tr>
+      <tr><td>Implementation</td><td>Kong, AWS API GW, Spring Cloud Gateway</td><td>Envoy sidecars + control plane (Istio, Linkerd)</td></tr>
+    </table>
+    <p><a class="cross-link" href="interview-questions-deep-dive.html#api-gateway-vs-lb">→ API Gateway vs Load Balancer</a></p>
+  </article>
+
+  <article id="q23-eventual">
+    <h3>23. Eventual consistency in distributed systems</h3>
+    <span class="tag">Distributed</span>
+    <p>Without a single DB transaction across services, data becomes consistent <strong>eventually</strong> via events, sagas, and compensations.</p>
+    <ul style="margin:0.5rem 0 0 1.2rem;color:var(--muted);">
+      <li>Saga orchestration/choreography with compensating steps</li>
+      <li>Outbox pattern for reliable event publish</li>
+      <li>Idempotent consumers (dedup by event ID)</li>
+      <li>Read models updated asynchronously (CQRS)</li>
+    </ul>
+    <p><a class="cross-link" href="interview-questions-deep-dive.html#distributed-transactions">→ Cross-Service Consistency</a></p>
+  </article>
+
+  <article id="q24-rate-limit-ms">
+    <h3>24. Rate limiting in microservices</h3>
+    <span class="tag">Resilience</span>
+    <ul style="margin:0.5rem 0 0 1.2rem;color:var(--muted);">
+      <li><strong>API Gateway:</strong> global limit per API key / tenant (token bucket, leaky bucket)</li>
+      <li><strong>Service level:</strong> Redis + sliding window counter</li>
+      <li><strong>Service mesh:</strong> local rate limit on sidecar</li>
+      <li>Return <strong>429</strong> with <code>Retry-After</code>; align with circuit breakers</li>
+    </ul>
+    <p><a class="cross-link" href="interview-questions-deep-dive.html#api-protection">→ Protect API from Retry Storms</a></p>
+  </article>
+</section>
+
+<section id="coding-batch">
+  <h2 class="section-title">Coding (25–27)</h2>
+
+  <article id="q25-palindrome">
+    <h3>25. Palindrome number without converting to string</h3>
+    <span class="tag">DSA</span>
+    <pre><code>public static boolean isPalindrome(int x) {
+    if (x &lt; 0) return false;
+    if (x != 0 && x % 10 == 0) return false; // 10, 100 not palindrome
+
+    int reversed = 0;
+    int original = x;
+    while (x > 0) {
+        reversed = reversed * 10 + x % 10;
+        x /= 10;
+    }
+    return reversed == original;
+}
+// 121 → true, 123 → false. Time O(log10 n), Space O(1)</code></pre>
+  </article>
+
+  <article id="q26-sort-stack">
+    <h3>26. Sort a stack using another stack</h3>
+    <span class="tag">DSA</span>
+    <pre><code>public static void sortStack(Stack&lt;Integer&gt; input) {
+    Stack&lt;Integer&gt; temp = new Stack&lt;&gt;();
+    while (!input.isEmpty()) {
+        int x = input.pop();
+        while (!temp.isEmpty() && temp.peek() > x) {
+            input.push(temp.pop());
+        }
+        temp.push(x);
+    }
+    while (!temp.isEmpty()) {
+        input.push(temp.pop());
+    }
+}
+// Each element moved at most twice — O(n²) worst case, O(1) extra stack</code></pre>
+  </article>
+
+  <article id="q27-kadane">
+    <h3>27. Maximum sum subarray — Kadane's algorithm</h3>
+    <span class="tag">DSA</span>
+    <pre><code>public static int maxSubArraySum(int[] nums) {
+    int maxSoFar = nums[0];
+    int maxEndingHere = nums[0];
+    for (int i = 1; i &lt; nums.length; i++) {
+        maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);
+        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+    }
+    return maxSoFar;
+}
+// [-2,1,-3,4,-1,2,1,-5,4] → 6 (subarray [4,-1,2,1])
+// Time O(n), Space O(1)</code></pre>
+  </article>
+</section>
+
+<section id="others-batch">
+  <h2 class="section-title">Others (28–34)</h2>
+
+  <article id="q28-kafka">
+    <h3>28. Kafka topics vs partitions</h3>
+    <span class="tag">Kafka</span>
+    <table>
+      <tr><th>Topic</th><th>Partition</th></tr>
+      <tr><td>Logical channel / category (e.g. <code>orders</code>)</td><td>Ordered, immutable log slice within a topic</td></tr>
+      <tr><td>Producer publishes to topic</td><td>Messages with same key go to same partition — ordering per key</td></tr>
+      <tr><td>Consumer group reads topic</td><td>One consumer per partition (max parallelism = partition count)</td></tr>
+    </table>
+    <p>More partitions → higher throughput parallelism; too many partitions increases overhead.</p>
+  </article>
+
+  <article id="q29-statefulset">
+    <h3>29. StatefulSet vs Deployment</h3>
+    <span class="tag">Kubernetes</span>
+    <table>
+      <tr><th>Deployment</th><th>StatefulSet</th></tr>
+      <tr><td>Stateless pods — interchangeable</td><td>Stable identity: pod-0, pod-1, ordered scale</td></tr>
+      <tr><td>Random pod names</td><td>Stable network ID: <code>pod-0.svc.cluster.local</code></td></tr>
+      <tr><td>Shared PVC optional</td><td>Each pod gets its own PersistentVolumeClaim template</td></tr>
+      <tr><td>Web APIs, workers</td><td>Databases, Kafka, ZooKeeper, clustered apps</td></tr>
+    </table>
+  </article>
+
+  <article id="q30-2nd-salary">
+    <h3>30. SQL — 2nd highest salary in a department</h3>
+    <span class="tag">SQL</span>
+    <pre><code>-- Window function (modern, clear)
+SELECT dept_id, employee_id, name, salary
+FROM (
+    SELECT *,
+           DENSE_RANK() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rnk
+    FROM employees
+) ranked
+WHERE rnk = 2;
+
+-- Subquery alternative
+SELECT e.*
+FROM employees e
+WHERE e.salary = (
+    SELECT MAX(salary) FROM employees e2
+    WHERE e2.dept_id = e.dept_id AND e2.salary &lt; (
+        SELECT MAX(salary) FROM employees e3 WHERE e3.dept_id = e.dept_id
+    )
+);</code></pre>
+  </article>
+
+  <article id="q31-probes">
+    <h3>31. Readiness vs liveness probes</h3>
+    <span class="tag">Kubernetes</span>
+    <table>
+      <tr><th>Probe</th><th>Question</th><th>Failure action</th></tr>
+      <tr><td><strong>Liveness</strong></td><td>Is the process alive?</td><td>Kubelet <strong>restarts</strong> the container</td></tr>
+      <tr><td><strong>Readiness</strong></td><td>Can it serve traffic?</td><td>Removed from Service endpoints — <strong>no restart</strong></td></tr>
+    </table>
+    <pre><code>livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8080
+  initialDelaySeconds: 30
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8080
+  periodSeconds: 5</code></pre>
+    <p>Use readiness during startup (DB migration) or dependency outage — pod stays up but doesn't receive traffic.</p>
+  </article>
+
+  <article id="q32-tracing">
+    <h3>32. Request tracing across microservices</h3>
+    <span class="tag">Observability</span>
+    <p>Use <strong>OpenTelemetry</strong> / W3C <code>traceparent</code> header — one trace ID, span per service hop.</p>
+    <pre><code>Client → Gateway (span 1) → Order Service (span 2) → Payment Service (span 3)
+         traceId: abc123 shared across all spans
+
+// Spring Boot: micrometer-tracing + Zipkin/Jaeger exporter
+// Propagate: X-Trace-Id or traceparent in HTTP headers
+// Log correlation: MDC.put("traceId", span.context().traceId())</code></pre>
+    <p><a class="cross-link" href="interview-questions-deep-dive.html#logging-monitoring">→ Logging &amp; Monitoring</a></p>
+  </article>
+
+  <article id="q33-docker-volumes">
+    <h3>33. Docker volumes vs bind mounts</h3>
+    <span class="tag">Docker</span>
+    <table>
+      <tr><th>Volume</th><th>Bind mount</th></tr>
+      <tr><td>Managed by Docker (<code>docker volume create</code>)</td><td>Host path mapped into container</td></tr>
+      <tr><td>Portable across hosts (with drivers)</td><td>Tied to specific host filesystem path</td></tr>
+      <tr><td>Preferred for persistent DB data</td><td>Dev: mount source code; config files</td></tr>
+      <tr><td>Better backup/migration tools</td><td>Performance on Mac/Win can differ</td></tr>
+    </table>
+    <pre><code>docker run -v mydata:/var/lib/postgresql/data postgres   # named volume
+docker run -v /host/logs:/app/logs myapp                 # bind mount</code></pre>
+  </article>
+
+  <article id="q34-rolling-k8s">
+    <h3>34. Rolling updates in Kubernetes</h3>
+    <span class="tag">Kubernetes</span>
+    <pre><code>kubectl set image deployment/my-app app=my-app:v2.0
+# Or declarative:
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1   # max pods down during update
+      maxSurge: 1         # extra pods during update
+  template:
+    spec:
+      containers:
+      - name: app
+        image: my-app:v2.0
+        readinessProbe: { ... }
+
+# Rollback:
+kubectl rollout undo deployment/my-app
+kubectl rollout status deployment/my-app</code></pre>
+    <p>Readiness probe ensures new pods receive traffic only when healthy; <code>maxUnavailable: 0</code> for strict zero-downtime.</p>
+    <p><a class="cross-link" href="interview-questions-deep-dive.html#deployment-strategy">→ Deployment Strategy</a></p>
+  </article>
+</section>
+
+</main>
+</div>
+
+<footer style="text-align:center;padding:2rem;color:var(--muted);font-size:0.85rem;border-top:1px solid var(--border);">
+  34 Interview Q&amp;A · <a href="interview-questions-deep-dive.html" style="color:var(--accent);">Deep Dive Guide</a>
+</footer>
+</body>
+</html>

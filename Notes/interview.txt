@@ -1,0 +1,1017 @@
+serialisation: covert object into byte stream for easy transport between networks, distributed systems, caching, deep cloning 
+transient keyword:  used in an DTO which had implemented seriablizale before a particular attribute so that it will not be serialized
+marker interface: interface with no methods, eg: seriablizale
+serialVersionUID: used during deserialization to verify that the sender and receiver of a serialized object have loaded classes for that object that are compatible with respect to serialization.
+
+
+
+How does Java Garbage Collection work and what are common GC algorithms?
+Answer: JVM manages memory: Young/Old generations, uses algorithms like CMS, G1. GC runs mark‑sweep/compact phases to reclaim unreachable objects; you can trigger manual GC via hints(system.gc) but not guarantee
+
+
+hashmap: 
+1. not thread safe
+2. fast
+3. can have 1 null key or multiple null values
+4. use concurrentHashMap for synchronization
+
+ vs hashtable:
+ 1. thread safe
+ 2. slow due to locking overhead
+ 3. cant have null key or values
+ 4. not used much now
+ 
+ 
+ Java memory model
+ type-erasure
+ strong reference vs weak reference
+ 
+ Anonymous classes vs lambdas.
+
+Default and static methods in interface.
+Try-with-resources.
+
+Differences in Collection vs List vs Set vs Map.
+
+
+immutable: eg :  string class, why? 
+1. so that whenever there is same string same object can be reused...
+2. string can contain passowrds and other sensitive info, if not mutable...strings can be changed and hence not safe
+
+arraylist vs linked list:
+arraylist:
+1. implemented using dynamic arraylist
+2. fast access time since uses index
+3. slower insertion/deletion since element shifting required
+4. less memory overhead i.e., just arraylist
+
+LinkedList:
+1. implemented using doubly linked list
+2. slow access time since traverse to head to tail needed
+3. fast read and write since position is known
+4. more memory overhead
+
+impotency among 5 rest methods ->get and put (hitting api 1 time and 5 times have same result)
+monitoring tool for JVM metrics on aws?  prometheus + grafana
+default scope in spring boot? singleton
+java 8
+put vs patch:
+put: replaces complete resource , overwrite missing fields as null, idempotent
+patch: partial update of an resource, doesnt overwrite missing fields, can be idempotent or non-idempotent
+
+optional?: used to avaoid NPE while working with streams
+
+stream: used to process collections in declarative or functional way supporting both sequential and parallel processing
+
+hibernate vs jpa:
+jpa:
+specification(set of interfaces and rules) for managing relational data in java applications
+hibernate: concrete implementation of that specification, and provided extra features like caching, interceptors, annotations
+
+difference bw docker and kubernetes:
+docker: a containerization platform; build, deploy and run applications in isolated containers
+kubernetes: a container orchestration tool responsible to manage, scale and orchestrate multiple containers...auto-scaling, load-balancing, self-healing,fully declarative using yaml
+
+volatile keyword: used before a variable to make it store in main memory, not in thread's local cache.
+if 1 thread updates a volatile var, all other threads immediately see the updated values without volatile, threads may read stale/cached values
+Used when you want to isolate variables per thread (e.g. DB sessions, user context in multithreaded apps).
+
+ThreadLocal: provides thread-specific storage.
+Thread pool: group of pre-instantiated resuseable threads
+ExecuterService: used instead of traditional manual threads
+   provides flexible and powerful way to manage thread pools and async task execution
+   submit tasks, get rrsult
+   control thread pool size
+   gracefully shutdown
+   schedule tasks
+
+countdown latch:
+one or more threads wait until a set of operations in other thread complete. not reuseable
+eg: wait for N tasks to finish
+
+ vs cyclic barrier:
+ multiple threads wait for each other to reach a point(barrier). reuseable after all threads reach barrier
+ eg: all threads must sync at a point
+
+If one of your microservices is down, how would you design for resilience?
+
+I use Circuit Breaker (Resilience4j), retry policies, and fallback logic. For async flows, I prefer event-driven architecture using Kafka. I decouple services with queues, and in critical services, I add caching and rate-limiting. Observability is key—using Zipkin for tracing and Prometheus-Grafana for monitoring.
+
+Why should we hire you for this techno-managerial Java role?
+Answer:
+
+I bring the right balance of deep Java/Spring expertise, hands-on problem-solving, and cross-functional communication. I’ve delivered high-impact backend modules, owned end-to-end features, and supported production issues with responsibility. I mentor juniors, automate repetitive tasks, and bridge tech-business gaps.
+
+sealed classes:
+new features introduced in java17
+Sealed class in JAVA restricts other classes or interfaces to extend or implement it
+eg:
+public sealed class Animal permits Dog,Cat{
+//only dog and cat can extend animal
+}
+
+fastest ways to do seaching: 
+hash-based structure:  for exact search, key-based lookup
+trie: for dictionary like string, autocomplete/prefix search
+binary search:  when data needs to be sorted and searchable
+
+solid principles:
+S - single responsibility handled by single class
+o - open to extention but closed to modification
+L liskov principle - child classes must be substitutable for base class
+I interface segregation: small interfaces so that no client has to implement unwanted attributes
+D dependency injection: classes should rely on interfaces and abstract classes instead of concrete implementation to ensure loose coupling and maintainability
+
+
+REST REpresentational State Transfer
+properties of REST: stateless, client-server, cacheable, uniform interface, layered system
+
+
+Design patterns: 
+creational 
+1. Singleton: ensure only 1 object exists and provide gloabal access
+2. factory: creates object without exposing instantiation logic
+3. Prototype: clone existing object instead of creating new one. used when cost of creating new object is high.eg: db calls
+
+structural:
+1. adapter: converts one interface to other
+2. decorater: add behaviour to objects dynamically
+
+behavirol:
+1. strategy: select object's behaviour at runtime by defining family of algorithm, encapsulating them and making them interchangable
+2. observer: when one object changes, all observers/ dependents are notified
+
+
+triggers
+2 table, 1 storing the state of another
+collections : inside working of hashmap, hierarchy of collections
+
+multithreading
+hands on experience
+datastructures and algorithm...
+solid principles
+second highest integer in a list
+situation based questions
+conflict with team, how did you resolved
+improve api performance
+what will you do if user is unable to login to product
+sso in detail
+internal working of multithreading
+how to make variable unchanged by threads -> use static
+structure of jwt token
+authentication and authorization
+java memore model
+linux commands
+producer consumer problem
+@transational internal working uses AOP and proxy
+try with resouces
+sql queries
+write kafka implementation
+string_agg
+what happens if @column is not written in model class
+difference between @entity and @table
+what will happen if i write @postmapping instead of @getmapping
+given List of string,prepare map of string and their occurences
+implement singleton
+qualifier, primary annotations
+public key vs private key, how they help in verifying sender (JWT)
+in what cases we should only use checked exceptions
+
+
+spring framework - circular dependency
+first repeated integer from a list
+group anagrams
+db practice - second highest salary from employee, employee name and their manager name
+how is Concurrency achieved in spring
+how DTO will behave if serializable not used
+CORS 
+saga- microservice design pattern
+Terraform - infrastructure as code
+Redis cache for distributed caching
+thread localsF
+blocking queue- fixedThreadPool vs synchronised queue for ? pool
+Return type of grouping by ->  why assigning to hashmap gave error, and using map solved the problem
+
+default return type is HashMap, but need to assign in Map because we can also change the return type...fog eg: lets say i want to findFirst that element which was added first so i n that case i will explicitly change return type to linkedHashMap.
+
+why forEach cant be applied to hashmaps
+callerRuns, abort, discard, discardOldest rejection policFies
+difference between the 3 functions of Optional
+why were default and static methods introduced in java8, what purpose do they solve
+where have you used record in your project
+
+circuit breaker, how you implemented in your project
+why event from Lambda when SNS and SQS exists
+difference between SNS and SQS, when to use what
+kafka questions: how to prevent message loss when consumer goes down
+Data isolation levels and transaction propagation levels
+for immutability, how to get deep copy of object?
+which design paterrns have you used in your project and how?
+how have you implemented strategy in your project
+singleton using inner class
+when would you choose relational or non-relational db, also in non-relational there are multiple db which one would you choose
+
+
+**Q41. Type erasure—what and why?**
+**A.** Generics are enforced at compile time and erased at runtime (to maintain backward compatibility with pre‑Java‑5 bytecode). No reified types; can’t do `new T[]`, or `instanceof List<String>`.
+
+**Q42. PECS—what is it?**
+**A.** *Producer Extends, Consumer Super*: use `? extends T` when reading (producer); `? super T` when writing (consumer). Example: `void addAll(Collection<? super T> dst, Collection<? extends T> src)`.
+
+**Q43. Invariance of generics?**
+**A.** `List<Integer>` is **not** a subtype of `List<Number>`. Use wildcards to widen.
+
+**Q44. Bounded type parameters syntax?**
+**A.** `<T extends Comparable<T> & Serializable>` (class/interface bounds; at most one class, multiple interfaces).
+
+**Q45. Why `List<int>` is illegal?**
+**A.** Generics require reference types; use wrapper `Integer` or specialized structures (e.g., Trove/fastutil) for primitives.
+
+**Q46. How to create a generic method?**
+**A.** `<T> T head(List<T> list) { return list.get(0); }` — type parameter before return type.
+
+**Q47. Why can’t you overload by generic parameter only?**
+**A.** Type erasure makes signatures identical (bridge methods aside), causing conflicts.
+
+**Q48. What are raw types and why avoid them?**
+**A.** Omitting generic arguments (e.g., `List list`) disables type checking, causing unchecked warnings and potential `ClassCastException`.
+
+**Q49. Wildcard capture—what is it?**
+**A.** Technique to treat `?` as a concrete type variable via helper methods, enabling safe mutation or transformation.
+
+**Q50. Covariant arrays vs invariant generics pitfall?**
+**A.** Arrays are covariant (`Number[]` can reference `Integer[]`) and fail at runtime; generics are invariant and fail at compile time—prefer generics for type safety.
+
+
+
+what will happen if i pass null to string and object overloaded methods
+
+what will happen if i pass 5 to int and integer overloaded methods
+
+suppose we have Employee with id, name and image. how can i prevent image from printing in logs uusing camel
+
+
+how will i troubleshoot consumer lag
+check partitions, keys
+
+consumer healthy but not consuming messages
+
+how kafka is better than traditional rabbitMQ/ActiveMQ:
+
+what will happen if kafka partition/broker goes down?
+
+ALB vs NLB
+
+transaction propagation levels and isolation levels
+
+what will happen to exception that occured in @async method b() written inside @transactional method a()
+
+different SQS:  
+
+Subcomponent in IAM which will decide the access for EC2 to S3
+IAM role + IAM policy
+
+2 dependencies are required in project. 
+1. netty contained in  spring(1.0)
+2. spring (3.0)
+what will happen in jar created using mvn clean install - 2 dependencies or 1?
+
+aws- tell me how would i configure IAM to access EBS from EC2
+how to upload file from project to S3 bucket:
+bucket, object, key
+AWS SDK dependency in springBoot
+presign url
+base64
+file validation: content type, size, 
+S3 security & IAM permissions
+
+
+h config from springBoot- AWS SDK
+
+bulk head pattern- resource isloation, preventing cascading failures
+types:
+1. thread pool isolation
+2. SemaPhore isolation
+
+different resilience mechanisms:
+bulkHead vs circuit breaker vs retry vs timeout
+
+kafka configuration on producer, consumer (session, poll, heart beat)
+how can single topic meesages be consumed by 3 applications.
+auto.offeset.reset earliest, latest
+
+
+HLD and microservice design patterns - api gatway, service discovery, eureka, inter service communication, sync vs Async communication, fiegn client, web client, rest template, database/service, distributed transactions
+
+routing policies, throttling in api gateway
+
+what happens when 1 out of 2 saga compensating traction fails even after multiple retries
+
+Saga guarantees eventual consistency through compensation, but it cannot guarantee that compensation will always succeed. After retries are exhausted, we persist the failure, move it to DLQ, alert operations, and use idempotent manual or automated reconciliation
+
+
+hash set vs linked hash set
+what to use when need to find unique elements in large dataset
+linked hashmap or concurrent hash map, what to use in LRU
+
+difference between replicaSet and deployment
+what happens when we make change in deployment.yml, how deployment happens...what the phonomena is called
+health checks, actuator, ping check
+
+how will you monitor infrastructure alerts
+kubectl commands 
+
+
+entity lifecycle states: that answers "what state is my entity?". Transient, managed, detached, or removed. 
+JPA methods: These are actions like persist, merge, remove, find, and flush. 
+Spring Data repository methods: These are save, save All, save and flush, find by ID, findAll, getReferenceById, delete, deleteById.
+
+
+In Spring, you can add is we can inject all strategies as a map and select by key
+
+transaction isolation and propagation levels
+where do you think factory pattern was not correct and you changed it 
+where did you use singleton in your project 
+how spring communicates with S3 bucket, exact steps and config (how exactly spring connects with AWS)
+fifo and standard in SNS, SQS
+if you used lambda in your project, what problem did you encountered spclly using java and spring
+where exact have you used thread local in your project
+how did you decided you need to use strategy
+spy, stub and exact config in test, mocking etc
+@mock, @mockBean
+
+understand in detail
+distributed transactions
+request/ response flow - clear step by step where kubernetes, aws, api gateway sits
+how will you deploy a service(template)
+how is gateway redirected to aws
+CQRS
+how to increase java memory and cpu by jvm
+
+
+AI: 
+MCP
+which gpt did you use and why
+on which parameters did you decided which gpt
+default rules, what are they called...how did you configure
+have you integrated any pipelines using AI
+which model is best for use and less cost
+
+
+********************************************************************************************************************************************************
+
+
+
+Behave as a trained mentor and help me prepare for 5 years experienced JAVA backend developer interview scheduled tomorrow. 
+For this lets go topic by topic and get list of questions of difficulty levels with their detailed answers for me to have full revision. Answers should be very descriptive that i don't need to refer to any other socurce. 
+list of topics: 
+1.Core Java 
+2. Java 8 Features
+3. Object-Oriented Programming (OOP)
+4. Collections Framework
+5. Multithreading & Concurrency
+6. Java Memory Management
+7. Exception Handling
+8. Data Structured & algorithms
+9. Spring Core, hibernate
+10. Spring Boot & important annotations
+11. Spring MVC, Spring Security (JWT, keycloak SSO, IBM APIConnect)
+12. HLD & LLD
+13. REST API Design, Swagger/OpenAPI
+14. Microservices Architecture
+15. AWS 
+16. Caching (EhCache) vs redis
+17. Apache Camel 
+18. JBoss Fuse
+19. NestJS (Node.js framework)
+20. Relational and non-relational database(Broadleaf Commerce & Couchbase)
+21. PostgreSQL
+22. SOLID principles
+23. Kafka
+24. Docker & Kubernetes
+25. Git & GitHub Workflow
+26. CI/CD with Jenkins
+27. Postman (API Testing)
+28. Agile & Scrum
+29. Design Patterns (Factory, Singleton, etc.)
+30. Logging & Monitoring (SonarQube, metrics)
+31. Debugging, Profiling & Performance Optimization
+32. System Design (Scalability, Fault Tolerance, circuit breaker, rate limiter, load balancer)
+33. TDD (Test Driven Development)
+34. Prompt engineering
+35. Managerial situation based questions
+36. linux
+
+
+*******************************************************************************************************************
+
+roadmap:
+roadmap.sh
+DS:
+striver A2Z sheet
+pepcoding
+aditya verma
+
+kunal kushwaha for networking, sql, cs
+codehelp by babbar
+
+harvard cs 50
+********************************************************************************************************************
+code review
+
+@Service
+
+public class PaymentService {
+ 
+    private final PaymentRepository paymentRepository;
+
+    private final PaymentClient paymentClient;
+ 
+    public PaymentService(PaymentRepository paymentRepository,
+
+                          PaymentClient paymentClient) {
+
+        this.paymentRepository = paymentRepository;
+
+        this.paymentClient = paymentClient;
+
+    }
+ 
+    @Transactional
+
+    public PaymentResponse processPayment(Long paymentId) {
+ 
+        Payment payment = paymentRepository.findById(paymentId)
+
+                .orElseThrow(() -> new RuntimeException("Payment not found"));
+ 
+        if ("SUCCESS".equals(payment.getStatus())) {
+
+            return new PaymentResponse("ALREADY_PROCESSED");
+
+        }
+  
+        payment.setStatus("PROCESSING");
+
+        paymentRepository.save(payment);
+ 
+        PaymentResponse response = paymentClient.charge(
+
+                payment.getCustomerId(),
+
+                payment.getAmount()
+
+        );
+ 
+        if (response.isSuccess()) {
+
+            payment.setStatus("SUCCESS");
+
+        } else {
+
+            payment.setStatus("FAILED");
+
+        }
+ 
+        paymentRepository.save(payment);
+ 
+        return response;
+
+    }
+
+}
+ 
+
+ *******************************************************************************************************************
+
+SQL
+
+student\_id | name    |
+| ----------- | ------- |
+| 1           | Alice   |
+| 2           | Bob     |
+| 3           | Charlie |
+| 4           | David   |
+ 
+ 
+| course\_id | course\_name |
+| ---------- | ------------ |
+| 101        | SQL Basics   |
+| 102        | Python       |
+| 103        | Data Science |
+ 
+ 
+| student\_id | course\_id | grade |
+| ----------- | ---------- | ----- |
+| 1           | 101        | 85    |
+| 1           | 102        | 90    |
+| 2           | 101        | 78    |
+| 2           | 103        | 82    |
+| 3           | 102        | 88    |
+ 
+ 
+Q: Show all students and their enrollments (if any)
+Q: Show all courses and enrolled students
+Q: Average grade per student
+Q: Students with average grade > 85
+Q: Number of students per course
+
+
+**********************************************************************************************************************
+
+# Core Java 
+
+## Section A — Strings & Immutability
+
+**Q1. Why is `String` immutable in Java? What are the benefits?**
+**A.** Immutability: value and hash are fixed after creation. Benefits: (1) Thread‑safety without synchronization; (2) String pool interning for memory sharing; (3) Security—strings used in classpaths, DB URLs, and keys cannot be altered; (4) Safe caching and hash code memorization.
+
+**Q2. What is the String pool? How does interning work?**
+**A.** The pool stores one canonical instance per literal. `"a" + "b"` at compile time goes to pool as `"ab"`. `new String("x")` creates a heap object, 
+
+Interning means moving a string into the String Pool and reusing pooled references.
+
+Method: public String intern()
+
+
+If the string already exists in the pool → returns the pooled reference.
+If it’s not in the pool → adds it and returns the new pooled reference.
+
+Example:
+String s1 = new String("Java");
+String s2 = s1.intern();
+String s3 = "Java";
+
+System.out.println(s2 == s3); // true → both refer to pooled object
+System.out.println(s1 == s2); // false → s1 still points to heap object
+
+**Q3. `==` vs `.equals()` for Strings?**
+**A.** `==` compares references; `.equals()` compares content. Pooling can make `==` true for literals but never rely on it—always use `.equals()` for content.
+
+**Q4. Why is `String` `final`?**
+**A.** To enforce immutability—subclasses can’t override methods (like `hashCode()`/`equals()`/`charAt`) to break invariants or pooling semantics.
+
+**Q5. String concatenation performance: `+` vs `StringBuilder`?**
+**A.** In a single expression, the compiler uses `StringBuilder` under the hood.
+       In loops, repeated `+` creates many builders; Time Complexity: O(n²) for large loops.
+       Heap impact: Thousands of intermediate string objects.
+
+	   prefer explicit `StringBuilder` or `StringJoiner`. For streams, use `Collectors.joining()`. 
+
+ StringBuffer: Almost same as StringBuilder but thread-safe.
+               Uses synchronized methods, so slightly slower.
+               Best used when multiple threads modify the same string.
+
+**Q6. What does `substring()` do pre‑Java 7u6 vs now?**
+**A.** Historically it shared the original char array (risking memory leaks); modern JDKs copy the necessary range, removing the leak but increasing copy cost.
+
+**Q7. How to split a string safely on `.` and `|`?**
+**A.** These are regex metacharacters; escape or use `Pattern.quote(delimiter)`.
+
+**Q8. When to use `String.intern()` in high‑load services?**
+**A.** Rarely. It can reduce memory for highly repetitive identifiers but risks perm/metaspace pressure (older JDKs) and lock contention. Prefer app‑level caches.
+
+Performance Comparison
+Aspect	Without Interning	With Interning
+Memory	Multiple copies of the same string → high heap usage	Single reference reused → lower memory footprint
+GC Impact	More objects → frequent GC	Less GC pressure
+CPU Overhead	No lookup → faster	Lookup in SCP (hash-based) → slightly slower
+Best Use Case	Unique strings	Heavy repetition
+
+**Q9. Why does `new String("abc") == "abc"` return false?**
+**A.** Different objects: heap vs pooled literal. `.equals()` would be true.
+
+**Q10. Best way to build CSV safely?**
+**A.** Use `StringJoiner`/`Collectors.joining()`; escape quotes/commas properly; prefer a CSV library for correctness.
+
+---
+
+## Section B — Core Keywords & Language Features
+
+**Q11. `final`, `finally`, `finalize()` — differences?**
+**A.** `final`: non‑modifiable (var), non‑overridable (method), non‑extendable (class). `finally`: block that runs even when exceptions occur (except VM crash/`System.exit`). `finalize()`: deprecated/obsolete—unreliable GC hook.
+
+**Q12. `static` keyword uses?**
+**A.** Class‑level members, single copy shared by instances; static initializer blocks; utility methods; inner `static` classes not linked to outer instance.
+
+**Q13. `volatile` — what does it guarantee?**
+**A.** Visibility + ordering (happens‑before on write/read), not atomicity for compound actions. Suitable for flags; not for increments.
+
+**Q14. `transient` field — effect during serialization?**
+**A.** Field is skipped. Often used for caches, passwords, or derived fields; reinitialize in `readObject`.
+
+**Q15. `synchronized` method vs block?**
+**A.** Method locks on `this` or class object; block can lock an explicit monitor for a smaller critical section; prefer blocks to reduce contention.
+
+**Q16. `this` vs `super` usage?**
+**A.** `this` for current instance; `super` to access parent members/constructors. Constructor must call `super(...)` as first statement (implicit `super()` if omitted).
+
+**Q17. `native` methods?**
+**A.** Methods implemented in non‑Java (JNI), often for performance or system calls. Use sparingly.
+
+**Q18. `strictfp`?**
+**A.** Enforces IEEE‑754 floating point semantics for cross‑platform consistency.
+
+**Q19. `assert` — when to use?**
+**A.** For internal invariants in non‑prod/test runs (enabled with `-ea`); never for user input validation in production.
+
+**Q20. Order of initialization (static/instance)?**
+**A.** Static fields/blocks top‑down when class loads; then on each instantiation: instance fields → instance init blocks → constructor.
+
+---
+
+## Section C — OOP, Overloading & Overriding
+
+**Q21. Overloading vs overriding differences?**
+**A.** Overloading: same name, different parameter types/arity, resolved at compile time. Overriding: same signature in subclass, runtime dispatch; must respect return type covariance and throws rules.
+
+**Q22. Can constructors be overridden?**
+**A.** No. They’re not inherited. They can be overloaded.
+
+**Q23. Covariant return types?**
+**A.** Overriding method can return a subtype of the parent’s return type—helps fluency and builders.
+
+**Q24. What can’t be overridden?**
+**A.** `final` methods, `static` methods (they are hidden), private methods (not visible), constructors.
+
+**Q25. Method resolution with `List<Object>` vs `List<String>` overloads?**
+**A.** Due to type erasure, both become `List` at runtime; overloading on generic parameter types alone is ambiguous—compile‑time error.
+
+**Q26. Which methods participate in dynamic dispatch?**
+**A.** Only instance (virtual) methods. Fields, `static` methods, and private methods do not; they’re resolved by reference type.
+
+**Q27. Diamond problem in Java?**
+**A.** Multiple inheritance of state is disallowed; interfaces may provide default methods. If conflict, class must override to disambiguate.
+
+**Q28. Liskov Substitution Principle (LSP) example?**
+**A.** Subtype must honor supertype contracts. E.g., overriding `List.add` to throw on valid inputs breaks LSP—avoid weakening preconditions.
+
+**Q29. Prefer composition over inheritance—why?**
+**A.** Reduces tight coupling and fragile base class issues; enables delegation and easier testing; improves reusability.
+
+**Q30. When to use `@Override`?**
+**A.** Always on overriding methods (and interface implementations) to let the compiler catch signature mismatches.
+
+---
+
+## Section D — Exceptions & Error Handling
+
+**Q31. Checked vs unchecked exceptions?**
+**A.** Checked: must be declared/handled (`IOException`). Unchecked: `RuntimeException` and subclasses (`NullPointerException`), not enforced. Use checked for recoverable conditions; unchecked for programming errors.
+
+**Q32. Best practices for exception design?**
+**A.** Create meaningful custom exceptions, include context, avoid swallowing, don’t overuse checked, wrap/log at boundaries, and preserve cause (`new X(msg, cause)`).
+
+**Q33. `try-with-resources`—how does it work?**
+**A.** Auto‑closes `AutoCloseable` resources in reverse order, even if exceptions occur. Suppressed exceptions are recorded via `Throwable.addSuppressed`.
+
+**Q34. Exception rethrow vs wrap?**
+**A.** Rethrow to preserve type when caller can handle; wrap (with cause) to add context at boundaries (e.g., DAO → Service) while converting to domain exceptions.
+
+**Q35. What happens if both `try` and `finally` throw?**
+**A.** Exception from `finally` suppresses the one from `try` (unless using try‑with‑resources where `try` exception is the primary and closes are suppressed).
+
+**Q36. How to create an immutable, informative exception?**
+**A.** Extend `RuntimeException`/`Exception`, make fields `final`, include problem identifiers/IDs, override `getMessage()` to include key context (without PII).
+
+**Q37. Difference between `throw` and `throws`?**
+**A.** `throw` actually raises an exception instance; `throws` declares that a method may propagate it.
+
+**Q38. When to catch `Exception` broadly?**
+**A.** Rarely: top‑level boundaries (controllers/thread pools) to log and convert to standard responses. Avoid catching broadly in business logic.
+
+**Q39. StackOverflowError vs OutOfMemoryError—can you catch them?**
+**A.** They’re `Error`s—indicative of serious problems; you *can* catch but shouldn’t rely on handling. Better to prevent via recursion limits and memory sizing.
+
+**Q40. How to ensure resource cleanup if not using try‑with‑resources?**
+**A.** Use `try { ... } finally { closeQuietly(...) }` and design idempotent `close()`.
+
+---
+
+## Section E — Generics & Type System
+
+**Q41. Type erasure—what and why?**
+**A.** Generics are enforced at compile time and erased at runtime (to maintain backward compatibility with pre‑Java‑5 bytecode). No reified types; can’t do `new T[]`, or `instanceof List<String>`.
+
+**Q42. PECS—what is it?**
+**A.** *Producer Extends, Consumer Super*: use `? extends T` when reading (producer); `? super T` when writing (consumer). Example: `void addAll(Collection<? super T> dst, Collection<? extends T> src)`.
+
+**Q43. Invariance of generics?**
+**A.** `List<Integer>` is **not** a subtype of `List<Number>`. Use wildcards to widen.
+
+**Q44. Bounded type parameters syntax?**
+**A.** `<T extends Comparable<T> & Serializable>` (class/interface bounds; at most one class, multiple interfaces).
+
+**Q45. Why `List<int>` is illegal?**
+**A.** Generics require reference types; use wrapper `Integer` or specialized structures (e.g., Trove/fastutil) for primitives.
+
+**Q46. How to create a generic method?**
+**A.** `<T> T head(List<T> list) { return list.get(0); }` — type parameter before return type.
+
+**Q47. Why can’t you overload by generic parameter only?**
+**A.** Type erasure makes signatures identical (bridge methods aside), causing conflicts.
+
+**Q48. What are raw types and why avoid them?**
+**A.** Omitting generic arguments (e.g., `List list`) disables type checking, causing unchecked warnings and potential `ClassCastException`.
+
+**Q49. Wildcard capture—what is it?**
+**A.** Technique to treat `?` as a concrete type variable via helper methods, enabling safe mutation or transformation.
+
+**Q50. Covariant arrays vs invariant generics pitfall?**
+**A.** Arrays are covariant (`Number[]` can reference `Integer[]`) and fail at runtime; generics are invariant and fail at compile time—prefer generics for type safety.
+
+---
+
+## Section F — Collections & Maps
+
+**Q51. HashMap internals—buckets, collisions, resize?**
+**A.** Hash → index; bucket holds nodes. On collision, chain via linked list; from Java 8, large chains treeify (balanced red‑black tree) past threshold (default 8) when table big enough; resize doubles capacity when load factor exceeded (default 0.75).
+
+**Q52. Why `hashCode()` and `equals()` contract matters?**
+**A.** Equal objects must have equal hash codes; otherwise lookups miss, causing logical duplication and broken sets/maps.
+
+**Q53. `LinkedHashMap` vs `HashMap`?**
+**A.** Preserves insertion/access order (configurable). Useful for LRU caches with `removeEldestEntry`.
+
+**Q54. `TreeMap` characteristics?**
+**A.** Sorted by natural order or comparator; O(log n) operations; keys must be mutually comparable and consistent with equals.
+
+**Q55. `ConcurrentHashMap` design?**
+**A.** Fine‑grained concurrency; no global lock; operations are thread‑safe and non‑blocking for reads; supports atomic compound operations via `compute`, `merge`.
+
+**Q56. Fail‑fast vs fail‑safe iterators?**
+**A.** Fail‑fast (ArrayList/HashMap) throw `ConcurrentModificationException` on structural change; fail‑safe (CopyOnWriteArrayList, ConcurrentHashMap) iterate over a snapshot/weakly consistent view.
+
+**Q57. Difference between `ArrayList` and `LinkedList`?**
+**A.** ArrayList: contiguous array, O(1) random access, costly middle insert/remove; LinkedList: nodes with pointers, O(1) insertion/removal at ends, poor cache locality.
+
+**Q58. When to use `CopyOnWriteArrayList`?**
+**A.** Read‑heavy, infrequent writes; iteration without locks; expensive writes due to full copy.
+
+**Q59. PriorityQueue vs Deque use cases?**
+**A.** PQ maintains heap order for min/max retrieval; Deque for double‑ended queues, stacks, sliding window problems.
+
+**Q60. How to implement LRU cache quickly?**
+**A.** Use `LinkedHashMap` with access‑order `true` and override `removeEldestEntry`.
+
+```java
+Map<K,V> lru = new LinkedHashMap<K,V>(16, 0.75f, true) {
+  protected boolean removeEldestEntry(Map.Entry<K,V> e) { return size() > 1000; }
+  
+};
+```
+
+---
+
+## Section G — Concurrency, Threads & JMM
+
+**Q61. Explain the Java Memory Model (JMM) briefly.**
+**A.** Specifies visibility and ordering guarantees between threads. `happens‑before` edges (locks, volatile writes→reads, thread start/join, completion of constructor before publication) ensure visibility; without HB, data races cause stale reads.
+
+**Q62. Atomicity vs visibility vs ordering?**
+**A.** Atomicity: operation completes indivisibly. Visibility: writes by one thread seen by others. Ordering: reordering constraints. `volatile` gives visibility/ordering; locks give all three via mutual exclusion + HB.
+
+**Q63. `volatile` pitfalls?**
+**A.** ++ is not atomic; compound actions require locks/atomics. Volatile only good for independent writes/reads and publishing immutable objects.
+
+**Q64. Deadlock causes and prevention?**
+**A.** Circular wait, hold‑and‑wait, mutual exclusion, no preemption. Prevent by locking in fixed order, using timeouts (`tryLock`), finer granularity, or avoiding nested locks.
+
+**Q65. Difference between `synchronized` and `ReentrantLock`?**
+**A.** `ReentrantLock` offers try/timed lock, interruptible waits, fair ordering, and `Condition`s; `synchronized` is simpler with implicit release.
+
+**Q66. Explain thread states.**
+**A.** NEW, RUNNABLE, BLOCKED (monitor), WAITING (wait/join), TIMED\_WAITING (sleep/awaitNanos), TERMINATED.
+
+**Q67. How does `ExecutorService` improve concurrency?**
+**A.** Manages thread pools, work queues, and scheduling; decouples task submission (`Runnable`/`Callable`) from execution; reduces creation overhead; enables back‑pressure via queue bounds.
+
+**Q68. `Future` vs `CompletableFuture`?**
+**A.** `Future` represents a pending result (blocking get, no chaining). `CompletableFuture` enables async pipelines (`thenApply`, `thenCompose`), non‑blocking callbacks, and combinators (`allOf/anyOf`).
+
+**Q69. Producer‑Consumer with `BlockingQueue`—why better than wait/notify?**
+**A.** Simpler, less error‑prone, supports bounded queues (back‑pressure) and interruption; hides low‑level coordination.
+
+**Q70. ThreadLocal—use cases and risks?**
+**A.** Store per‑thread state (e.g., request IDs, formatters). Risk: memory leaks in thread pools if not cleared; use `remove()`.
+
+**Q71. `ForkJoinPool` vs `ThreadPoolExecutor`?**
+**A.** FJP uses work‑stealing for fine‑grained tasks (divide‑and‑conquer). TPE is general‑purpose with configurable queues/rejection policies.
+
+**Q72. Safe publication patterns?**
+**A.** (1) Final fields set in constructor; (2) volatile reference; (3) holding lock during publication; (4) using thread‑safe containers.
+
+**Q73. Avoiding priority inversion/starvation?**
+**A.** Use fair locks when necessary, keep critical sections short, avoid unbounded queues; monitor with thread dumps.
+
+**Q74. Rejection policies in thread pools?**
+**A.** `AbortPolicy` (default), `CallerRunsPolicy` (back‑pressure), `DiscardPolicy`, `DiscardOldestPolicy`. Choose based on SLA.
+
+**Q75. How to detect deadlocks in prod?**
+**A.** Thread dumps (`jstack`), JMX tools, APMs; look for `Found one Java-level deadlock` sections.
+
+---
+
+## Section H — Memory, GC & Performance
+
+**Q76. Heap vs stack vs metaspace?**
+**A.** Stack: per‑thread frames/locals. Heap: objects. Metaspace: class metadata (native memory). GC manages heap; metaspace grows until limits.
+
+**Q77. GC algorithms overview?**
+**A.** Generational GC: young (Eden→S0/S1) minor GCs, tenuring to old; major/full GC compacts. Modern JDKs include G1/Parallel/Serial/ZGC/Shenandoah (choose per latency/throughput needs).
+
+**Q78. Escape analysis and scalar replacement?**
+**A.** JIT can allocate on stack or eliminate objects if they don’t escape method/thread, improving performance.
+
+**Q79. Why avoid premature optimization?**
+**A.** Optimize hotspots backed by profiling (JFR, async‑profiler). Micro‑bench with JMH; beware of dead‑code elimination and warm‑up effects.
+
+**Q80. Memory leak sources in Java?**
+**A.** Static collections, caches without eviction, listeners not deregistered, ThreadLocals in pools, retaining large arrays or substrings (old JDKs). Use heap dumps and dominator trees to analyze.
+
+---
+
+## Section I — I/O, Serialization, NIO.2
+
+**Q81. `Serializable` pitfalls?**
+**A.** Insecure/unversioned payloads, fragile to class changes, performance overhead. Prefer JSON/Proto with explicit schemas. If using Java serialization, define `serialVersionUID` and validate inputs.
+
+**Q82. `Externalizable` vs `Serializable`?**
+**A.** `Externalizable` gives full control over (de)serialization via `writeExternal/readExternal`; requires no‑arg constructor.
+
+**Q83. try‑with‑resources and `AutoCloseable` ordering?**
+**A.** Resources are closed LIFO; suppressed exceptions accessible via `Throwable.getSuppressed()`.
+
+**Q84. NIO vs IO?**
+**A.** NIO offers channels, buffers, selectors; non‑blocking IO and memory‑mapped files for high throughput servers.
+
+**Q85. File watching and async IO in Java 8?**
+**A.** `WatchService` for directory changes; `AsynchronousFileChannel` for async file operations.
+
+---
+
+## Section J — Annotations, Reflection, ClassLoaders
+
+**Q86. How do annotations work at runtime?**
+**A.** Retention policy `RUNTIME` makes them available via reflection; frameworks scan classes/methods/parameters to build metadata (e.g., Spring).
+
+**Q87. Meta‑annotations you should know?**
+**A.** `@Retention`, `@Target`, `@Inherited`, `@Documented`, `@Repeatable`.
+
+**Q88. Reflection costs and safety?**
+**A.** Slower, breaks encapsulation, security risks; cache reflective lookups; prefer method handles where possible.
+
+**Q89. ClassLoader hierarchy?**
+**A.** Bootstrap → Extension/Platform → Application → custom loaders; parent‑first delegation, but frameworks can use child‑first.
+
+**Q90. Common `NoClassDefFoundError` vs `ClassNotFoundException`?**
+**A.** `ClassNotFoundException` is checked (loader can’t find class when asked). `NoClassDefFoundError` occurs when a previously found class fails to load/initialize at runtime.
+
+---
+
+## Section K — Design Patterns & Idioms (Core Java use)
+
+**Q91. Builder vs telescoping constructors?**
+**A.** Builder avoids constructor explosion, improves readability/immutability; especially useful for many optional params.
+
+**Q92. Strategy pattern with lambdas?**
+**A.** Replace small Strategy classes with `Function`/`Predicate`/`Comparator` implementations using lambdas.
+
+**Q93. Singleton pitfalls and fixes?**
+**A.** Lazy init race conditions. Prefer enum singletons or initialize‑on‑demand holder idiom; avoid double‑checked locking before `volatile` fix.
+
+**Q94. Template method vs callback?**
+**A.** Template: inheritance‑based hooks. Callback: composition with functional interfaces—more flexible in Java 8+.
+
+**Q95. Decorator vs inheritance for behavior extension?**
+**A.** Decorator adds behavior at runtime without subclass explosion; works well with `InputStream`/`Reader` chains.
+
+---
+
+## Section L — Java 8: Streams, Lambdas, Date/Time
+
+**Q96. Intermediate vs terminal ops?**
+**A.** Intermediate are lazy and return streams (`map`, `filter`); terminal triggers evaluation (`collect`, `reduce`, `forEach`).
+
+**Q97. `map` vs `flatMap`?**
+**A.** `map` transforms 1→1; `flatMap` flattens nested streams (e.g., Stream\<List<T>> → Stream<T>). Useful for one‑to‑many mappings.
+
+**Q98. Common stream pitfalls in prod?**
+**A.** Side‑effects in lambdas, poor readability, NPE on `null` streams, using parallel streams on IO‑bound tasks, boxing/unboxing overhead.
+
+**Q99. Custom collectors—when needed?**
+**A.** For non‑standard reductions (e.g., top‑K with heap) or when needing concurrent accumulation. Implement `Supplier`, `Accumulator`, `Combiner`, `Finisher`.
+
+**Q100. New Date/Time API advantages?**
+**A.** Immutable, thread‑safe, clear types (`Instant`, `LocalDateTime`, `ZonedDateTime`), better zone handling with `ZoneId`, fluent adjusters.
+
+**Q101. How to compute start/end of day safely?**
+**A.** Use `LocalDate.now(zone).atStartOfDay(zone)` and `LocalDate.now(zone).plusDays(1).atStartOfDay(zone).minusNanos(1)` to respect DST.
+
+**Q102. Converting between `Date` and `Instant`?**
+**A.** `Date.from(instant)` and `date.toInstant()`.
+
+---
+
+## Section M — Tricky/Corner Cases & Quiz‑style
+
+**Q103. What prints?**
+
+```java
+System.out.println(10 + 20 + "30" + 40 + 50);
+```
+
+**A.** `"30304050"`? No → `30 + "30"` → `"3030" + 40 + 50` → `"303040" + 50` → `"30304050"`. (Left‑to‑right; numbers before first string are added.)
+
+**Q104. Autoboxing trap:**
+
+```java
+Integer a = 128, b = 128; System.out.println(a == b);
+```
+
+**A.** `false`. Integer cache ranges −128..127.
+
+**Q105. Overloaded `null` call:**
+
+```java
+void f(Object o) {} void f(String s) {}
+f(null);
+```
+
+**A.** Chooses most specific → `f(String)`.
+
+**Q106. Static vs instance hidden:**
+
+```java
+class A { static void f(){System.out.println("A");} }
+class B extends A { static void f(){System.out.println("B");} }
+A x = new B(); x.f();
+```
+
+**A.** Prints `A` (static method hidden, resolved by reference type).
+
+**Q107. `equals` without `hashCode` in HashSet?**
+**A.** Violates contract → duplicates may appear and lookups fail.
+
+**Q108. `finally` overrides `return`?**
+
+```java
+int g(){ try { return 1; } finally { return 2; } }
+```
+
+**A.** Returns `2` (discouraged!).
+
+**Q109. Double‑checked locking and `volatile`?**
+**A.** The instance field must be `volatile` to prevent reorderings causing half‑constructed objects to be visible.
+
+**Q110. Stream short‑circuit behavior?**
+**A.** Ops like `findFirst`, `anyMatch`, `limit` can stop traversal early; useful for performance.
+
+**Q111. `remove` during enhanced for?**
+**A.** Use iterator’s `remove()`; direct `list.remove()` causes `ConcurrentModificationException`.
+
+**Q112. `Optional.of(null)`?**
+**A.** NPE. Use `Optional.ofNullable(x)`.
+
+**Q113. `StringBuilder` thread‑safety?**
+**A.** Not thread‑safe; `StringBuffer` is synchronized (rarely worth it). Prefer confinement or higher‑level sync.
+
+**Q114. `HashSet` contains `null`?**
+**A.** Yes (single null allowed). `TreeSet` can’t unless comparator handles nulls.
+
+**Q115. Array covariance danger:**
+
+```java
+Number[] arr = new Integer[1]; arr[0] = 1.5; // ?
+```
+
+**A.** `ArrayStoreException` at runtime.
+
+**Q116. `BigDecimal` scale pitfalls?**
+**A.** `new BigDecimal(0.1)` is imprecise; use `BigDecimal.valueOf(0.1)` or string ctor; set `MathContext`/`RoundingMode` for divisions.
+
+**Q117. `switch` on Strings—case sensitivity & null?**
+**A.** Case‑sensitive; `null` throws NPE before matching.
+
+**Q118. Order of field initialization with inheritance?**
+**A.** Parent static → child static → parent instance → parent ctor → child instance → child ctor.
+
+**Q119. `Collectors.toMap` duplicate keys?**
+**A.** Throws `IllegalStateException` unless a merge function is provided.
+
+**Q120. `Objects.hash(a, b)` vs custom hash?**
+**A.** Simpler but may allocate varargs array; for hot paths use custom 31‑based multiplication.
+
+---
+
+## Section N — Short Scenarios (Production‑style)
+
+**S1. Your REST endpoint latency spiked. How do you debug?**
+Check: (1) recent deploy/config changes; (2) downstream timeouts/retries; (3) thread pool saturation/queue backlog; (4) DB slow queries/index misses; (5) GC pauses. Collect metrics/traces, compare golden signals (latency, errors, saturation) before/after.
+
+**S2. You need idempotent payment retries. How in Java/Spring?**
+Use
+
+
+Core Java, Spring, Hibernate, REST 1) Collections, Strings, Multithreading 2) Spring MVC, REST, JPA 3) Hibernate caching, mappings 4) REST components, methods, authentication
+

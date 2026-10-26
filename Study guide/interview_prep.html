@@ -1,0 +1,2427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Java / Spring Boot Interview Prep</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  --bg: #0b1220;
+  --bg-elev: #121b2e;
+  --card: #151f34;
+  --border: #243049;
+  --text: #e8eefc;
+  --muted: #9aa8c7;
+  --accent: #34d399;
+  --accent-2: #38bdf8;
+  --warn: #fbbf24;
+  --code: #070b14;
+  --shadow: 0 12px 40px rgba(0,0,0,.35);
+  --sidebar: 280px;
+  --radius: 16px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(52,211,153,.12), transparent 50%),
+    radial-gradient(900px 400px at 100% 0%, rgba(56,189,248,.1), transparent 45%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+a { color: var(--accent-2); }
+.layout { display: grid; grid-template-columns: var(--sidebar) 1fr; min-height: 100vh; }
+aside {
+  position: sticky; top: 0; height: 100vh; overflow: auto;
+  padding: 1.25rem 1rem 2rem;
+  border-right: 1px solid var(--border);
+  background: rgba(11,18,32,.85);
+  backdrop-filter: blur(10px);
+}
+aside h1 { font-size: 1.05rem; margin: 0 0 .25rem; letter-spacing: .02em; }
+aside .sub { color: var(--muted); font-size: .8rem; margin: 0 0 1rem; }
+#qsearch {
+  width: 100%; padding: .55rem .7rem; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--bg-elev); color: var(--text);
+}
+nav { margin-top: 1rem; display: flex; flex-direction: column; gap: .35rem; }
+nav a {
+  color: var(--muted); text-decoration: none; font-size: .9rem;
+  padding: .35rem .55rem; border-radius: 8px;
+}
+nav a:hover, nav a.active { color: var(--text); background: #1c2944; }
+main { padding: 1.5rem clamp(1rem, 3vw, 3rem) 4rem; max-width: 1100px; }
+.hero {
+  background: linear-gradient(135deg, #15233d, #102a28);
+  border: 1px solid var(--border); border-radius: 20px; padding: 1.4rem 1.5rem;
+  box-shadow: var(--shadow); margin-bottom: 1.5rem;
+}
+.hero h2 { margin: 0 0 .4rem; font-size: 1.7rem; }
+.hero p { margin: 0; color: var(--muted); }
+.source-link {
+  display: inline-flex; align-items: center; gap: .45rem; margin-top: 1rem;
+  padding: .55rem .8rem; border-radius: 10px; text-decoration: none;
+  color: #052e2b; background: var(--accent); font-weight: 700;
+}
+.source-link:hover { filter: brightness(1.08); }
+.pills { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+.pills span {
+  font-size: .75rem; border: 1px solid #2a6; color: var(--accent);
+  padding: .15rem .5rem; border-radius: 999px;
+}
+section { margin: 2.2rem 0; }
+section > h2 {
+  font-size: 1.45rem; margin: 0 0 .3rem;
+  padding-left: .6rem; border-left: 4px solid var(--accent);
+}
+.blurb { color: var(--muted); margin: 0 0 1rem; }
+.card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.05rem 1.15rem 1.15rem; margin: 0 0 1rem; box-shadow: var(--shadow);
+}
+.card h3 { margin: 0 0 .7rem; font-size: 1.05rem; line-height: 1.35; }
+.qid {
+  display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .04em;
+  color: #042; background: var(--accent); padding: .1rem .4rem; border-radius: 6px;
+  margin-right: .35rem; vertical-align: middle;
+}
+.eli5, .ans { margin: .55rem 0; }
+.eli5 p, .ans p { margin: .35rem 0 .2rem; }
+.badge {
+  display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: #042; background: var(--warn);
+  padding: .12rem .4rem; border-radius: 6px;
+}
+.badge-pro { background: var(--accent-2); color: #042; }
+code, .code {
+  font-family: "JetBrains Mono", "Fira Code", ui-monospace, Consolas, monospace;
+}
+p code, li code {
+  background: #0d1526; border: 1px solid #243049; padding: .05rem .3rem; border-radius: 5px;
+  font-size: .88em; color: #c4f1de;
+}
+.code {
+  background: var(--code); color: #d6e4ff; padding: 1rem 1.1rem; border-radius: 12px;
+  overflow: auto; font-size: .82rem; line-height: 1.45;
+  border: 1px solid #1b2740; margin: .75rem 0 0;
+}
+.card ul { margin: .35rem 0; padding-left: 1.15rem; }
+.card li { margin: .25rem 0; }
+.note {
+  margin: .7rem 0 0; color: var(--muted); font-size: .9rem;
+  border-left: 3px solid var(--accent-2); padding-left: .7rem;
+}
+footer { color: var(--muted); font-size: .85rem; margin-top: 2rem; }
+.menu {
+  display: none; position: fixed; top: .7rem; left: .7rem; z-index: 20;
+  background: var(--accent); border: 0; border-radius: 10px; padding: .45rem .7rem;
+  font-weight: 700; cursor: pointer;
+}
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  aside {
+    position: fixed; inset: 0 auto 0 0; width: min(86vw, 320px);
+    transform: translateX(-105%); transition: transform .2s ease; z-index: 15;
+  }
+  aside.open { transform: none; }
+  .menu { display: block; }
+  main { padding-top: 3.2rem; }
+}
+</style>
+</head>
+<body>
+<button class="menu" type="button" aria-label="Open menu">Menu</button>
+<div class="layout">
+  <aside>
+    <h1>Interview Prep</h1>
+    <p class="sub">Java 17+ · Spring Boot · Kafka · Design</p>
+    <input id="qsearch" type="search" placeholder="Search questions…" />
+    <nav aria-label="Sections">
+      <a href="#yoe35">3–5 YOE Medium Pack</a>
+<a href="#core-java">Core Java</a>
+<a href="#java8">Java 8+ / Streams</a>
+<a href="#concurrency">Concurrency & JVM</a>
+<a href="#locks">Locks & Distributed Concurrency</a>
+<a href="#spring-core">Spring Core</a>
+<a href="#spring-boot">Spring Boot Internals</a>
+<a href="#data">JPA / Hibernate / SQL</a>
+<a href="#rest-sec">REST & Security</a>
+<a href="#kafka">Kafka</a>
+<a href="#micro">Microservices</a>
+<a href="#prod">Production Scenarios</a>
+<a href="#aws-devops">AWS, Docker, K8s</a>
+<a href="#sysdesign">System Design</a>
+<a href="#coding">Coding Round</a>
+<a href="#patterns">Design Patterns & SOLID</a>
+<a href="#behavioral">Behavioral & Code Review</a>
+    </nav>
+  </aside>
+  <main>
+    <div class="hero">
+      <h2>Senior Java &amp; Spring Boot — study deck</h2>
+      <p>Consolidated from your two question dumps. Duplicates are merged. Each card: ELI5 first, then the answer you’d say in an interview, plus Java 17+ snippets where they help.</p>
+      <a class="source-link" href="all_interview_questions.html">Open all original data from both TXT files →</a>
+      <div class="pills">
+        <span>Dark mode</span><span>Sticky nav</span><span>Search</span><span>Phone-friendly</span>
+      </div>
+    </div>
+    
+<section id="yoe35">
+  <h2>3–5 YOE Medium Pack</h2>
+  <p class="blurb">Core Java through Kafka/REST — talk scenarios, not definitions</p>
+  
+<article class="card" id="m-cj-1" data-q="how does hashmap work internally?">
+  <h3><span class="qid">m-cj-1</span> How does HashMap work internally?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Hash the key → pick a bucket → walk a list (or a tree if the list got long).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>hash → (n-1) & hash for index. Collisions: linked list; Java 8 treeifies at 8 nodes if table ≥ 64.</li><li>Load factor 0.75 → resize (double). equals+hashCode must match or get() misses.</li><li>Not thread-safe. Project line: we never share a HashMap across request threads; caches use ConcurrentHashMap or Redis.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-cj-2" data-q="difference between &quot;==&quot; and equals()">
+  <h3><span class="qid">m-cj-2</span> Difference between &quot;==&quot; and equals()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>== compares the house address. equals() compares what's inside the house.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>== : same object reference (or unboxed primitives).</li><li>equals(): value. String/Integer: override it. Default Object.equals is still ==.</li><li>Integer cache −128..127 can make == look true — never use == for objects in business code.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-cj-3" data-q="overloading vs overriding">
+  <h3><span class="qid">m-cj-3</span> Overloading vs Overriding</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Overloading: same kitchen, different recipes (compile time). Overriding: child rewrites the parent's recipe (runtime).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Overload: same name, different params; static binding.</li><li>Override: same signature in subclass; @Override; runtime dispatch. static/final/private cannot override.</li><li>Project: we override equals/hashCode on entities carefully; we overload constructors or factory methods, not both in confusing ways.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-cj-4" data-q="explain solid principles">
+  <h3><span class="qid">m-cj-4</span> Explain SOLID principles</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Five habits so a class doesn't become a junk drawer.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>S: one reason to change (PaymentService doesn't send email).</li><li>O: add a Strategy bean, don't edit a 200-line switch.</li><li>L: subtype must honor the parent contract.</li><li>I: small interfaces — don't force extra methods.</li><li>D: inject interfaces, not concrete UpiClient.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-j8-1" data-q="map() vs flatmap()">
+  <h3><span class="qid">m-j8-1</span> map() vs flatMap()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>map: one box → one box. flatMap: one box → several, then flatten into one stream.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+List<String> names = users.stream().map(User::name).toList();
+List<String> phones = users.stream().flatMap(u -> u.phones().stream()).toList();
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="m-j8-2" data-q="filter() vs map()">
+  <h3><span class="qid">m-j8-2</span> filter() vs map()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>filter keeps or drops. map changes the shape. They do different jobs.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>filter(Predicate) — same type, fewer elements. map(Function) — maybe different type, same count (unless later filter). Pipeline: filter first when you can, so map does less work.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-j8-3" data-q="find duplicate elements using streams">
+  <h3><span class="qid">m-j8-3</span> Find duplicate elements using Streams</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Count how many times each word appears. Keep those with count &gt; 1.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+List<String> subject = List.of("java","spring","java","kafka","spring","docker","java");
+List<String> dupes = subject.stream()
+    .collect(Collectors.groupingBy(s -> s, LinkedHashMap::new, Collectors.counting()))
+    .entrySet().stream()
+    .filter(e -> e.getValue() > 1)
+    .map(Map.Entry::getKey)
+    .toList(); // [java, spring]
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="m-j8-4" data-q="second-highest salary using streams">
+  <h3><span class="qid">m-j8-4</span> Second-highest salary using Streams</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Sort unique salaries descending, skip the top one, take the next.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+Optional<Integer> second = employees.stream()
+    .map(Employee::salary)
+    .distinct()
+    .sorted(Comparator.reverseOrder())
+    .skip(1)
+    .findFirst();
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="m-col-1" data-q="arraylist vs linkedlist">
+  <h3><span class="qid">m-col-1</span> ArrayList vs LinkedList</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>ArrayList is numbered seats (jump to #50). LinkedList is a conga line.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Always default ArrayList. LinkedList loses on cache locality; O(1) insert in the middle is a myth unless you already hold the node. Use ArrayDeque if you need a queue.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-col-2" data-q="hashmap vs concurrenthashmap">
+  <h3><span class="qid">m-col-2</span> HashMap vs ConcurrentHashMap</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>HashMap is a notebook for one person. ConcurrentHashMap lets many people write on different pages.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>CHM: no nulls, bin-level concurrency, atomic compute/merge. synchronizedMap is one giant lock — don't use it for caches.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-col-3" data-q="hashset vs treeset">
+  <h3><span class="qid">m-col-3</span> HashSet vs TreeSet</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>HashSet is a bag of unique stickers (no order). TreeSet hangs them on a sorted tree.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>HashSet: O(1) avg, one null, needs hashCode/equals.</li><li>TreeSet: O(log n), sorted, no null (unless comparator allows), needs Comparable/Comparator consistent with equals.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-col-4" data-q="how does concurrenthashmap work?">
+  <h3><span class="qid">m-col-4</span> How does ConcurrentHashMap work?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>It doesn't lock the whole map. It locks (or CASes) one bin at a time.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Reads are usually non-blocking. Writes CAS the bin head; contended bins lock that node.</li><li>size() is an estimate under concurrency. Iterators are weakly consistent — no CME.</li><li>Never iterate and structurally mutate a HashMap from many threads; use CHM.computeIfAbsent for caches.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-mt-1" data-q="what is a deadlock?">
+  <h3><span class="qid">m-mt-1</span> What is a deadlock?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Two people each hold one chopstick and wait for the other forever.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Needs: mutex, hold-and-wait, no preemption, circular wait.</li><li>Detect: jstack / jcmd Thread.print. Prevent: lock order, tryLock timeout, fewer locks.</li><li>DB deadlocks: Postgres aborts one TX — retry that TX.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-mt-2" data-q="synchronized vs lock (reentrantlock)">
+  <h3><span class="qid">m-mt-2</span> synchronized vs Lock (ReentrantLock)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>synchronized is the simple door lock. ReentrantLock is the lock with a timeout and a 'try'.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>synchronized: auto unlock, less code, no tryLock, no fairness knob, one condition (wait/notify).</li><li>Lock: tryLock, lockInterruptibly, multiple Conditions, must unlock in finally.</li><li>Project: we used ReentrantLock.tryLock when a request must fail fast instead of waiting forever.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-mt-3" data-q="runnable vs callable">
+  <h3><span class="qid">m-mt-3</span> Runnable vs Callable</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Runnable is fire-and-forget. Callable returns a result (and can throw).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>ExecutorService.execute(Runnable) vs submit(Callable) → Future. Uncaught exceptions in execute can vanish; submit stores them on the Future — you must get().</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-mt-4" data-q="what is executorservice?">
+  <h3><span class="qid">m-mt-4</span> What is ExecutorService?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A pool of reusable workers plus a queue, instead of new Thread() for every task.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>submit / invokeAll / shutdown vs shutdownNow.</li><li>Size: CPU-bound ≈ cores+1; IO-bound larger or virtual threads. Bounded queue + rejection policy.</li><li>Project: @Async used a named pool, not the default simple executor, so we could see queue depth in metrics.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-mt-5" data-q="completablefuture use cases">
+  <h3><span class="qid">m-mt-5</span> CompletableFuture use cases</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A promise: 'text me when the three downstreams answer.'</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Fan-out: allOf(user, orders, payments) then join — cut 30s sequential calls.</li><li>thenCompose for dependent async; exceptionally for fallback cache.</li><li>Don't join() on a Tomcat thread without timeouts; don't block the common ForkJoinPool with JDBC.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sb-1" data-q="@component vs @service vs @repository">
+  <h3><span class="qid">m-sb-1</span> @Component vs @Service vs @Repository</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>All mean 'this is a Spring bean.' The extra names tell humans and tools the layer.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>@Repository also translates SQL exceptions to DataAccessException. @Service is business. Don't stack all three on one class.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sb-2" data-q="what is dependency injection?">
+  <h3><span class="qid">m-sb-2</span> What is Dependency Injection?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>You don't new the toolbox. Spring hands you the toolbox (constructor).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Constructor injection on a singleton: collaborators are final, easy to test, fail-fast on missing beans. Field @Autowired is harder to test. Project: we inject interfaces (PayClient), never new RestTemplate inside methods.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sb-3" data-q="@bean vs @component">
+  <h3><span class="qid">m-sb-3</span> @Bean vs @Component</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>@Component: Spring finds your class. @Bean: you write a factory method, usually for 3rd-party types you don't own.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>@Configuration + @Bean for RestClient, ObjectMapper, Kafka templates. @Component for your own services. @Bean methods on a plain class are 'lite' — inter-@Bean calls may skip the singleton cache.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sb-4" data-q="how does @transactional work?">
+  <h3><span class="qid">m-sb-4</span> How does @Transactional work?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A receptionist (proxy) starts a DB envelope before your method and stamps commit or rollback after.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Rollback on RuntimeException by default — not checked unless rollbackFor.</li><li>this.foo() skips the proxy. HTTP inside a TX is a smell.</li><li>Project: we never called the payment gateway inside @Transactional; we CAS status then charged.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-ms-1" data-q="synchronous vs asynchronous communication">
+  <h3><span class="qid">m-ms-1</span> Synchronous vs asynchronous communication</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Sync: phone call, wait for answer (REST/gRPC). Async: leave a voicemail (Kafka).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Sync for user-facing request/response. Async when you fan-out, decouple, or the work can finish later (email, indexing). Project: create order = sync DB; 'order created' event = Kafka to notify/search.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-ms-2" data-q="how do you handle service failure?">
+  <h3><span class="qid">m-ms-2</span> How do you handle service failure?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Don't wait forever. Don't retry forever. Don't take the whole system down with one sick friend.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Timeouts, retries with jitter, circuit breaker, bulkhead, fallback cache, 202+queue for non-critical.</li><li>K8s: readiness so traffic stops; liveness for deadlocks — don't mix them.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-ms-3" data-q="retry vs circuit breaker">
+  <h3><span class="qid">m-ms-3</span> Retry vs Circuit Breaker</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Retry: knock again. Circuit breaker: after enough failures, stop knocking so the door can recover.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Retries alone cause retry storms. CB + retry budget + jitter. Retry only idempotent calls (GET, or POST with idempotency key).</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-ms-4" data-q="what is the saga pattern?">
+  <h3><span class="qid">m-ms-4</span> What is the Saga pattern?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A story of local transactions instead of one giant 2PC. If chapter 3 fails, play compensating chapters backwards.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Orchestration: a conductor. Choreography: events. Compensation can still fail → DLQ + reconcile. Project: book inventory → charge → if charge fails, release inventory.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-ms-5" data-q="consistency between services">
+  <h3><span class="qid">m-ms-5</span> Consistency between services</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>You cannot JOIN two service databases. You agree on events and eventually catch up.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Outbox in the same DB TX as the business write, then publish.</li><li>Idempotent consumers. Saga for multi-step. Unique keys for money.</li><li>Don't share a database 'just for a join'.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sql-1" data-q="where vs having">
+  <h3><span class="qid">m-sql-1</span> WHERE vs HAVING</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>WHERE filters rows before grouping. HAVING filters groups after COUNT/SUM.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+-- employees in IT with salary > 50k
+SELECT dept, COUNT(*) FROM emp WHERE salary > 50000 GROUP BY dept HAVING COUNT(*) >= 2;
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sql-2" data-q="find the second-highest salary (sql)">
+  <h3><span class="qid">m-sql-2</span> Find the second-highest salary (SQL)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Highest of those who are not the highest.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+SELECT MAX(salary) FROM employee
+WHERE salary < (SELECT MAX(salary) FROM employee);
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sql-3" data-q="inner join vs left join">
+  <h3><span class="qid">m-sql-3</span> INNER JOIN vs LEFT JOIN</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>INNER: only matching pairs. LEFT: keep every row from the left even if the right is empty (NULLs).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Students with no courses: LEFT JOIN enrollment. Paying customers only: INNER JOIN payments.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sql-4" data-q="how do indexes improve performance?">
+  <h3><span class="qid">m-sql-4</span> How do indexes improve performance?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A book index: jump to the page instead of reading every page.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>B-tree on WHERE/JOIN/ORDER BY columns. Leftmost prefix of a composite index. They slow writes. Low-selectivity columns (boolean) rarely help.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-sql-5" data-q="how do you troubleshoot a slow query?">
+  <h3><span class="qid">m-sql-5</span> How do you troubleshoot a slow query?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Ask the database for its plan, don't guess.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>EXPLAIN ANALYZE, slow query log, look for seq scan on large tables, missing stats, N+1 from ORM.</li><li>Check locks (wait events), bloated tables, huge OFFSET pagination.</li><li>Project: a 50ms API became 10s after data growth — missing index on (customer_id, created_at).</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-jpa-1" data-q="lazy vs eager loading">
+  <h3><span class="qid">m-jpa-1</span> LAZY vs EAGER loading</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>LAZY: fetch the toys when the kid asks. EAGER: dump the whole toy box every time.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Collections default LAZY. EAGER on a hot API = accidental cartesian joins. After TX closes, lazy access → LazyInitializationException. Fix with fetch join / DTO query, not Open-Session-in-View as a crutch.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-jpa-2" data-q="what is the n+1 problem?">
+  <h3><span class="qid">m-jpa-2</span> What is the N+1 problem?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>1 query for 100 orders + 100 queries for each customer = 101 trips.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Spot with show_sql / p6spy. Symptom: API time grows linearly with page size.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-jpa-3" data-q="how do you resolve n+1?">
+  <h3><span class="qid">m-jpa-3</span> How do you resolve N+1?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Ask for orders-and-customers in one (or a few) queries.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>JOIN FETCH / @EntityGraph / DTO JPQL constructor.</li><li>@BatchSize as a bandage. Don't EAGER everything.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-jpa-4" data-q="save() vs saveandflush()">
+  <h3><span class="qid">m-jpa-4</span> save() vs saveAndFlush()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>save: schedule SQL for later (until TX commit or flush). saveAndFlush: send SQL to the DB right now.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>flush() still stays in the same transaction — rollback still undoes it.</li><li>Need generated ids, unique-constraint errors, or native queries to see your writes in-TX → flush.</li><li>saveAndFlush in a loop is a performance foot-gun (extra round trips).</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-jpa-5" data-q="what is join fetch?">
+  <h3><span class="qid">m-jpa-5</span> What is JOIN FETCH?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A JPQL join that also fills the association in memory, so you don't lazy-load later.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+@Query("SELECT o FROM Order o JOIN FETCH o.lines WHERE o.id = :id")
+Optional<Order> findWithLines(Long id);
+</div>
+  <pre class="code"><code>Watch DISTINCT on collections (cartesian product). One root + bags can duplicate roots.</code></pre>
+  
+</article>
+
+
+<article class="card" id="m-kf-1" data-q="what is a kafka partition?">
+  <h3><span class="qid">m-kf-1</span> What is a Kafka partition?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A topic is a book. A partition is one ordered chapter/log. Order is guaranteed only inside a partition.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Key (customerId) hashes to a partition. More partitions = more consumer parallelism. Hot key = hot partition.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-kf-2" data-q="what is a consumer group?">
+  <h3><span class="qid">m-kf-2</span> What is a consumer group?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A team sharing the work. Each partition is assigned to only one member of that group.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Same groupId = compete. Different groupId = each app gets a full copy (broadcast).</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-kf-3" data-q="consumer crashes before committing an offset?">
+  <h3><span class="qid">m-kf-3</span> Consumer crashes before committing an offset?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The bookmark wasn't saved. On restart the group re-reads from the last committed offset → at-least-once → possible duplicates.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>That's why consumers must be idempotent (unique event id). enable.auto.commit=false and commit after DB upsert is the usual Spring pattern.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-kf-4" data-q="what is a dead letter topic?">
+  <h3><span class="qid">m-kf-4</span> What is a Dead Letter Topic?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The junk drawer for poison messages so one bad XML doesn't block the whole partition forever.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Retry with backoff, then publish to DLT + alert. Process DLT later. Don't swallow the error and commit — you'll lose the message.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-kf-5" data-q="how do you make kafka consumers idempotent?">
+  <h3><span class="qid">m-kf-5</span> How do you make Kafka consumers idempotent?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Treat each event as 'insert this id once'. The second delivery is a no-op.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>UNIQUE(event_id) or upsert. Commit offset after the write succeeds.</li><li>Producer idempotence (enable.idempotence) stops producer retries from duplicating to Kafka — it does not stop consumer reprocessing.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-rest-1" data-q="put vs patch">
+  <h3><span class="qid">m-rest-1</span> PUT vs PATCH</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>PUT replaces the whole document (missing fields often become null). PATCH is a partial update.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>PUT should be idempotent. PATCH may or may not be. Don't use POST for updates unless you have a reason.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-rest-2" data-q="common http status codes">
+  <h3><span class="qid">m-rest-2</span> Common HTTP status codes</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>2xx success, 4xx you (client) messed up, 5xx we (server) messed up.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>200 OK, 201 Created, 202 Accepted (async), 204 No Content.</li><li>400 validation, 401 no/invalid token, 403 authenticated but forbidden, 404, 409 conflict (duplicate order), 422, 429 rate limit.</li><li>500 unexpected, 502/503/504 gateway/timeouts. Don't return 200 with error JSON.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-rest-3" data-q="what is idempotency?">
+  <h3><span class="qid">m-rest-3</span> What is idempotency?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Doing the same request 1 time or 5 times leaves the same result (one charge, one order).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>GET/PUT/DELETE should be. POST needs an Idempotency-Key + unique constraint. Critical for payments and client retries.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-rest-4" data-q="how do you secure rest apis?">
+  <h3><span class="qid">m-rest-4</span> How do you secure REST APIs?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>HTTPS, who are you (JWT/OAuth2), what may you do (roles), don't trust the body.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Gateway as resource server, short-lived access tokens, mTLS inside the mesh.</li><li>Validate input, rate limit, no secrets in logs, CORS only for browsers.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-rest-5" data-q="how do you handle api versioning?">
+  <h3><span class="qid">m-rest-5</span> How do you handle API versioning?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Never break old mobile apps on day one. Give them a runway.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>URI: /api/v1/orders (simplest, most common).</li><li>Header: Accept: application/vnd.company.v2+json.</li><li>Additive changes (new optional field) don't need a version. Deprecate v1 with a date; run two versions at the gateway.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="m-tip" data-q="3–5 yoe interview tip">
+  <h3><span class="qid">m-tip</span> 3–5 YOE interview tip</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Definitions get you to the follow-up. Stories get you the offer.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>For every bullet above, add: a production symptom, what you measured, and what you changed. Example: 'N+1 showed 101 queries in logs after we added order.lines; JOIN FETCH dropped p95 from 800ms to 60ms.'</p></div>
+  
+  
+</article>
+
+</section>
+
+<section id="core-java">
+  <h2>Core Java</h2>
+  <p class="blurb">Language, OOP, collections, strings, generics</p>
+  
+<article class="card" id="cj-1" data-q="hashmap internals and how collisions are handled (java 8+ treeification)">
+  <h3><span class="qid">cj-1</span> HashMap internals and how collisions are handled (Java 8+ treeification)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Imagine a wall of lockers. You hash a key to pick a locker. If two keys pick the same locker, you hang them on a chain. If the chain gets long, you turn it into a balanced tree so search stays fast.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>A HashMap stores key-value pairs in an array of buckets. Index is roughly <code>(n - 1) &amp; hash</code>. Collisions originally used a linked list. From Java 8, if a bin has ≥ 8 nodes and the table is large enough (capacity ≥ 64), it treeifies into a red-black tree (O(log n) instead of O(n)). Resize doubles capacity when size &gt; loadFactor × capacity (default 0.75). Tree bins untreeify on shrink.</p><p>Interview talking point: equal objects must have equal hashCodes. Mutating a key after insert breaks the map.</p></div>
+  <pre class="code"><code>record User(String id, String name) {}
+
+Map&lt;String, User&gt; users = new HashMap&lt;&gt;();
+users.put(&quot;u1&quot;, new User(&quot;u1&quot;, &quot;Asha&quot;));
+User found = users.get(&quot;u1&quot;); // O(1) average</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-2" data-q="hashmap vs concurrenthashmap vs hashtable vs collections.synchronizedmap">
+  <h3><span class="qid">cj-2</span> HashMap vs ConcurrentHashMap vs Hashtable vs Collections.synchronizedMap</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>HashMap is a fast notebook only one person should write in. Hashtable locks the whole notebook for every scribble. ConcurrentHashMap lets many people write in different pages at once.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><strong>HashMap</strong>: not thread-safe, 1 null key, fastest, can infinite-loop / corrupt on concurrent resize (legacy) or lose updates.</li><li><strong>Hashtable</strong>: synchronized methods, no nulls, coarse lock, legacy — do not use in new code.</li><li><strong>synchronizedMap</strong>: wraps a map with one lock on every operation; still not safe for compound actions (check-then-act) unless you lock on the map yourself.</li><li><strong>ConcurrentHashMap</strong>: segment/bin-level concurrency, no nulls, weakly consistent iterators, atomic compute/merge. Use this for shared caches/counters.</li></ul></div>
+  <pre class="code"><code>ConcurrentHashMap&lt;String, Integer&gt; hits = new ConcurrentHashMap&lt;&gt;();
+hits.merge(userId, 1, Integer::sum); // atomic increment</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-3" data-q="equals() and hashcode() contract — break it and watch set/map lie">
+  <h3><span class="qid">cj-3</span> equals() and hashCode() contract — break it and watch Set/Map lie</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The locker number (hashCode) must match the identity check (equals). If two things are 'equal' but have different locker numbers, the map will never find the second one.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Contract: if a.equals(b) then a.hashCode()==b.hashCode(). If you override one, override both. Use the same fields. Never use mutable fields as map keys.</p><p>Broken contract → HashSet 'duplicates', HashMap get returns null even though you put the object.</p></div>
+  <pre class="code"><code>record Money(String currency, BigDecimal amount) {} // records generate both correctly
+
+class BadId {
+  int id;
+  @Override public boolean equals(Object o) { return o instanceof BadId b &amp;&amp; b.id == id; }
+  // forgot hashCode → HashSet can store two &quot;equal&quot; BadIds
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-4" data-q="why is string immutable? why is the class final? string pool and intern()">
+  <h3><span class="qid">cj-4</span> Why is String immutable? Why is the class final? String pool and intern()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A String is a sealed envelope. Nobody can rewrite the letters inside. That's why many people can share the same envelope (the string pool) safely.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Thread-safe sharing without locks.</li><li>String pool / intern: literals live in the pool; intern() reuses the pooled instance.</li><li>Security: class names, URLs, keys cannot be mutated under you.</li><li>hashCode is cached.</li><li>final class: subclasses cannot break pooling or equals.</li><li><code>==</code> is reference; always use <code>equals</code> for content.</li><li><code>new String("abc") == "abc"</code> is false (heap vs pool).</li></ul></div>
+  <pre class="code"><code>String s1 = new String(&quot;Java&quot;);
+String s2 = s1.intern();
+String s3 = &quot;Java&quot;;
+System.out.println(s2 == s3); // true
+System.out.println(s1 == s2); // false</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-5" data-q="+ vs stringbuilder vs stringbuffer; substring leak; split on . and |">
+  <h3><span class="qid">cj-5</span> + vs StringBuilder vs StringBuffer; substring leak; split on . and |</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Gluing strings in a loop is like photocopying a whole book every time you add one word. Use a notebook (StringBuilder) instead.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>One expression with + is compiled to StringBuilder.</li><li>In loops, + is O(n²). Use StringBuilder / StringJoiner / Collectors.joining().</li><li>StringBuffer = synchronized StringBuilder (rarely needed).</li><li>Pre-Java 7u6 substring shared the backing array (memory leak). Modern JDKs copy.</li><li>split(".") and split("|") are regex — escape or Pattern.quote.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-6" data-q="final vs finally vs finalize(); static; initialization order">
+  <h3><span class="qid">cj-6</span> final vs finally vs finalize(); static; initialization order</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>final = cannot change. finally = always run the cleanup. finalize = old GC goodbye letter that Java no longer recommends.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>static: one copy per class; static blocks run when the class loads.</li><li>Order: parent static → child static → parent instance fields/blocks → parent ctor → child instance → child ctor.</li><li>finalize() is deprecated; use try-with-resources / Cleaner.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-7" data-q="overloading vs overriding; can you override static / constructors?">
+  <h3><span class="qid">cj-7</span> Overloading vs overriding; can you override static / constructors?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Overloading is the same name with different ingredients (compile time). Overriding is a child rewriting a parent's recipe (runtime).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Static methods are hidden, not overridden. <code>A x = new B(); x.staticF()</code> calls A's.</li><li>Constructors are not inherited, so they cannot be overridden (they can be overloaded).</li><li>Cannot override final/private methods.</li><li>Covariant returns are allowed on overrides.</li><li>@Override always — compiler catches typos.</li></ul></div>
+  <pre class="code"><code>class A { static void f() { System.out.println(&quot;A&quot;); } }
+class B extends A { static void f() { System.out.println(&quot;B&quot;); } }
+A x = new B();
+x.f(); // prints A — static dispatch by reference type</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-8" data-q="what happens if you pass null to string vs object overloads? 5 to int vs integer?">
+  <h3><span class="qid">cj-8</span> What happens if you pass null to String vs Object overloads? 5 to int vs Integer?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Java picks the most specific match. String is more specific than Object, so null prefers String. For 5, the primitive int overload wins over Integer (no boxing needed).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>f(null) with f(Object) and f(String) → f(String). If you also have f(Integer), it becomes ambiguous.</li><li>f(5) with f(int) and f(Integer) → f(int).</li><li>Integer cache is −128..127; <code>Integer a=128,b=128; a==b</code> is false.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-9" data-q="checked vs unchecked; try-with-resources; throw vs throws">
+  <h3><span class="qid">cj-9</span> Checked vs unchecked; try-with-resources; throw vs throws</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Checked exceptions are the compiler tapping your shoulder: handle this. Unchecked are programming bugs. try-with-resources is auto-closing the fridge so milk doesn't spoil.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Checked (IOException): recoverable, declared. Unchecked (RuntimeException): bugs.</li><li>Use checked sparingly (truly recoverable). Prefer domain RuntimeExceptions at service boundaries.</li><li>try-with-resources closes AutoCloseables LIFO; suppressed exceptions via getSuppressed().</li><li>throw raises; throws declares.</li><li>If try and finally both throw, finally's exception wins (unless TWR).</li><li>returning from finally swallows the try return — never do that.</li></ul></div>
+  <pre class="code"><code>try (var in = Files.newBufferedReader(path);
+     var out = Files.newBufferedWriter(dest)) {
+    in.transferTo(out);
+} // both closed even if transfer fails</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-10" data-q="serialization, transient, marker interfaces, serialversionuid">
+  <h3><span class="qid">cj-10</span> Serialization, transient, marker interfaces, serialVersionUID</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Serialization is packing a toy into a box of bytes so it can travel. transient means 'don't put this piece in the box' (passwords, images, caches).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Serializable is a marker interface (no methods).</li><li>serialVersionUID: sender and receiver class versions must match or InvalidClassException.</li><li>Prefer JSON/Protobuf in APIs. Java serialization is fragile and a security risk if you deserialize untrusted bytes.</li><li>DTO without Serializable: Java built-in serialization won't apply; JSON mappers (Jackson) do not need Serializable.</li></ul></div>
+  <pre class="code"><code>public class UserDto implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private String name;
+    private transient byte[] profileImage; // skip in Java serialization
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="cj-11" data-q="arraylist vs linkedlist; collection vs list vs set vs map; hashset vs linkedhashset">
+  <h3><span class="qid">cj-11</span> ArrayList vs LinkedList; Collection vs List vs Set vs Map; HashSet vs LinkedHashSet</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>ArrayList is a numbered row of seats (jump to seat 50 instantly). LinkedList is a conga line (to seat 50 you tap 49 people).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>ArrayList: O(1) get, bad middle insert, great cache locality — default list.</li><li>LinkedList: almost never faster in real JVM due to pointer chasing. Use for rare deque cases or Deque API.</li><li>Collection: bag of things. List: ordered, duplicates. Set: unique. Map: key→value (not a Collection).</li><li>HashSet: unique, no order. LinkedHashSet: unique + insertion order. TreeSet: sorted.</li><li>Need unique elements in a large dataset: HashSet (or ConcurrentHashMap.newKeySet() if concurrent).</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-12" data-q="fail-fast vs fail-safe; concurrentmodificationexception">
+  <h3><span class="qid">cj-12</span> Fail-fast vs fail-safe; ConcurrentModificationException</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Fail-fast iterators panic if someone rearranges the room while they're counting. Fail-safe iterators look at a photocopy.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>CME happens when a fail-fast collection (ArrayList, HashMap) is structurally modified while iterating (enhanced-for or iterator), including another thread. Use iterator.remove(), CopyOnWriteArrayList, or ConcurrentHashMap.</p><p>forEach on HashMap: you iterate entries; you cannot forEach the map as if it were a List of keys without entrySet/keySet/values.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-13" data-q="comparable vs comparator; treemap">
+  <h3><span class="qid">cj-13</span> Comparable vs Comparator; TreeMap</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Comparable is the object's own ranking ('I am taller'). Comparator is an external referee ('sort by salary').</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>compareTo should be consistent with equals for SortedSet/Map. TreeMap is a red-black tree, O(log n), no null keys unless comparator allows.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-14" data-q="anonymous classes vs lambdas; default and static methods on interfaces; abstract class vs interface after java 8">
+  <h3><span class="qid">cj-14</span> Anonymous classes vs lambdas; default and static methods on interfaces; abstract class vs interface after Java 8</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A lambda is a tiny unnamed function. An anonymous class can still have fields and multiple methods. After Java 8, interfaces can bring default methods — but they still don't hold instance state like abstract classes.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Abstract class: state, constructors, non-public methods, single inheritance.</li><li>Interface: multiple inheritance of type, default/static/private methods, no instance fields (only constants).</li><li>Default methods were added so libraries (List.sort) could evolve without breaking every implementor.</li><li>Static methods on interfaces are namespaced utilities (Comparator.comparing).</li><li>Lambdas capture effectively-final locals; they aren't subclasses and can't implement two SAM methods.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-15" data-q="strong vs weak vs soft vs phantom references">
+  <h3><span class="qid">cj-15</span> Strong vs weak vs soft vs phantom references</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A strong reference is a hand holding a balloon — GC won't take it. A weak reference is a string tied loosely — GC can pop it when it wants.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>WeakHashMap keys can disappear when no strong refs remain — useful for canonical mappings. Soft refs are for caches that should survive until memory is tight. Phantom refs are for cleanup after finalization. Prefer explicit cache eviction over relying on GC.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-quiz" data-q="classic java traps interviewers love">
+  <h3><span class="qid">cj-quiz</span> Classic Java traps interviewers love</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>These are 15-second landmines. Memorize the punchline.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><code>10 + 20 + "30" + 40 + 50</code> → <code>30304050</code> (add until the first string, then concatenate).</li><li><code>Integer a=128, b=128; a==b</code> → false (cache is −128..127).</li><li><code>f(null)</code> with Object/String overloads → String (most specific).</li><li>Static methods: <code>A x = new B(); x.f()</code> prints A's.</li><li><code>try { return 1; } finally { return 2; }</code> returns 2 — never do this.</li><li><code>Optional.of(null)</code> NPE; use ofNullable.</li><li>Enhanced-for + list.remove → ConcurrentModificationException; use iterator.remove().</li><li><code>Number[] arr = new Integer[1]; arr[0]=1.5</code> → ArrayStoreException.</li><li><code>new BigDecimal(0.1)</code> is not 0.1; use <code>new BigDecimal("0.1")</code>.</li><li>switch(String) is case-sensitive; null NPE.</li><li>Collectors.toMap duplicate keys → IllegalStateException unless merge function.</li><li>HashSet allows one null; TreeSet does not (by default).</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cj-16" data-q="why list&amp;lt;int&amp;gt; is illegal; covariant arrays vs invariant generics">
+  <h3><span class="qid">cj-16</span> Why List&amp;lt;int&amp;gt; is illegal; covariant arrays vs invariant generics</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Generics need objects (boxes), not raw ints. Arrays are sneaky: a Number[] variable can point at Integer[] and then blow up when you store a Double.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>List&lt;Integer&gt; is not a List&lt;Number&gt; (invariance). Arrays are covariant and fail at runtime with ArrayStoreException. Prefer lists for type safety.</p></div>
+  
+  
+</article>
+
+</section>
+
+<section id="java8">
+  <h2>Java 8+ / Streams</h2>
+  <p class="blurb">Lambdas, Optional, records, virtual threads</p>
+  
+<article class="card" id="j8-1" data-q="optional — practical usage (of vs ofnullable vs empty)">
+  <h3><span class="qid">j8-1</span> Optional — practical usage (of vs ofNullable vs empty)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Optional is a box that may hold a gift or be empty — so you stop poking null and getting NPE surprises.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Optional.of(x) NPE if x is null. ofNullable allows empty. empty() is explicit empty.</li><li>Use as return types, not fields/parameters. Don't Optional.ofNullable(x).get() blindly.</li><li>orElse vs orElseGet: orElse always evaluates the default (costly). orElseGet is lazy.</li><li>orElseThrow for required values. map/flatMap for pipelines.</li></ul></div>
+  <pre class="code"><code>Optional&lt;User&gt; user = repo.findById(id);
+String name = user.map(User::name).orElse(&quot;unknown&quot;);</code></pre>
+  
+</article>
+
+
+<article class="card" id="j8-2" data-q="streams vs loops; map vs flatmap; parallel streams when they hurt">
+  <h3><span class="qid">j8-2</span> Streams vs loops; map vs flatMap; parallel streams when they hurt</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A stream is a conveyor belt: filter, map, collect. Parallel streams split the belt across CPU cores — great for CPU-heavy in-memory work, terrible for DB/HTTP or tiny lists.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Intermediate ops are lazy; terminal ops pull data.</li><li>map: 1→1. flatMap: 1→many then flatten.</li><li>Don't mutate shared state inside lambdas.</li><li>Parallel: common ForkJoinPool, order not guaranteed unless forEachOrdered, high overhead, can starve the same pool used by other parallel work.</li></ul></div>
+  <pre class="code"><code>List&lt;Integer&gt; nums = List.of(4, 1, 3, 2, 3, 4);
+List&lt;Integer&gt; result = nums.stream()
+    .distinct()
+    .sorted(Comparator.reverseOrder())
+    .sorted(Comparator.comparingInt((Integer n) -&gt; n % 2 == 0 ? 1 : 0)
+        .thenComparing(Comparator.reverseOrder()))
+    .toList();
+// distinct + reverse, odds first then evens (stable-ish via comparator)</code></pre>
+  
+</article>
+
+
+<article class="card" id="j8-3" data-q="find duplicates / group occurrences / sort map by value / employees by name then dept">
+  <h3><span class="qid">j8-3</span> Find duplicates / group occurrences / sort map by value / employees by name then dept</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Streams shine when you say what you want: group, count, sort — not how to loop.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Keep a LinkedHashMap when order of first appearance matters. groupingBy + counting finds duplicates. Employee sort is thenComparing.</p></div>
+  <pre class="code"><code>List&lt;String&gt; words = List.of(&quot;a&quot;, &quot;b&quot;, &quot;a&quot;, &quot;c&quot;, &quot;b&quot;);
+Set&lt;String&gt; dupes = words.stream()
+    .collect(Collectors.groupingBy(w -&gt; w, Collectors.counting()))
+    .entrySet().stream()
+    .filter(e -&gt; e.getValue() &gt; 1)
+    .map(Map.Entry::getKey)
+    .collect(Collectors.toSet());
+
+Map&lt;String, Long&gt; counts = words.stream()
+    .collect(Collectors.groupingBy(w -&gt; w, Collectors.counting()));
+// groupingBy returns Map (default HashMap). Assign to Map, not HashMap,
+// if you might switch to LinkedHashMap via groupingBy(fn, LinkedHashMap::new, downstream).
+
+Map&lt;String, Integer&gt; scores = Map.of(&quot;Ann&quot;, 3, &quot;Bob&quot;, 10);
+List&lt;Map.Entry&lt;String, Integer&gt;&gt; byValue = scores.entrySet().stream()
+    .sorted(Map.Entry.comparingByValue())
+    .toList();
+
+record Employee(String name, String dept) {}
+List&lt;Employee&gt; sorted = employees.stream()
+    .sorted(Comparator.comparing(Employee::name).thenComparing(Employee::dept))
+    .toList();</code></pre>
+  
+</article>
+
+
+<article class="card" id="j8-4" data-q="groupingby return type; why assigning to hashmap can fail; foreach on maps">
+  <h3><span class="qid">j8-4</span> groupingBy return type; why assigning to HashMap can fail; forEach on maps</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>groupingBy promises a Map, not a HashMap. Sometimes it is HashMap, but the compiler only knows Map — and you might want LinkedHashMap for insertion order.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Collectors.groupingBy(classifier) return type is Map&lt;K, List&lt;T&gt;&gt;. If you need encounter order, use groupingBy(fn, LinkedHashMap::new, Collectors.toList()).</p><p>Map has forEach((k,v)-&gt;...) since Java 8. You cannot call a List-style forEach on HashMap without entrySet.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="j8-5" data-q="completablefuture: thencompose, allof, exceptionally — and why it can still block">
+  <h3><span class="qid">j8-5</span> CompletableFuture: thenCompose, allOf, exceptionally — and why it can still block</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>CompletableFuture is a promise: 'I'll text you when the pizza is ready.' thenCompose is flattening nested promises. allOf waits for the whole party. exceptionally is the backup pizza.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>thenApply maps a value. thenCompose flatMaps another CF (avoid CF&lt;CF&lt;T&gt;&gt;).</li><li>allOf(cf1,cf2,cf3).join() then join each for results.</li><li>exceptionally / handle recover. whenComplete for logging.</li><li>It still blocks if you call get()/join() on the request thread, use a tiny pool, or run blocking JDBC inside supplyAsync on ForkJoinPool.commonPool().</li></ul></div>
+  <pre class="code"><code>CompletableFuture&lt;User&gt; user = supplyAsync(() -&gt; userClient.get(id), ioPool);
+CompletableFuture&lt;Orders&gt; orders = user.thenCompose(u -&gt;
+    supplyAsync(() -&gt; orderClient.forUser(u.id()), ioPool));
+CompletableFuture&lt;Void&gt; both = CompletableFuture.allOf(user, orders);
+both.exceptionally(ex -&gt; { log.error(&quot;fan-out failed&quot;, ex); return null; }).join();</code></pre>
+  
+</article>
+
+
+<article class="card" id="j8-6" data-q="records, sealed classes, pattern matching (java 17+)">
+  <h3><span class="qid">j8-6</span> Records, sealed classes, pattern matching (Java 17+)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A record is a ready-made data bag (fields, equals, toString). A sealed class is a parent that names its allowed children — like a closed family tree.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+public sealed interface Payment permits CardPayment, UpiPayment {}
+public record CardPayment(String last4, long paise) implements Payment {}
+public record UpiPayment(String vpa, long paise) implements Payment {}
+
+static String describe(Payment p) {
+    return switch (p) {
+        case CardPayment c -> "card **" + c.last4();
+        case UpiPayment u -> "upi " + u.vpa();
+    };
+}
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="j8-7" data-q="virtual threads (java 21) vs platform thread pools">
+  <h3><span class="qid">j8-7</span> Virtual threads (Java 21) vs platform thread pools</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Old threads are expensive office rooms. Virtual threads are cheap folding chairs — you can have millions waiting on IO without 1:1 OS threads.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Use virtual threads for lots of blocking IO (JDBC, HTTP). Don't pin them with long synchronized blocks or native calls. Thread-pool sizing for CPU-bound work still matters. Spring Boot 3.2+ can use virtual threads on Tomcat.</p><p>They change design: fewer reactive acrobatics for IO-bound services; still isolate blocking vs CPU.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="j8-8" data-q="java 8, 11, 17, 21 features you actually shipped">
+  <h3><span class="qid">j8-8</span> Java 8, 11, 17, 21 features you actually shipped</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Interviewers want 3–4 you used in production, not a Wikipedia list.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>8: streams, Optional, java.time, default methods.</li><li>11: HTTP Client, var in lambdas, String isBlank/strip, running single-file source.</li><li>17: LTS, sealed, records, pattern matching for instanceof, stronger encapsulation.</li><li>21: LTS, virtual threads, sequenced collections, record patterns, sequenced maps.</li></ul></div>
+  
+  
+</article>
+
+</section>
+
+<section id="concurrency">
+  <h2>Concurrency &amp; JVM</h2>
+  <p class="blurb">Threads, JMM, GC, performance</p>
+  
+<article class="card" id="cc-1" data-q="locking in java: synchronized vs reentrantlock vs readwritelock; wait/notify">
+  <h3><span class="qid">cc-1</span> Locking in Java: synchronized vs ReentrantLock vs ReadWriteLock; wait/notify</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A lock is a bathroom key. synchronized is a simple lock on the door. ReentrantLock is a fancy key with a timeout and a 'try'. wait() is sitting inside until someone notify()s you — you must already hold the key.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>wait/notify/notifyAll must be called while holding the monitor. wait releases the lock; notify wakes one waiter; notifyAll wakes all (they still re-compete for the lock). Prefer BlockingQueue over raw wait/notify.</li><li>ReentrantLock: tryLock, lockInterruptibly, fairness, multiple Conditions.</li><li>ReadWriteLock: many readers OR one writer. Helps read-heavy caches; writers can starve if you aren't careful.</li></ul></div>
+  <pre class="code"><code>ReentrantLock lock = new ReentrantLock();
+if (lock.tryLock(50, TimeUnit.MILLISECONDS)) {
+    try { /* critical */ } finally { lock.unlock(); }
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="cc-2" data-q="java memory model: happens-before, volatile, atomics">
+  <h3><span class="qid">cc-2</span> Java Memory Model: happens-before, volatile, atomics</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Without rules, CPU cores keep sticky notes (caches) and may not see each other's writes. volatile is a megaphone: 'this write is visible now.' AtomicInteger is a safe counter clicker.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>happens-before: unlock→lock, volatile write→read, thread start/join, constructor finish→final field publication.</li><li>volatile: visibility + ordering, NOT atomic ++.</li><li>Atomic* use CAS. For check-then-act, use compareAndSet or locks.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-3" data-q="race conditions, duplicate payments, many threads updating one record">
+  <h3><span class="qid">cc-3</span> Race conditions, duplicate payments, many threads updating one record</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A race is two cashiers reading 'unpaid' at the same time and both charging the card.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Identify with logs, breakpoints, or by reproducing with parallel tests.</li><li>Fix: DB unique constraint on idempotency key, UPDATE ... WHERE status='NEW', optimistic @Version, or pessimistic lock.</li><li>Don't rely on HashMap flags in a single JVM if you have multiple pods.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-4" data-q="thousands of threads / cpu spike / thread-pool exhaustion / 10k concurrent requests">
+  <h3><span class="qid">cc-4</span> Thousands of threads / CPU spike / thread-pool exhaustion / 10k concurrent requests</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Threads aren't free. Creating thousands is like hiring 10,000 waiters for 20 tables — they spend all day bumping into each other.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Use bounded ExecutorService. Size: CPU-bound ≈ cores+1; IO-bound can be larger or use virtual threads.</li><li>Rejection policies: Abort (throw), CallerRuns (backpressure), Discard, DiscardOldest.</li><li>Pool exhausted → tasks queue or reject; latency explodes; Tomcat request threads block.</li><li>10k concurrent: load balancer + many instances, virtual threads or reactive, connection pool limits, timeouts, queue bounds.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-5" data-q="runnable vs callable; executorservice sizing; exception inside a task">
+  <h3><span class="qid">cc-5</span> Runnable vs Callable; ExecutorService sizing; exception inside a task</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Runnable is fire-and-forget (void). Callable returns a value and can throw a checked exception wrapped in the Future.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Uncaught exceptions in execute(Runnable) go to the thread's UncaughtExceptionHandler (often swallowed). submit() stores them on the Future — you must get() or they vanish. Use afterExecute in ThreadPoolExecutor or CF exceptionally.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-6" data-q="deadlock detection; countdownlatch vs cyclicbarrier; producer-consumer">
+  <h3><span class="qid">cc-6</span> Deadlock detection; CountDownLatch vs CyclicBarrier; producer-consumer</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Deadlock is four people each holding one chopstick and waiting forever. Latch is 'wait until 5 chefs finish.' Barrier is 'everyone meet at the door, then go together' and can be reused.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Detect: jstack / jcmd Thread.print / Flight Recorder — 'Found one Java-level deadlock'.</li><li>Prevent: lock ordering, tryLock timeouts, fewer nested locks.</li><li>Producer-consumer: BlockingQueue (ArrayBlockingQueue) with put/take — backpressure built in.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-7" data-q="threadlocal use and leaks; why &#x27;static&#x27; does not freeze a variable across threads">
+  <h3><span class="qid">cc-7</span> ThreadLocal use and leaks; why &#x27;static&#x27; does not freeze a variable across threads</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>ThreadLocal is a coat pocket each thread has. Static is one shared whiteboard. Static does NOT make a field thread-safe or unchanged — that's a common mix-up. Use final for 'won't rebind', volatile/locks for visibility.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Typical uses: MDC request id, transaction context, date formatters. In Tomcat/thread pools always remove() in a finally/filter or you leak classloaders and previous-request data.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-8" data-q="how to make an api thread-safe; concurrenthashmap vs hashmap problems">
+  <h3><span class="qid">cc-8</span> How to make an API thread-safe; ConcurrentHashMap vs HashMap problems</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Thread-safety is 'two requests cannot corrupt shared mutable state.' Prefer immutability and no shared mutability. If you share: ConcurrentHashMap, synchronized, or confine to one thread.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Concurrent HashMap get/put from many threads: lost updates, CME, in old JDKs infinite loops during resize, size() lies. Fix: ConcurrentHashMap or don't share.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-9" data-q="heap vs stack vs metaspace; gc algorithms; latency spikes; long gc pauses">
+  <h3><span class="qid">cc-9</span> Heap vs stack vs metaspace; GC algorithms; latency spikes; long GC pauses</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Stack is each thread's scratchpad. Heap is the shared warehouse GC cleans. Metaspace is class metadata.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Young gen: Eden + survivors, minor GC. Old gen: tenured, mixed/full GC.</li><li>Serial/Parallel (throughput), G1 (default, balanced), ZGC/Shenandoah (ultra-low pause).</li><li>Spikes: stop-the-world pauses, allocation storms, huge objects, GC thrashing, safepoints.</li><li>Investigate: -Xlog:gc*, JFR, heap dump, allocation flame graphs. Tune region size / pause goals; fix allocation first.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-10" data-q="memory leak / oom even with gc; diagnose allocation; why arraylist can hurt at scale">
+  <h3><span class="qid">cc-10</span> Memory leak / OOM even with GC; diagnose allocation; why ArrayList can hurt at scale</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>GC only collects garbage. If you still hold a reference (static Map, unbounded cache), it's not garbage.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Heap dump → Eclipse MAT / VisualVM dominator tree. Look for caches, listeners, ThreadLocal, interned strings, byte[].</li><li>OOM: heap too small, leak, metaspace (classloader leak), native/direct buffers, GC overhead limit.</li><li>ArrayList: contiguous array; huge lists waste RAM and copy on grow; boxing Integer lists is 4×+ overhead vs int[].</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-11" data-q="jvm lifecycle and class loading; noclassdeffounderror vs classnotfoundexception">
+  <h3><span class="qid">cc-11</span> JVM lifecycle and class loading; NoClassDefFoundError vs ClassNotFoundException</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>JVM starts, loads classes on demand, verifies bytecode, JIT compiles hot methods, GC runs, then shutdown hooks.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Bootstrap → Platform → App classloader (parent first).</li><li>ClassNotFoundException: loadClass failed when you asked (Class.forName).</li><li>NoClassDefFoundError: class was there at compile but failed init or missing at runtime (often static block threw, or fat-jar shade missed a dep).</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-12" data-q="why app is slow with low cpu; 10-minute production debug playbook; 90% memory first checks">
+  <h3><span class="qid">cc-12</span> Why app is slow with low CPU; 10-minute production debug playbook; 90% memory first checks</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Low CPU + slow often means waiting: DB, locks, DNS, network, thread-pool queue, GC rare but long, disk.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>10 minutes: dashboards (latency/error/saturation) → recent deploy → thread dump ×3 → GC log → slow-query log → trace one request.</li><li>90% memory: heap vs RSS, cache sizes, dump if rising steadily, check direct memory.</li><li>CompletableFuture can block request threads; parallel streams on IO; sync HTTP in a loop.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="cc-13" data-q="how spring achieves concurrency; how to raise java cpu/memory">
+  <h3><span class="qid">cc-13</span> How Spring achieves concurrency; how to raise Java CPU/memory</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Spring doesn't magically parallelize your service method. Tomcat has a request thread pool; @Async uses another pool; WebFlux uses event loops. You must size pools and not share mutable beans unsafely (singleton beans must be thread-safe).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Memory: -Xms/-Xmx, container-aware (UseContainerSupport). CPU: K8s limits, GC threads, keep-alive. In K8s set resources.requests/limits and JVM -XX:MaxRAMPercentage=75.</p></div>
+  
+  
+</article>
+
+</section>
+
+<section id="locks">
+  <h2>Locks &amp; Distributed Concurrency</h2>
+  <p class="blurb">ReentrantLock, RWLock, DB vs JVM, Redis, duplicate orders</p>
+  
+<article class="card" id="lk-1" data-q="what happens if a thread acquires a reentrantlock and never calls unlock()?">
+  <h3><span class="qid">lk-1</span> What happens if a thread acquires a ReentrantLock and never calls unlock()?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>It's like taking the only bathroom key and walking away forever. Everyone else waits at the door.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Other threads calling lock() block indefinitely (or until that thread dies — and even then the lock is <strong>not</strong> auto-released).</li><li>ReentrantLock is not tied to a monitor that the JVM releases on thread death the way some people assume. The hold count stays &gt; 0. The lock is leaked.</li><li>Throughput collapses: request threads pile up, Tomcat pool saturates, liveness probe may still look 'up' until timeouts cascade.</li><li>If that thread is also waiting on something that needs the same lock (or a DB connection), you can deadlock the JVM.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-2" data-q="why should unlock() normally be placed inside a finally block?">
+  <h3><span class="qid">lk-2</span> Why should unlock() normally be placed inside a finally block?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Because exceptions are messy kids. If you drop the key only on the happy path, a crash leaves the door locked.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Any RuntimeException / Error / return between lock() and unlock() skips unlock() unless finally runs.</li><li>Pattern: lock → try { work } finally { unlock() }. Never unlock if you didn't acquire (tryLock false).</li><li>synchronized does this for you (monitor exit on method/block leave). That's the main safety advantage of synchronized.</li></ul></div>
+  <pre class="code"><code>lock.lock();
+try {
+    doWork();
+} finally {
+    lock.unlock(); // always release, even if doWork throws
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-3" data-q="difference between lock(), trylock(), and lockinterruptibly()">
+  <h3><span class="qid">lk-3</span> Difference between lock(), tryLock(), and lockInterruptibly()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>lock() waits forever. tryLock() knocks and leaves if nobody answers. lockInterruptibly() waits but will wake up if someone taps your shoulder (interrupt).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><code>lock()</code>: uninterruptible wait (interrupt is remembered, but you stay blocked until you get the lock). Risk: cannot cancel a stuck waiter easily.</li><li><code>tryLock()</code> / <code>tryLock(timeout)</code>: non-blocking or timed. Use for avoiding deadlock and for SLAs ('fail this request in 50ms').</li><li><code>lockInterruptibly()</code>: blocking wait that throws InterruptedException. Use in thread pools you want to shut down cleanly.</li></ul></div>
+  <pre class="code"><code>if (!lock.tryLock(50, TimeUnit.MILLISECONDS)) {
+    throw new BusyException(&quot;order lock contended&quot;);
+}
+try { /* ... */ } finally { lock.unlock(); }</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-4" data-q="can reentrantlock be configured for fairness? performance trade-off?">
+  <h3><span class="qid">lk-4</span> Can ReentrantLock be configured for fairness? Performance trade-off?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Fair lock is a polite queue: first come, first served. Unfair lock is a crowded door: whoever is lucky grabs it — usually faster.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><code>new ReentrantLock(true)</code> is FIFO-ish: reduces barging and starvation.</li><li>Cost: extra CAS/queue parking, worse throughput, more context switches — especially under high contention.</li><li>Default (unfair) lets the releasing thread's neighbor barge in while the parked waiter is waking — often 5–10× better throughput.</li><li>Interview line: 'Fairness is for latency tails and avoiding starvation, not for QPS. I almost never enable it in hot paths.'</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-5" data-q="what is a read-write lock starvation scenario?">
+  <h3><span class="qid">lk-5</span> What is a Read-Write Lock starvation scenario?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Many kids keep reading the same comic. The writer (who needs the room empty) never gets a turn.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>ReentrantReadWriteLock allows concurrent readers OR one writer. If readers keep arriving, a writer can wait a long time. That's writer starvation. Reader starvation can happen with write-heavy unfair locks too, but interviews usually mean writers blocked by a never-ending reader stream.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-6" data-q="why can a writer starve when there are continuous readers?">
+  <h3><span class="qid">lk-6</span> Why can a writer starve when there are continuous readers?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Each new reader says 'I'm just looking' and the lock policy may let them in while a writer is already waiting.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Non-fair RW lock: new readers barge if a read lock is already held — writer never sees zero readers.</li><li>Even fair mode: if you acquire read lock, do IO, and re-acquire in a loop, the writer waits for the whole burst.</li><li>Mitigations: fair RW lock; prefer StampedLock (optimistic read); cache with copy-on-write; don't hold read lock across IO; bound reader sections to microseconds.</li><li>Java's ReentrantReadWriteLock fair policy prefers the longest-waiting thread — writers get a better chance, still not a hard SLA.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-7" data-q="optimistic locking vs pessimistic locking">
+  <h3><span class="qid">lk-7</span> Optimistic locking vs pessimistic locking</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Pessimistic: lock the cookie jar before you look. Optimistic: take a photo of the jar, change it, and fail if someone else moved it.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><strong>Pessimistic:</strong> acquire lock first (synchronized / SELECT FOR UPDATE). Great when conflict is likely (inventory decrement).</li><li><strong>Optimistic:</strong> read version, write with WHERE version=old, retry on 0 rows. Great when conflict is rare (user profile edits).</li><li>Java in-memory: optimistic ≈ AtomicInteger CAS / StampedLock tryOptimisticRead. Pessimistic ≈ synchronized / ReentrantLock.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-8" data-q="how is database optimistic locking different from java synchronization?">
+  <h3><span class="qid">lk-8</span> How is database optimistic locking different from Java synchronization?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Java sync is a lock in this process's memory. DB optimistic locking is a version column the database checks — every pod sees it.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Java synchronized: same heap, same JVM, lost on restart, invisible to other instances.</li><li>JPA <code>@Version</code>: UPDATE ... SET version=version+1 WHERE id=? AND version=?. Second commit gets OptimisticLockException.</li><li>DB lock participates in transactions, isolation, and crash recovery. JVM lock does not.</li></ul></div>
+  <pre class="code"><code>@Entity
+class Order {
+  @Id Long id;
+  @Version long version; // Hibernate includes it in UPDATE
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-9" data-q="can synchronized protect data stored in a database?">
+  <h3><span class="qid">lk-9</span> Can synchronized protect data stored in a database?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>No. synchronized is a lock on a Java object, not on a Postgres row. Another server has a different object.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>It can serialize threads <em>inside one instance</em> before they hit the DB, which slightly reduces races on that node only. It cannot stop instance B. Use unique constraints, transactions, and row locks.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-10" data-q="what happens when two application instances update the same database record simultaneously?">
+  <h3><span class="qid">lk-10</span> What happens when two application instances update the same database record simultaneously?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Two cashiers both read stock=1, both sell it, both write stock=0 — or worse, both write stock=1 after decrementing from 1.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Lost update if you read-modify-write without version/WHERE qty &gt;= 1.</li><li>Last-commit-wins overwrites the other transaction's fields.</li><li>With @Version: one succeeds, one retries or 409.</li><li>With pessimistic: one waits on the row lock; isolation + timeout matter (deadlock detector may abort one).</li></ul></div>
+  <pre class="code"><code>UPDATE inventory SET qty = qty - 1
+WHERE sku = :sku AND qty &gt;= 1;  -- rows==1 means you won</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-11" data-q="why does a distributed app need a different locking approach than a single jvm?">
+  <h3><span class="qid">lk-11</span> Why does a distributed app need a different locking approach than a single JVM?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>One house, one bathroom key (JVM). A hotel with 3 buildings (3 pods) each has its own key ring. Guests still share one fridge (the database).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>No shared heap, no shared monitors, load balancer sprays requests across nodes.</li><li>Partial failure: one node dies holding a Redis lock; others must recover.</li><li>Source of truth should be the DB (or a consensus store), not a static ReentrantLock bean.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-12" data-q="what is a distributed lock, and when would you actually need one?">
+  <h3><span class="qid">lk-12</span> What is a distributed lock, and when would you actually need one?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A lock stored outside the JVM — Redis, ZooKeeper, DB row — so all instances agree who may do a job.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><strong>Need:</strong> exactly-one scheduled job, leader election, 'only one worker may process this file', coordinating a non-DB side effect (charge Stripe once) when the DB cannot uniquely constrain it.</li><li><strong>Don't need:</strong> creating an order if you can UNIQUE(idempotency_key). Prefer DB uniqueness — it survives Redis blips.</li><li>If you take a distributed lock, keep the critical section tiny and still make the business write idempotent.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-13" data-q="why can redis-based distributed locking be tricky to implement correctly?">
+  <h3><span class="qid">lk-13</span> Why can Redis-based distributed locking be tricky to implement correctly?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Redis is fast sticky notes, not a judge in a courtroom. The note can expire, get lost in a partition, or be deleted by the wrong waiter.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Expiry vs long work: lock TTL ends while you still work → two holders (fencing problem).</li><li>DEL the key without checking token → you unlock someone else's new lock.</li><li>Single-node Redis: master dies before replica has the key → two masters after failover (Redlock controversy).</li><li>Clock drift if you use client-side expiry math. Use SET key token NX PX ttl + Lua compare-and-delete.</li><li>Safer for many teams: DB advisory locks / unique job rows, or ZooKeeper/etcd ephemeral nodes with fencing tokens.</li></ul></div>
+  <pre class="code"><code>// sketch: token must match
+SET order:42 &lt;uuid&gt; NX PX 10000
+// extend with Lua only if value == uuid
+// DEL only if value == uuid</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-14" data-q="what happens if a jvm crashes while holding a distributed lock?">
+  <h3><span class="qid">lk-14</span> What happens if a JVM crashes while holding a distributed lock?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The process is gone, but the 'I have the key' sticker might still be on Redis until TTL.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>TTL/expiry: others wait, then take over. Too short TTL → split brain while the first JVM is actually still working (pause, GC, slow GC, network).</li><li>ZooKeeper/etcd session: ephemeral node disappears when heartbeat dies — faster failover, still need fencing so a 'zombie' JVM cannot commit.</li><li>Always assume crash + restart with the same work still in flight → idempotent handlers.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-15" data-q="how can a timeout on a lock prevent one failure from blocking the entire application?">
+  <h3><span class="qid">lk-15</span> How can a timeout on a lock prevent one failure from blocking the entire application?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>If one waiter waits forever, every request behind it is a traffic jam. A timeout says 'this lane is closed, return 503'.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>tryLock(timeout) / @Transactional timeout / HTTP client timeout / Redis lock TTL.</li><li>Fail fast + retry with jitter or let the user retry. Don't hold Tomcat threads on an unbounded lock.</li><li>Circuit breaker on a dependency is the same idea one level up.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-16" data-q="what is lock escalation, and can excessive locking create a scalability bottleneck?">
+  <h3><span class="qid">lk-16</span> What is lock escalation, and can excessive locking create a scalability bottleneck?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Lock escalation is when many small locks become one big lock (DB: row → page → table). Too many locks = everyone stands in one line.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Databases may escalate row locks to table locks under pressure — then writers serialize.</li><li>In Java: one global synchronized(this) on a singleton service is a table lock for your whole API.</li><li>Fine-grained keys (stripe locks per orderId) scale better than one ReentrantLock for all orders.</li><li>Lock convoying: threads wake, miss the lock, sleep — CPU looks idle, latency is awful.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-17" data-q="why can holding a lock while performing a network call be dangerous?">
+  <h3><span class="qid">lk-17</span> Why can holding a lock while performing a network call be dangerous?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>You locked the bathroom and then ordered pizza from inside. Everyone waits for the delivery guy.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Network is 10–100ms (or 30s on timeout). Lock hold time should be microseconds–milliseconds of CPU/memory work.</li><li>Effects: thread-pool exhaustion, deadlock (A holds lock, waits on B; B needs lock), GC pressure from piled threads, cascading timeouts.</li><li>Pattern: compute under lock / copy what you need / unlock / then HTTP. For DB: don't call payment gateway inside @Transactional.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-18" data-q="what happens when a synchronized method calls another synchronized method on the same object?">
+  <h3><span class="qid">lk-18</span> What happens when a synchronized method calls another synchronized method on the same object?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Reentrant: you already have the key, so you walk back into the same room. You don't wait for yourself.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Java intrinsic locks and ReentrantLock are reentrant. Hold count increments; you must exit the same number of times.</li><li>This is why synchronized foo() can call synchronized bar() on this without deadlock.</li><li>It is NOT safe across two different objects — that's nested locking and deadlock territory (next question).</li></ul></div>
+  <pre class="code"><code>synchronized void a() { b(); }   // OK: same monitor
+synchronized void b() { /* ... */ }</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-19" data-q="how can nested locks across different services/classes create an unexpected deadlock?">
+  <h3><span class="qid">lk-19</span> How can nested locks across different services/classes create an unexpected deadlock?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Service A takes lock Order then lock Wallet. Service B takes Wallet then Order. Two polite people each holding one door.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Classic: synchronized(order) { synchronized(wallet) } vs the reverse order on another thread.</li><li>Spring: @Transactional on OrderService plus synchronized on WalletService plus a Feign call that comes back into OrderService — lock order is no longer obvious.</li><li>Detect: jstack deadlock section. Prevent: global lock order, tryLock + backoff, don't nest, one lock per aggregate, DB as the only lock.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="lk-20" data-q="production: no java race, but duplicate orders under high traffic — how do you investigate?">
+  <h3><span class="qid">lk-20</span> Production: no Java race, but duplicate orders under high traffic — how do you investigate?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The bug is often between pods, not inside one HashMap. Treat it as a distributed race until proven otherwise.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li><strong>App sync:</strong> Is there a check-then-act (findByClientRequestId then save) without a unique index? Thread dumps won't show it across instances.</li><li><strong>DB constraints:</strong> UNIQUE(idempotency_key) / UNIQUE(user_id, cart_hash). Missing unique = duplicates are allowed by the schema.</li><li><strong>Transactions:</strong> two TXs both read 'no row' at READ COMMITTED, both insert. Isolation won't save you without uniqueness or SELECT FOR UPDATE on a parent row.</li><li><strong>Idempotency:</strong> client retries + LB retries + gateway timeout retry. Same POST twice must return the first order id.</li><li><strong>Distributed:</strong> 3 instances, each synchronized locally. Confirm replica count, correlation ids, insert timestamps milliseconds apart from different pod names.</li><li>Fix order: unique constraint first (safety net) → idempotency table → CAS status → only then Redis lock if you must serialize a side effect.</li></ul></div>
+  <pre class="code"><code>-- the actual fix more often than synchronized
+ALTER TABLE orders ADD CONSTRAINT uq_orders_idempotency UNIQUE (idempotency_key);</code></pre>
+  
+</article>
+
+
+<article class="card" id="lk-trap" data-q="interview trap: does synchronized on a spring @service stop duplicate orders?">
+  <h3><span class="qid">lk-trap</span> Interview trap: Does synchronized on a Spring @Service stop duplicate orders?</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Spring @Service is a singleton per JVM, not per company. Three Kubernetes pods = three singletons = three locks.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>synchronized protects one heap. Load balancer + 3 instances + shared DB = no shared lock.</li><li>For cross-instance consistency you need unique constraints, transactions, optimistic/pessimistic row locks, idempotency keys, and sometimes distributed coordination.</li><li><strong>Senior line:</strong> thread safety inside one JVM ≠ distributed-system consistency.</li></ul></div>
+  
+  
+</article>
+
+</section>
+
+<section id="spring-core">
+  <h2>Spring Core</h2>
+  <p class="blurb">IoC, beans, AOP, DI</p>
+  
+<article class="card" id="sc-1" data-q="spring vs spring boot; ioc, bean scopes, singleton lifecycle">
+  <h3><span class="qid">sc-1</span> Spring vs Spring Boot; IoC, bean scopes, singleton lifecycle</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Spring is the engine. Spring Boot is the car already assembled with sensible defaults. IoC means you don't new Service() — the container injects it.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Scopes: singleton (default), prototype, request, session, application, websocket.</li><li>Singleton lifecycle: instantiate → populate → BeanNameAware → BeanFactoryAware → BeanPostProcessor.before → @PostConstruct / InitializingBean → BPP.after → ready → @PreDestroy on shutdown.</li><li>Prototype: no destruction callbacks from container unless you handle them.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="sc-2" data-q="@component vs @service vs @repository vs @restcontroller vs @controller vs @configuration + @bean">
+  <h3><span class="qid">sc-2</span> @Component vs @Service vs @Repository vs @RestController vs @Controller vs @Configuration + @Bean</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>They are all 'please register this as a bean' stickers. The extra annotations add extra meaning for tools and AOP.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>@Component: generic. @Service: business. @Repository: persistence + exception translation. @Controller: MVC views. @RestController: @Controller + @ResponseBody.</li><li>@Configuration + @Bean: factory methods, full CGLIB proxy so @Bean calls go through the container (singleton guarantees). A plain class with @Bean methods is lite mode — inter-bean calls may new a second instance.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="sc-3" data-q="same class with @controller + @service + @repository">
+  <h3><span class="qid">sc-3</span> Same class with @Controller + @Service + @Repository</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>It's still one bean, but you've lied to every stereotype tool. Exception translation, component-scan filters, and AOP pointcuts that target @Service may all fire oddly. Don't. Split layers.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sc-4" data-q="di resolution at startup; two beans of same type; @qualifier @primary">
+  <h3><span class="qid">sc-4</span> DI resolution at startup; two beans of same type; @Qualifier @Primary</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>At startup Spring builds a graph. If two DataSource beans exist, injection of DataSource fails with NoUniqueBeanDefinitionException unless @Primary or @Qualifier (or parameter name with a compiler flag).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Circular dependency: A needs B needs A. Constructor injection fails fast (good). Setter/field + @Lazy can hide it. Fix by extracting a third type or events — don't paper over with @Lazy in production unless you understand the lifecycle.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sc-5" data-q="spring aop and why self-invocation bypasses @transactional / @async">
+  <h3><span class="qid">sc-5</span> Spring AOP and why self-invocation bypasses @Transactional / @Async</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Spring wraps your bean in a proxy (a receptionist). Annotations run when the receptionist takes the call. If the object calls its own method (this.foo()), it walks in the back door and skips the receptionist.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Fix: move the method to another bean, use AopContext.currentProxy() (ugly), or AspectJ weaving.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sc-6" data-q="@transactional internals: propagation, isolation, rollback pitfalls; checked exceptions">
+  <h3><span class="qid">sc-6</span> @Transactional internals: propagation, isolation, rollback pitfalls; checked exceptions</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>ELI5: @Transactional is a receptionist who starts a DB 'all or nothing' envelope before your method and stamps commit or rollback after.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Default: REQUIRED, isolation DEFAULT (usually READ_COMMITTED), rollback on RuntimeException/Error only — <strong>checked exceptions do not roll back</strong> unless rollbackFor=Exception.class.</li><li>Propagation: REQUIRED (join or start), REQUIRES_NEW (suspend and new), NESTED (savepoint), SUPPORTS, NOT_SUPPORTED, MANDATORY, NEVER.</li><li>Isolation: READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE. Phantom/non-repeatable reads depend on DB.</li><li>Pitfalls: self-invocation; catching exception inside method so proxy never sees it; calling external HTTP inside a long transaction; @Async inside transaction (see below).</li></ul></div>
+  <pre class="code"><code>@Transactional(rollbackFor = Exception.class)
+public void transfer(Id from, Id to, Money amt) { /* JDBC/JPA work */ }</code></pre>
+  
+</article>
+
+
+<article class="card" id="sc-7" data-q="exception in @async method b() called from @transactional a()">
+  <h3><span class="qid">sc-7</span> Exception in @Async method b() called from @Transactional a()</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>a() starts a transaction on thread T1. b() runs later on thread T2 — it does not see T1's transaction (ThreadLocal). Exceptions in b() do not roll back a() unless you explicitly join on the Future and throw. The async exception may be lost on the Future.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Never do DB writes you need in the same TX inside @Async. Outbox pattern: commit event row in a(), publish after commit.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sc-8" data-q="global exception handler; filter vs interceptor; rest call flow">
+  <h3><span class="qid">sc-8</span> Global exception handler; Filter vs Interceptor; REST call flow</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Filter is a building security desk (Servlet). Interceptor is a Spring MVC hallway monitor after the DispatcherServlet. @RestControllerAdvice is the polite error letter at the controller layer.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Request: socket → Tomcat → Filter chain (JWT, CORS) → DispatcherServlet → HandlerMapping → Interceptors preHandle → Controller → Service → Repository → DB → reverse interceptors/advice → HttpMessageConverter JSON.</li><li>Filters: auth, CORS, gzip — can run even for static/error. Interceptors: logging, tenant, MDC — have access to HandlerMethod.</li></ul></div>
+  <pre class="code"><code>@RestControllerAdvice
+class ApiErrors {
+  @ExceptionHandler(EntityNotFoundException.class)
+  ResponseEntity&lt;Problem&gt; notFound(EntityNotFoundException ex) {
+    return ResponseEntity.status(404).body(new Problem(ex.getMessage()));
+  }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  ResponseEntity&lt;Problem&gt; bad(MethodArgumentNotValidException ex) { /* 400 */ }
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="sc-9" data-q="spring exception translation; commandlinerunner">
+  <h3><span class="qid">sc-9</span> Spring exception translation; CommandLineRunner</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>@Repository proxies convert SQLException / PersistenceException into DataAccessException so services don't import JDBC types. CommandLineRunner / ApplicationRunner run after the context is up — seed data, Kafka listeners warmup, one-shot jobs. Prefer ApplicationRunner for typed args.</div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="spring-boot">
+  <h2>Spring Boot Internals</h2>
+  <p class="blurb">Auto-config, startup, Actuator</p>
+  
+<article class="card" id="sb-1" data-q="convention over configuration; how boot decides auto-configuration">
+  <h3><span class="qid">sb-1</span> Convention over configuration; how Boot decides auto-configuration</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Convention: if you drop a jar and don't argue, Boot wires a default. Auto-config is a pile of @Configuration classes that only turn on when conditions match (class on classpath, no user bean, property true).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>@SpringBootApplication = @Configuration + @EnableAutoConfiguration + @ComponentScan (this package down).</li><li>@EnableAutoConfiguration imports AutoConfiguration.imports (Boot 3) / spring.factories (Boot 2) via SpringFactoriesLoader / AutoConfiguration.imports.</li><li>Each class has @ConditionalOnClass, OnMissingBean, OnProperty, OnWebApplication, etc.</li><li>User beans win. You can exclude auto-config.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-2" data-q="role of springfactoriesloader; @enableautoconfiguration vs @import; excluding auto-config">
+  <h3><span class="qid">sb-2</span> Role of SpringFactoriesLoader; @EnableAutoConfiguration vs @Import; excluding auto-config</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>SpringFactoriesLoader reads META-INF/spring.factories (and Boot 3's org.springframework.boot.autoconfigure.AutoConfiguration.imports). It's how Boot discovers which auto-config classes exist without hardcoding.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>@Import pulls specific config classes. @EnableAutoConfiguration imports the whole conditional catalog. Excluding means that config never loads — e.g. exclude DataSourceAutoConfiguration in a Kafka-only service.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-3" data-q="what happens when you add spring-boot-starter-web; embedded tomcat">
+  <h3><span class="qid">sb-3</span> What happens when you add spring-boot-starter-web; embedded Tomcat</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The starter pulls Spring MVC, Jackson, embedded Tomcat (or Jetty/Undertow). Auto-config sees Servlet + Tomcat on classpath, creates a TomcatServletWebServerFactory, starts an embedded server on a random or configured port, and maps DispatcherServlet to /.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Boot detects Tomcat via class presence (Tomcat.class) and ServletWebServerFactoryAutoConfiguration.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-4" data-q="exact startup flow of a spring boot app">
+  <h3><span class="qid">sb-4</span> Exact startup flow of a Spring Boot app</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>main → SpringApplication.run → environment + profiles + listeners → create ApplicationContext → load sources → banner → prepare context → component scan + auto-config → instantiate beans (DI) → refresh complete → start embedded server → runners → ready.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Talk this sequence in interviews. Failures usually: bean cycle, missing property, port bind, Mongo/Kafka connection in a health-blocking bean.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-5" data-q="externalized config: properties vs yml, both present, profiles, port override">
+  <h3><span class="qid">sb-5</span> Externalized config: properties vs yml, both present, profiles, port override</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Boot loads: defaults inside jars → application.properties/yml → profile-specific → env vars → command line (later wins). If both .properties and .yml exist, both load; properties documents can override depending on file order — don't keep both.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>spring.profiles.active=prod loads application-prod.yml.</li><li>server.port=8081 or SERVER_PORT or --server.port=8081.</li><li>Boot 2.4+ uses spring.config.import and profile groups.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-6" data-q="bom / dependency versions; fat jar vs thin jar">
+  <h3><span class="qid">sb-6</span> BOM / dependency versions; Fat JAR vs thin JAR</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>spring-boot-starter-parent (or BOM) pins compatible versions so you don't mix Spring 6 with Boot 2. A fat/uber JAR nests dependencies under BOOT-INF/lib plus a custom loader. A normal JAR is just your classes — needs classpath at run.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Maven two versions of the same library: nearest-wins + first-declared. spring-web 3.0 vs netty from a starter: mvn dependency:tree. Usually one version on the classpath; the other is omitted. Test both.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-7" data-q="health checks, actuator, securing /health; logging defaults">
+  <h3><span class="qid">sb-7</span> Health checks, Actuator, securing /health; logging defaults</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Actuator exposes /actuator/health, metrics, info. Kubernetes uses liveness (app process) vs readiness (can take traffic — DB up).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Don't expose everything: management.endpoints.web.exposure.include=health,info</li><li>Hide details: management.endpoint.health.show-details=when-authorized</li><li>Network: Actuator on another port; Spring Security; mesh mTLS; not on public ALB path.</li><li>Logging: Logback by default, console + optional file; logback-spring.xml; log.level.ROOT=INFO.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-8" data-q="datasource auto-config; pagination internals (controller → db)">
+  <h3><span class="qid">sb-8</span> DataSource auto-config; pagination internals (Controller → DB)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>If JDBC + a pool (Hikari) + URL properties exist and you didn't define a DataSource, Boot creates HikariDataSource.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Pagination: Controller receives page,size → Pageable → Service → repo.findAll(pageable). Spring Data appends LIMIT/OFFSET (or keyset if you custom query) and a count query. The DB only returns that window because SQL says so — not because Spring 'hides' rows in Java.</p><p>Prefer seek/keyset pagination for large offsets (OFFSET 1_000_000 is slow).</p></div>
+  <pre class="code"><code>@GetMapping(&quot;/users&quot;)
+Page&lt;UserDto&gt; list(@PageableDefault(size = 10) Pageable pageable) {
+    return userRepo.findAll(pageable).map(UserDto::from);
+}</code></pre>
+  
+</article>
+
+
+<article class="card" id="sb-9" data-q="httpclient vs resttemplate vs webclient / feign; posting to a rest api">
+  <h3><span class="qid">sb-9</span> HttpClient vs RestTemplate vs WebClient / Feign; posting to a REST API</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>RestTemplate is the old blocking client (maintenance mode). Java 11 HttpClient is JDK-native. WebClient is reactive (can block with .block()). Feign is a declarative interface for HTTP.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+var client = HttpClient.newHttpClient();
+var req = HttpRequest.newBuilder(URI.create("http://c/api"))
+    .header("Content-Type", "application/json")
+    .POST(HttpRequest.BodyPublishers.ofString(json))
+    .timeout(Duration.ofSeconds(2))
+    .build();
+HttpResponse<String> res = client.send(req, HttpResponse.BodyHandlers.ofString());
+
+// Spring (Boot 3.2+): RestClient
+restClient.post().uri("/api").body(payload).retrieve().body(CResponse.class);
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-10" data-q="how spring talks to the db vs spring data jpa">
+  <h3><span class="qid">sb-10</span> How Spring talks to the DB vs Spring Data JPA</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Spring JDBC: DataSource → JdbcTemplate → SQL. Spring Data JPA: repository interfaces → proxy → EntityManager → Hibernate → JDBC → driver. You write findByEmail; Spring derives JPQL.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>EntityManager is the JPA API. SessionFactory/Session is Hibernate's native API. Spring Data JPA uses EntityManager (Hibernate as provider). You can unwrap to Session if needed.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-11" data-q="crudrepository vs jparepository; sessionfactory vs entitymanager">
+  <h3><span class="qid">sb-11</span> CrudRepository vs JpaRepository; SessionFactory vs EntityManager</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>CrudRepository: basic CRUD. PagingAndSortingRepository adds paging. JpaRepository adds JPA-specific flush, batch, Example queries — use this in Spring Boot apps.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>SessionFactory creates Session (Hibernate). EntityManagerFactory creates EntityManager (JPA). Hibernate implements JPA, so EntityManager is often a Session underneath. Prefer EntityManager in Spring.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sb-12" data-q="startup 15s → 2 min; circular dependency after deploy; lazyinitializationexception only in prod">
+  <h3><span class="qid">sb-12</span> Startup 15s → 2 min; circular dependency after deploy; LazyInitializationException only in prod</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Startup: Spring Startup actuator / --debug, classpath component scan too wide, eager Kafka/DB, JPA ddl-auto, too many beans, DNS, secret store timeouts, Actuator hitting cloud metadata.</li><li>Circular: constructor cycle. Break with events, setter, or redesign.</li><li>LazyInitializationException: OSIV open-in-view is often ON locally (session open in view) and OFF or different TX boundaries in prod. Accessing lazy collection after TX closed. Fix: fetch join, @EntityGraph, DTO query, not OSIV as a crutch.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sb-13" data-q="partial rollback; boot 3 vs 2; performance mistakes; why boot for microservices/cloud">
+  <h3><span class="qid">sb-13</span> Partial rollback; Boot 3 vs 2; performance mistakes; why Boot for microservices/cloud</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Partial update: swallowed exception; REQUIRED inner catch; not rollbackFor checked; multiple EntityManagers; Kafka send after commit failed (dual write).</li><li>Boot 3: Java 17+, Jakarta EE namespace (javax→jakarta), Spring Framework 6, no RestTemplate auto-config, Graal native, Micrometer observation, properties renamed.</li><li>Mistakes: unbounded pools, N+1, logging payloads, no timeouts, giant heap, component-scan of everything, sync fan-out.</li><li>Cloud: fat jar, actuators, external config, embedded server, 12-factor — one process per service.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sb-14" data-q="spring cache stale data; @column missing; @entity vs @table; @postmapping instead of get">
+  <h3><span class="qid">sb-14</span> Spring Cache stale data; @Column missing; @Entity vs @Table; @PostMapping instead of GET</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Cache: TTL + explicit eviction on write; cache-aside; version keys; never cache user-specific data under a global key.</li><li>No @Column: field name mapped as default column (camel → strategy). Still persisted unless @Transient.</li><li>@Entity = JPA entity. @Table overrides table name/indexes. You can have @Entity without @Table.</li><li>@PostMapping on a read: works technically but breaks HTTP semantics, caches, CSRF expectations, and idempotency. Use GET for reads.</li></ul></div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="data">
+  <h2>JPA / Hibernate / SQL</h2>
+  <p class="blurb">Repositories, transactions, queries</p>
+  
+<article class="card" id="db-1" data-q="n+1 query problem — find and kill it">
+  <h3><span class="qid">db-1</span> N+1 query problem — find and kill it</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>You ask for 100 orders (1 query), then for each order you ask for the customer (100 queries). That's N+1.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Spot: show_sql / p6spy / datasource-proxy, slow logs, 101 queries for one API.</li><li>Fix: join fetch, @EntityGraph, batch size (@BatchSize), DTO JPQL constructor, Map instead of lazy loops.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="db-2" data-q="lazy vs eager; second-level cache; entity states">
+  <h3><span class="qid">db-2</span> Lazy vs eager; second-level cache; entity states</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Lazy: load the toy when the kid asks. Eager: dump the whole toy box every time — often too much.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Default many-to-one often eager; collections lazy. Prefer lazy + explicit fetch.</li><li>L2 cache (Ehcache/Redis via Hibernate): shares entities across sessions. Good for read-mostly ref data. Invalidation is the hard part. First-level cache is the Session itself.</li><li>States: transient (new), managed (persistent context), detached (TX closed), removed. persist/merge/remove/find/flush vs Spring Data save (persist or merge).</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="db-3" data-q="indexes — when they help and hurt; composite keys; stored procedures and triggers">
+  <h3><span class="qid">db-3</span> Indexes — when they help and hurt; composite keys; stored procedures and triggers</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>An index is a book index: fast lookup, extra pages to update on every write.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Helps WHERE/JOIN/ORDER BY matching leftmost prefix of a composite index.</li><li>Hurts: too many indexes, low-selectivity columns (boolean), write-heavy tables, functions on columns that skip the index.</li><li>Composite key: two+ columns uniquely identify a row (@IdClass / @EmbeddedId).</li><li>Stored proc: compiled SQL on the server. Trigger: automatic SQL on insert/update/delete — hidden side effects, use sparingly.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="db-4" data-q="sql: salary &amp;gt; manager; second highest; duplicates; student enrollments">
+  <h3><span class="qid">db-4</span> SQL: salary &amp;gt; manager; second highest; duplicates; student enrollments</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Self-join the employee table so each person sits next to their manager.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+-- salary greater than manager
+SELECT e.name, e.salary, m.name AS manager
+FROM employee e
+JOIN employee m ON e.manager_id = m.id
+WHERE e.salary > m.salary;
+
+-- second highest salary without LIMIT
+SELECT MAX(salary) FROM employee
+WHERE salary < (SELECT MAX(salary) FROM employee);
+
+-- duplicate rows
+SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1;
+
+-- students and enrollments (LEFT JOIN keeps students with zero courses)
+SELECT s.name, c.course_name, e.grade
+FROM student s
+LEFT JOIN enrollment e ON e.student_id = s.student_id
+LEFT JOIN course c ON c.course_id = e.course_id;
+
+-- all courses and enrolled students
+SELECT c.course_name, s.name
+FROM course c
+LEFT JOIN enrollment e ON e.course_id = c.course_id
+LEFT JOIN student s ON s.student_id = e.student_id;
+
+SELECT s.name, AVG(e.grade) AS avg_grade
+FROM student s JOIN enrollment e ON e.student_id = s.student_id
+GROUP BY s.student_id, s.name;
+
+SELECT s.name FROM student s JOIN enrollment e ON e.student_id = s.student_id
+GROUP BY s.student_id, s.name HAVING AVG(e.grade) > 85;
+
+SELECT c.course_name, COUNT(e.student_id) AS students
+FROM course c LEFT JOIN enrollment e ON e.course_id = c.course_id
+GROUP BY c.course_id, c.course_name;
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="db-5" data-q="query 50ms → 10s; db cpu 100%; hundreds of millions of rows; isolation &amp;amp; two writers">
+  <h3><span class="qid">db-5</span> Query 50ms → 10s; DB CPU 100%; hundreds of millions of rows; isolation &amp;amp; two writers</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Plan changed: missing/outdated stats, seq scan, lock wait, saturation, noisy neighbor, ORMs N+1, parameter sniffing.</li><li>EXPLAIN ANALYZE, indexes, covering indexes, partition, archive, read replicas, cache hot keys.</li><li>Two TX on one row: last-write-wins, lost update. Use optimistic @Version or SELECT FOR UPDATE.</li><li>Inventory: pessimistic or atomic UPDATE stock = stock-1 WHERE stock &gt; 0 — don't trust read-then-write.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="db-6" data-q="optimistic vs pessimistic locking (inventory); string_agg">
+  <h3><span class="qid">db-6</span> Optimistic vs pessimistic locking (inventory); string_agg</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Optimistic: hope no clash, fail on version mismatch (retries). Pessimistic: lock the row first. Inventory/tickets: usually atomic decrement or pessimistic/unique seat row.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+UPDATE inventory SET qty = qty - 1, version = version + 1
+WHERE sku = :sku AND qty >= 1 AND version = :version;
+
+-- Postgres
+SELECT department, STRING_AGG(name, ', ' ORDER BY name) FROM employee GROUP BY department;
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="db-7" data-q="sql vs nosql vs redis vs elasticsearch; relational vs document (couchbase)">
+  <h3><span class="qid">db-7</span> SQL vs NoSQL vs Redis vs Elasticsearch; relational vs document (Couchbase)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>SQL: money, joins, strong constraints. Document (Mongo/Couchbase): flexible product catalogs. Redis: ultra-fast ephemeral / sessions / locks. ES: full-text search, not source of truth.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Broadleaf-style commerce often: relational for orders/payments, search engine for catalog, Redis for sessions/cart cache.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="db-8" data-q="hibernate vs jpa; how spring data save maps to persist/merge">
+  <h3><span class="qid">db-8</span> Hibernate vs JPA; how Spring Data save maps to persist/merge</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>JPA is the interface. Hibernate is a popular implementation (plus extras: L2 cache, interceptors).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>save(): if id is null → persist; if id is set it may merge (select then copy) — a performance trap. Prefer persist for new, explicit APIs, and never generate ids in app then save expecting persist.</p></div>
+  
+  
+</article>
+
+</section>
+
+<section id="rest-sec">
+  <h2>REST &amp; Security</h2>
+  <p class="blurb">APIs, JWT, filters, CORS</p>
+  
+<article class="card" id="rs-1" data-q="rest properties; put vs patch; idempotency of http methods">
+  <h3><span class="qid">rs-1</span> REST properties; PUT vs PATCH; idempotency of HTTP methods</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>REST is how browsers talk: nouns (URLs), verbs (GET/POST), stateless, cacheable.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>GET/PUT/DELETE should be idempotent. POST usually is not. PATCH may or may not be.</li><li>PUT replaces the whole resource (missing fields → null). PATCH is a partial update.</li><li>Idempotency key header for POST /payments.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="rs-2" data-q="spring security + jwt flow; 401 troubleshooting; public vs private keys">
+  <h3><span class="qid">rs-2</span> Spring Security + JWT flow; 401 troubleshooting; public vs private keys</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Login issues a signed passport (JWT). Each API checks the signature and expiry — no session sticky required.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Header Authorization: Bearer &lt;token&gt;. Filter validates signature, exp, iss, aud, then sets SecurityContext.</li><li>401: missing Bearer, expired, wrong clock, wrong secret/JWKS, iss/aud mismatch, filter order, CORS preflight, token for another env.</li><li>Symmetric HS256: shared secret. RS256: IdP keeps private key, services verify with public JWKS — sender authenticity.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="rs-3" data-q="authn vs authz; sso (keycloak / ibm api connect); complete login flow">
+  <h3><span class="qid">rs-3</span> AuthN vs AuthZ; SSO (Keycloak / IBM API Connect); complete login flow</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Authentication: who are you. Authorization: are you allowed. SSO: one login, many apps (OIDC authorization code + PKCE).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Browser → API Gateway → redirect to Keycloak → user logs in → code → token endpoint → JWT access + refresh → Gateway validates → downstream services trust Gateway or re-validate JWT. API Connect adds plans, rate limits, client ids.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="rs-4" data-q="how your project implements security; mtls between services; cors">
+  <h3><span class="qid">rs-4</span> How your project implements security; mTLS between services; CORS</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Edge: TLS, WAF, Gateway OAuth2 resource server.</li><li>Service-to-service: mTLS (mesh), or pass JWT + audience, or SPIFFE. Never plain HTTP in prod.</li><li>CORS: browser rule. Server sends Access-Control-Allow-Origin. APIs called server-to-server don't need CORS. Misconfigured CORS looks like 'API failed' in the browser only.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="rs-5" data-q="swagger/openapi; camel logging of images; rate limit users to 10k of billions">
+  <h3><span class="qid">rs-5</span> Swagger/OpenAPI; Camel logging of images; rate limit users to 10K of billions</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>OpenAPI is the menu of your API. Don't log giant BLOBs — mark fields @JsonIgnore / custom Camel dataformat / mask.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Rate limit at Gateway + Redis token bucket per apiKey/user. 10K concurrent or 10K RPS? Say both: autoscale + admission control. Billion registered users is storage; only active sessions hit the limit.</p></div>
+  
+  
+</article>
+
+</section>
+
+<section id="kafka">
+  <h2>Kafka</h2>
+  <p class="blurb">Topics, consumers, exactly-once-ish patterns</p>
+  
+<article class="card" id="kf-1" data-q="topics, partitions, consumer groups, offsets, acks, replication">
+  <h3><span class="qid">kf-1</span> Topics, partitions, consumer groups, offsets, ACKs, replication</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A topic is a named log. Partitions are ordered lanes. A consumer group is a team sharing the work — each partition goes to one member. Offset is the bookmark. Replication is photocopies on other brokers.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>acks=0 fire-forget; acks=1 leader; acks=all ISR — safest.</li><li>Replication: leader + followers. min.insync.replicas for durability.</li><li>auto.offset.reset: earliest vs latest only when no committed offset.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="kf-2" data-q="a posts kafka to b; b consumes and calls c&#x27;s rest">
+  <h3><span class="qid">kf-2</span> A posts Kafka to B; B consumes and calls C&#x27;s REST</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A is the mail sender, Kafka is the post office, B is the clerk who reads mail and phones C.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+@Service
+@RequiredArgsConstructor
+public class BListener {
+  private final RestClient restClient;
+
+  @KafkaListener(topics = "b-in", groupId = "service-b")
+  public void onMessage(String xml) {
+      CRequest body = xmlMapper.read(xml); // validate, map
+      restClient.post().uri("http://service-c/api").body(body).retrieve().toBodilessEntity();
+      // commit offset after success (Spring default ack mode)
+  }
+}
+</div>
+  <pre class="code"><code>Put timeouts + retries + DLQ on the HTTP call. Don&#x27;t hold a DB transaction open while calling C.</code></pre>
+  
+</article>
+
+
+<article class="card" id="kf-3" data-q="db saved but kafka publish failed — rollback / outbox">
+  <h3><span class="qid">kf-3</span> DB saved but Kafka publish failed — rollback / outbox</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Two systems (DB and Kafka) cannot share one ACID transaction easily. If you write DB then Kafka dies, you have ghost data.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Transactional Outbox: same DB TX writes business row + outbox row. A poller/CDC (Debezium) publishes to Kafka. Retry until Kafka accepts. Idempotent consumers downstream.</li><li>Don't: @Transactional around kafkaTemplate.send + repo.save and hope (send is async; XA 2PC is painful).</li><li>If Kafka succeeded and DB failed: idempotent producer keys + consumer dedupe.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="kf-4" data-q="consumer group: 3 apps on one topic; lag; down 30 min; duplicates; dlq; ordering">
+  <h3><span class="qid">kf-4</span> Consumer group: 3 apps on one topic; lag; down 30 min; duplicates; DLQ; ordering</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Same groupId: compete (share partitions). Different groupIds: each app gets every message (broadcast).</li><li>Lag: processing slower than produce. Check key hotspot, stop-the-world GC, downstream slowness, max.poll.interval exceeded (rebalance loops), too few partitions/consumers.</li><li>Consumer down 30 min: messages stay on broker until retention. On restart, resume from committed offset. If retention elapsed, data is gone.</li><li>Duplicates: at-least-once default. Idempotent consumer (unique key in DB).</li><li>Poison message: retry with backoff then DLQ topic + alert. Don't block the partition forever.</li><li>Ordering: one partition per key (customerId). One consumer per partition. Compaction for latest-per-key.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="kf-5" data-q="hot partition; broker down; kafka vs rabbitmq; producer/consumer tunables">
+  <h3><span class="qid">kf-5</span> Hot partition; broker down; Kafka vs RabbitMQ; producer/consumer tunables</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Hot partition: bad key (null or one customer). Use better key or sub-key hashing.</li><li>Broker down: ISR elects new leader if RF≥2. Producers with acks=all may fail if ISR &lt; min.insync.</li><li>Kafka: durable log, replay, high throughput, partitioning. Rabbit: smarter routing, broker protocols, competing consumers without replay-as-a-log.</li><li>Producer: linger.ms, batch.size, compression, retries, idempotence, max.in.flight.</li><li>Consumer: max.poll.records, max.poll.interval, session.timeout, heartbeat.interval, fetch.min.bytes.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="kf-health" data-q="consumer looks healthy but is not consuming; partition/broker down">
+  <h3><span class="qid">kf-health</span> Consumer looks healthy but is not consuming; partition/broker down</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Healthy process ≠ making progress. The heartbeat can succeed while processing is stuck or assigned zero partitions.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Check: assigned partitions (actuator/kafka or logs), consumer group describe, lag per partition, max.poll.interval (long processing → kicked from group), paused listener, wrong topic/group, poison message retry loop, deserializer errors skipped.</li><li>One partition's broker/leader down: clients metadata refresh, new leader if RF&gt;1. If RF=1, that partition is offline until broker returns.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="kf-6" data-q="idempotent kafka consumer design; prevent loss when consumer dies; xml transform pipeline">
+  <h3><span class="qid">kf-6</span> Idempotent Kafka consumer design; prevent loss when consumer dies; XML transform pipeline</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><p>On consume: parse XML → validate → upsert by eventId (unique) → publish downstream. Commit offset only after unique insert succeeds. If publish is required, use outbox.</p><p>enable.idempotence on producer avoids dupes on retry to Kafka itself — not dupes from two consumer deliveries.</p></div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="micro">
+  <h2>Microservices</h2>
+  <p class="blurb">Gateway, saga, resilience, Redis</p>
+  
+<article class="card" id="ms-1" data-q="service boundaries, data ownership, sync rest vs kafka vs grpc">
+  <h3><span class="qid">ms-1</span> Service boundaries, data ownership, sync REST vs Kafka vs gRPC</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Each service owns its tables. Don't share DBs. REST when you need an immediate answer. Kafka when you announce a fact. gRPC when internal, low-latency, typed contracts.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Choose REST for request/response UX, Kafka for fan-out and decoupling, gRPC for east-west high QPS. Mix is normal.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="ms-2" data-q="api gateway routing, discovery, patterns you&#x27;ve used">
+  <h3><span class="qid">ms-2</span> API Gateway routing, discovery, patterns you&#x27;ve used</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The gateway is the front desk: path /orders/** → Order service. It knows instances via DNS (K8s Service), Eureka, or Consul — not hardcoded IPs.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>If downstream is down: timeout, 503, circuit breaker, cached fallback — don't hang the caller.</li><li>Patterns: BFF, Gateway Routing, Rate Limit, Auth offload, Request Aggregation (careful).</li><li>Spring Cloud Gateway / IBM API Connect / AWS ALB+API GW.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="ms-3" data-q="saga orchestration vs choreography; compensating tx fails after retries">
+  <h3><span class="qid">ms-3</span> Saga orchestration vs choreography; compensating TX fails after retries</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>A saga is a story of local transactions. Orchestrator is a conductor. Choreography is jazz — each service emits events.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Saga cannot guarantee compensation always succeeds. After retries: persist failed compensation, DLQ, page humans, idempotent reconciliation jobs. Money: prefer a ledger + retry over silent give-up.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="ms-4" data-q="distributed transactions without 2pc; cqrs">
+  <h3><span class="qid">ms-4</span> Distributed transactions without 2PC; CQRS</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>2PC (XA) locks and doesn't scale. Use: outbox + saga + idempotency + eventual consistency. For reads that can't join DBs: CQRS — write model in SQL, read model in ES/Redis updated by events.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="ms-5" data-q="resilience: circuit breaker, retry, bulkhead, jitter, timeout">
+  <h3><span class="qid">ms-5</span> Resilience: circuit breaker, retry, bulkhead, jitter, timeout</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Circuit breaker: stop calling a sick friend (fail fast). Retry: try again. Jitter: don't all retry at once (thundering herd). Bulkhead: separate thread pools so billing doesn't steal checkout's workers. Timeout: don't wait forever.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+@CircuitBreaker(name = "c", fallbackMethod = "cached")
+@Retry(name = "c")
+@TimeLimiter(name = "c")
+@Bulkhead(name = "c")
+public CompletableFuture<Quote> quote(String id) { ... }
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="ms-6" data-q="secure service-to-service; correlation ids / tracing 15 services">
+  <h3><span class="qid">ms-6</span> Secure service-to-service; correlation IDs / tracing 15 services</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Put X-Correlation-Id on every hop (gateway generates). Micrometer Tracing / OpenTelemetry → Zipkin/Jaeger/X-Ray. Log the id in MDC. One trace id, many spans.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="ms-7" data-q="redis: why, cache invalidation, expiry under the hood, crash behavior">
+  <h3><span class="qid">ms-7</span> Redis: why, cache invalidation, expiry under the hood, crash behavior</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Redis is an in-memory cheat sheet. Cache-aside: read Redis, on miss DB then set. On write: update DB then delete key (invalidate). TTL via expire; Redis lazy + active expiration of random keys.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>If Redis dies: degrade — hit DB with extra load protection (request coalescing, circuit). Never crash the app because cache is down. CAP: Redis cluster chooses AP-ish for cache; source of truth stays SQL.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="ms-8" data-q="cap theorem; consistent hashing; message queues decoupling">
+  <h3><span class="qid">ms-8</span> CAP theorem; consistent hashing; message queues decoupling</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>On partition you pick consistency or availability. Banks lean C; caches/feeds lean A + eventual C.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Consistent hashing: nodes on a ring. When a node dies, only its neighbors remap — not the whole dataset. Queues decouple: producer doesn't wait for all consumers to be up.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="ms-9" data-q="rate limiting across servers; reverse vs forward proxy; alb vs nlb">
+  <h3><span class="qid">ms-9</span> Rate limiting across servers; reverse vs forward proxy; ALB vs NLB</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Distributed rate limit: Redis token bucket / GCRA keyed by user. Local counters don't work across pods.</li><li>Forward proxy: client → proxy → internet (corporate egress). Reverse proxy: internet → nginx → your app.</li><li>ALB: L7 HTTP, path routing, WAF. NLB: L4 TCP/TLS ultra-low latency, static IPs.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="ms-10" data-q="feign vs webclient vs resttemplate; hld patterns (eureka, etc.)">
+  <h3><span class="qid">ms-10</span> Feign vs WebClient vs RestTemplate; HLD patterns (Eureka, etc.)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>RestTemplate blocking classic. Feign: interface + annotations, great with Eureka. WebClient/RestClient: modern. In K8s, DNS Service names often replace Eureka. Still know: API Gateway, Circuit Breaker, Saga, Sidecar/mesh, BFF, CQRS, Outbox.</div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="prod">
+  <h2>Production Scenarios</h2>
+  <p class="blurb">The &#x27;what would you do&#x27; questions</p>
+  
+<article class="card" id="pr-1" data-q="duplicate payment — two identical requests at once">
+  <h3><span class="qid">pr-1</span> Duplicate payment — two identical requests at once</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Put a unique ticket number (idempotency key) on the payment. The second request finds the same ticket and returns the first result instead of charging again.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Client sends Idempotency-Key. Unique constraint on (key). First TX inserts and charges; second hits conflict and reads original status.</li><li>Don't call the payment provider inside a long DB lock — use state machine: NEW → PROCESSING → SUCCESS with compare-and-set.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="pr-2" data-q="double hotel booking — two users, one room">
+  <h3><span class="qid">pr-2</span> Double hotel booking — two users, one room</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>The room row is a single cookie. Only one hand can grab it: UPDATE rooms SET status='BOOKED' WHERE id=? AND status='FREE' and check rows=1. Unique constraint on (room_id, night).</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Optional short TTL lock in Redis for UX, but the DB constraint is the source of truth.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="pr-3" data-q="rest api 30s because it calls three downstreams">
+  <h3><span class="qid">pr-3</span> REST API 30s because it calls three downstreams</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Don't stand in three queues one after another. Stand in all three at once (CompletableFuture / virtual threads), cache, cut payloads, set 200ms timeouts, bulk endpoints, or make the UX async (202 + poll).</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="pr-4" data-q="kafka consumer down 30 minutes">
+  <h3><span class="qid">pr-4</span> Kafka consumer down 30 minutes</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Mail piles up in the post office (until retention). When the consumer returns it continues from the last committed offset. Lag spike, then catch-up. If processing is slow, scale consumers (partitions ≥ consumers).</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="pr-5" data-q="spring boot cpu 95% and threads exploding; one k8s pod hot">
+  <h3><span class="qid">pr-5</span> Spring Boot CPU 95% and threads exploding; one K8s pod hot</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Thread dump: blocked on HTTP, JDBC, synchronized, or a runaway loop. Check pool sizes vs unbounded create.</li><li>One hot pod: sticky session, unlucky shard, missing readiness so one pod got all traffic, noisy neighbor limits, infinite retry storm to that replica, or a poison message unique to that instance's partition assignment.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="pr-6" data-q="memory climbs to oomkilled; jwt 401; db slow after millions of rows">
+  <h3><span class="qid">pr-6</span> Memory climbs to OOMKilled; JWT 401; DB slow after millions of rows</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>OOM: heap dump, caches, ByteBuf leak, hibernate session, logging huge XML.</li><li>JWT: see Security section.</li><li>DB: indexes, EXPLAIN, pagination, archive, N+1.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="pr-7" data-q="service c down — stop cascade; one slow service infects the system">
+  <h3><span class="qid">pr-7</span> Service C down — stop cascade; one slow service infects the system</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Timeouts + circuit breaker + bulkhead + fallback cache. Don't use infinite retries. Isolate thread pools per dependency. Queue non-critical work.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="pr-8" data-q="customer charged twice / payment workflow race">
+  <h3><span class="qid">pr-8</span> Customer charged twice / payment workflow race</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Idempotency key + unique DB + provider refund/reconcile job. Identify with request ids in logs. Solve with CAS status transitions.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="pr-9" data-q="why retries alone make outages worse; graceful shutdown; config &amp;amp; discovery">
+  <h3><span class="qid">pr-9</span> Why retries alone make outages worse; graceful shutdown; config &amp;amp; discovery</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Retries multiply traffic onto a dying service (retry storm). Combine retry (budgeted, jittered) with CB. Graceful shutdown: stop taking K8s endpoints (preStop + readiness off) then drain Tomcat. Config: Spring Cloud Config / K8s ConfigMap. Discovery: K8s DNS.</div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="aws-devops">
+  <h2>AWS, Docker, K8s</h2>
+  <p class="blurb">IAM, deploy, monitoring</p>
+  
+<article class="card" id="ad-1" data-q="store user passwords on aws; ec2 → s3 without keys; ec2 → ebs">
+  <h3><span class="qid">ad-1</span> Store user passwords on AWS; EC2 → S3 without keys; EC2 → EBS</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Never store raw passwords. Hash with bcrypt/argon2 in your DB. Secrets (API keys) go in Secrets Manager / SSM, not Git.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>EC2→S3: IAM instance profile (role) + policy s3:PutObject on the bucket. No access keys on disk. Same for EBS: role policies for ec2 volumes; encryption via KMS. Subcomponent that decides access: IAM policy on the role.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="ad-2" data-q="upload file to s3 from spring boot; presigned url">
+  <h3><span class="qid">ad-2</span> Upload file to S3 from Spring Boot; presigned URL</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Bucket + key (path) + object bytes. SDK S3Client.putObject. Better UX: API returns presigned PUT URL; browser uploads directly. Validate size/content-type; virus scan; block public ACLs.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+S3Client s3 = S3Client.builder().region(Region.AP_SOUTH_1).build(); // default creds chain
+s3.putObject(PutObjectRequest.builder().bucket("invoices").key(key).contentType("application/pdf").build(),
+             RequestBody.fromFile(path));
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="ad-3" data-q="sns vs sqs vs lambda; fifo vs standard; why lambda with sns/sqs">
+  <h3><span class="qid">ad-3</span> SNS vs SQS vs Lambda; FIFO vs standard; why Lambda with SNS/SQS</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>SNS is a megaphone (pub/sub). SQS is a mailbox (queue). Lambda is a tiny function that wakes on events.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>Fan-out: SNS → multiple SQS. Work buffer: SQS. Glue/light transform: Lambda.</li><li>Standard: at-least-once, best-effort order, high TPS. FIFO: exactly-once-ish + order per message group, lower TPS.</li><li>Java Lambda cold starts are painful — keep JAR small, snapstart, or don't use Java for tiny bursts.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="ad-4" data-q="docker vs k8s; replicaset vs deployment; change deployment.yml; health">
+  <h3><span class="qid">ad-4</span> Docker vs K8s; ReplicaSet vs Deployment; change deployment.yml; health</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Docker packages the app. K8s runs many packages, restarts them, load-balances.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>Deployment owns ReplicaSets (rolling update = new RS, scale up, old RS down — rollingUpdate). Changing the YAML and kubectl apply triggers a rollout. Probes: liveness (restart) vs readiness (remove from Service). Don't use /actuator/health unbounded if it checks a down dependency for liveness — you'll kill-loop.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="ad-5" data-q="kubectl, ci/cd jenkins, git flow, terraform, linux bits">
+  <h3><span class="qid">ad-5</span> kubectl, CI/CD Jenkins, Git flow, Terraform, Linux bits</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>kubectl get pods -o wide; logs; describe; rollout undo; exec; top.</li><li>Jenkins: checkout → test → image → helm/kubectl deploy. GitHub Flow: small PRs, main always deployable.</li><li>Terraform: IaC for AWS. State in S3 + lock table.</li><li>Linux: top, ss, curl, journalctl, df, free, lsof, grep, less.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="ad-6" data-q="100k rpm scale; redis crash; deploy latency + rollback; jvm metrics on aws">
+  <h3><span class="qid">ad-6</span> 100k RPM scale; Redis crash; deploy latency + rollback; JVM metrics on AWS</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>100k RPM ≈ 1.7k RPS: HPA, cache, DB pool, CDN, async writes.</li><li>Redis crash: fail open to DB with shed load.</li><li>Rollback: helm rollback / previous ReplicaSet; compare traces and GC.</li><li>Metrics: Micrometer → Prometheus → Grafana; CloudWatch agent; JMX exporter.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="ad-7" data-q="ehcache vs redis; apache camel / jboss fuse notes">
+  <h3><span class="qid">ad-7</span> EhCache vs Redis; Apache Camel / JBoss Fuse notes</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>EhCache: in-process, very fast, per-pod (inconsistent). Redis: shared across pods, network hop, great for sessions/locks. Camel: integration DSL (routes, EIP). Fuse = Camel on Karaf/EAP — enterprise ESB. Prefer Kafka + Spring for new designs unless the org is Fuse-heavy.</div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="sysdesign">
+  <h2>System Design</h2>
+  <p class="blurb">Concepts + interview designs</p>
+  
+<article class="card" id="sd-1" data-q="how a write hits a distributed db; eventual vs strong consistency; clock skew">
+  <h3><span class="qid">sd-1</span> How a write hits a distributed DB; eventual vs strong consistency; clock skew</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Write goes to the leader (or a coordinator), is WAL-logged, replicated to followers, then ack depending on quorum. Strong consistency waits for quorum; eventual returns sooner and replicas catch up. Clock skew: don't use wall-clock for order — use Lamport/vector/Hybrid Logical Clocks or DB-assigned timestamps.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-2" data-q="cdn edge selection; request through api gateway; lb unhealthy node">
+  <h3><span class="qid">sd-2</span> CDN edge selection; request through API Gateway; LB unhealthy node</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>CDN: GeoDNS / Anycast → nearest PoP with the object (or origin fetch + cache). Gateway: TLS terminate → auth → rate limit → route → maybe cache. LB health: HTTP probe; consecutive failures → remove from pool; slow-start on add-back.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-3" data-q="horizontal vs vertical scaling; stateful scale-out; join after sharding">
+  <h3><span class="qid">sd-3</span> Horizontal vs vertical scaling; stateful scale-out; JOIN after sharding</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Vertical: bigger box (ceiling). Horizontal: more boxes (need stateless app + shared store). Stateful (sticky sessions, local disk): you need shared storage or consistent hashing. Sharding kills cross-shard JOINs — denormalize, fan-out queries, or a search index.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-4" data-q="netflix ha; search index 1b docs; url shortener internals; notification delivery">
+  <h3><span class="qid">sd-4</span> Netflix HA; search index 1B docs; URL shortener internals; notification delivery</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Netflix: no SPOF — multi-AZ, chaos, circuit breakers, red/black deploy, N+1 capacity.</li><li>Search: sharding inverted index, segment merge, replication, incremental indexing pipeline.</li><li>Shortener: hash/base62 id, kv store, 301/302, analytics async, custom aliases unique index.</li><li>Notifications: ingest API → queue per channel → providers with retry/DLQ; at-least-once + user-visible dedupe.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-5" data-q="zookeeper leader election; push vs pull events; columnar analytics; idempotency in payments">
+  <h3><span class="qid">sd-5</span> Zookeeper leader election; push vs pull events; columnar analytics; idempotency in payments</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>ZK: ephemeral znodes + watches; lowest seq wins; session death triggers re-election. Today: etcd/K8s leases similar.</li><li>Push: broker pushes (SSE/WebSocket). Pull: consumer polls (Kafka). Kafka is pull — better backpressure.</li><li>Columnar (Parquet): read only needed columns, compress well — analytics scans.</li><li>Payments: networks retry. Without idempotency you double-charge. That's why it's non-negotiable.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-6" data-q="common senior mistakes; 10m users design checklist; 99.99% availability">
+  <h3><span class="qid">sd-6</span> Common senior mistakes; 10M users design checklist; 99.99% availability</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Mistakes: shared DB, no timeouts, ignoring data ownership, caching without TTL, over-microservicing, no SLOs, designing for Google scale when you have 2k users.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><p>10M users: estimate QPS, payload, storage. Scale: stateless + cache + queues + shard. Failure: CB, multi-AZ, backups. Consistency: per-use-case. Monitor: RED+USE metrics, traces, alerts on SLO. Why: explain constraints (team size, latency, cost).</p><p>99.99% ≈ 52 min/year downtime. Need multi-AZ, tested failover, dependency budgets — not a single EC2.</p></div>
+  
+  
+</article>
+
+
+<article class="card" id="sd-7" data-q="design: url shortener, rate limiter, notification, pastebin, parking lot, splitwise, kv store, quiz, library, hotel, job scheduler, voting">
+  <h3><span class="qid">sd-7</span> Design: URL shortener, rate limiter, notification, pastebin, parking lot, Splitwise, KV store, quiz, library, hotel, job scheduler, voting</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><p><strong>URL shortener:</strong> API POST/GET, base62 id, SQL/Redis, 301, rate limit, analytics Kafka.</p><p><strong>Rate limiter:</strong> token bucket in Redis, Gateway filter, 429 + Retry-After.</p><p><strong>Notifications:</strong> producer API, Kafka topics per channel, templates, user prefs DB, provider adapters, DLQ.</p><p><strong>Pastebin:</strong> object store for body, metadata SQL, expiry job, paste id.</p><p><strong>Parking lot LLD:</strong> spots by size, strategy for nearest, ticket aggregate, payment.</p><p><strong>Splitwise:</strong> expenses, simplify debts graph, ledger entries immutable.</p><p><strong>KV store:</strong> hash ring, replication factor, gossip, WAL, LRU per node.</p><p><strong>Scheduler:</strong> DB of jobs + Quartz/K8s CronJob + workers from queue.</p><p>Always state: actors, APIs, data model, scale numbers, bottlenecks, failures.</p></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-8" data-q="mid: swiggy, uber, memcached, slack, cdn, payments, bookmyshow, inventory, api gateway, celery, logging, google docs">
+  <h3><span class="qid">sd-8</span> Mid: Swiggy, Uber, Memcached, Slack, CDN, payments, BookMyShow, inventory, API gateway, Celery, logging, Google Docs</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><p>Food/ride: geo index (H3/S2), matching service, websocket tracking, Kafka events, payments saga, fraud.</p><p>Chat: connection gateway, fan-out (online push, offline store), message log, presence Redis.</p><p>Ticket locking: seat row version or Redis lock TTL + confirm TX unique(show,seat).</p><p>Docs collab: OT or CRDT, websocket, snapshots in S3, Redis presence.</p><p>Observability: agents → Kafka → indexer (ES/Loki) → Grafana; sampling traces.</p></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-9" data-q="senior: whatsapp/kafka, global db, search pipeline, fraud, youtube, s3/hdfs, recs, global rate limit, ads rtb, consensus, cdn, distributed tx">
+  <h3><span class="qid">sd-9</span> Senior: WhatsApp/Kafka, global DB, search pipeline, fraud, YouTube, S3/HDFS, recs, global rate limit, ads RTB, consensus, CDN, distributed TX</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><p>Talk CAP, quorum, leader election, CDC, feature stores, edge caches, idempotency, poison queues, multi-region active-active conflict resolution (CRDT or LWW with care). For video: chunk, CDN, adaptive bitrate, origin shield. For ads: budget pacing, 50ms RTB, colocation.</p></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="sd-10" data-q="production-ready spring on k8s/aws for millions of requests">
+  <h3><span class="qid">sd-10</span> Production-ready Spring on K8s/AWS for millions of requests</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Stateless pods, HPA, PDB, multi-AZ, ALB, CloudFront.</li><li>RDS Multi-AZ + read replicas, Redis ElastiCache, SQS/Kafka MSK.</li><li>IAM roles, secrets, mTLS/mesh, WAF.</li><li>OpenTelemetry, Prometheus, on-call runbooks, load tests, chaos.</li><li>JVM container flags, probes, graceful shutdown, connection pools sized to DB.</li></ul></div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="coding">
+  <h2>Coding Round</h2>
+  <p class="blurb">DSA you will actually be asked</p>
+  
+<article class="card" id="cd-1" data-q="valid brackets () [] {}">
+  <h3><span class="qid">cd-1</span> Valid brackets () [] {}</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Use a stack: opening goes on the pile, closing must match the top.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+boolean valid(String s) {
+    Deque<Character> st = new ArrayDeque<>();
+    for (char c : s.toCharArray()) {
+        switch (c) {
+            case '(' -> st.push(')');
+            case '[' -> st.push(']');
+            case '{' -> st.push('}');
+            default -> {
+                if (st.isEmpty() || st.pop() != c) return false;
+            }
+        }
+    }
+    return st.isEmpty();
+}
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="cd-2" data-q="first non-repeating character with streams; first repeated integer">
+  <h3><span class="qid">cd-2</span> First non-repeating character with Streams; first repeated integer</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>
+Optional<Character> firstUnique(String s) {
+    Map<Integer, Long> freq = s.chars().boxed()
+        .collect(Collectors.groupingBy(c -> c, LinkedHashMap::new, Collectors.counting()));
+    return freq.entrySet().stream()
+        .filter(e -> e.getValue() == 1)
+        .map(e -> (char) (int) e.getKey())
+        .findFirst();
+}
+
+OptionalInt firstRepeated(int[] a) {
+    Set<Integer> seen = new HashSet<>();
+    return Arrays.stream(a).filter(n -> !seen.add(n)).findFirst();
+}
+</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="cd-3" data-q="merge overlapping intervals; merge two sorted arrays; move zeroes; anagrams; lcp; missing number">
+  <h3><span class="qid">cd-3</span> Merge overlapping intervals; merge two sorted arrays; move zeroes; anagrams; LCP; missing number</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>
+int[][] merge(int[][] intervals) {
+    Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+    List<int[]> out = new ArrayList<>();
+    for (int[] cur : intervals) {
+        if (out.isEmpty() || out.get(out.size() - 1)[1] < cur[0]) out.add(cur.clone());
+        else out.get(out.size() - 1)[1] = Math.max(out.get(out.size() - 1)[1], cur[1]);
+    }
+    return out.toArray(int[][]::new);
+}
+
+int[] mergeSorted(int[] a, int[] b) {
+    int[] r = new int[a.length + b.length];
+    int i = 0, j = 0, k = 0;
+    while (i < a.length && j < b.length)
+        r[k++] = a[i] <= b[j] ? a[i++] : b[j++];
+    while (i < a.length) r[k++] = a[i++];
+    while (j < b.length) r[k++] = b[j++];
+    return r;
+}
+
+void moveZeroes(int[] a) {
+    int w = 0;
+    for (int x : a) if (x != 0) a[w++] = x;
+    while (w < a.length) a[w++] = 0;
+}
+
+boolean anagram(String a, String b) {
+    if (a.length() != b.length()) return false;
+    int[] c = new int[26];
+    for (int i = 0; i < a.length(); i++) { c[a.charAt(i) - 'a']++; c[b.charAt(i) - 'a']--; }
+    return Arrays.stream(c).allMatch(x -> x == 0);
+}
+
+String lcp(String[] strs) {
+    return Arrays.stream(strs).reduce((x, y) -> {
+        int i = 0;
+        while (i < x.length() && i < y.length() && x.charAt(i) == y.charAt(i)) i++;
+        return x.substring(0, i);
+    }).orElse("");
+}
+
+int missing(int[] a) { // 0..n with one missing
+    int n = a.length, xor = n;
+    for (int i = 0; i < n; i++) xor ^= i ^ a[i];
+    return xor;
+}
+</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="cd-4" data-q="thread-safe lru o(1); group anagrams; second highest in a list">
+  <h3><span class="qid">cd-4</span> Thread-safe LRU O(1); group anagrams; second highest in a list</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>
+class Lru<K,V> {
+  private final int cap;
+  private final Map<K,V> map;
+  Lru(int cap) {
+    this.cap = cap;
+    this.map = Collections.synchronizedMap(new LinkedHashMap<>(cap, 0.75f, true) {
+      protected boolean removeEldestEntry(Map.Entry<K,V> e) { return size() > Lru.this.cap; }
+    });
+  }
+  public V get(K k) { return map.get(k); }
+  public void put(K k, V v) { map.put(k, v); }
+}
+// For true concurrent LRU, use Caffeine (production) — LinkedHashMap + one lock is the interview answer.
+
+Map<String, List<String>> groupAnagrams(List<String> words) {
+    return words.stream().collect(Collectors.groupingBy(w -> {
+        char[] c = w.toCharArray();
+        Arrays.sort(c);
+        return new String(c);
+    }));
+}
+
+int secondHighest(List<Integer> xs) {
+    return xs.stream().distinct().sorted(Comparator.reverseOrder()).skip(1).findFirst().orElseThrow();
+}
+</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="cd-5" data-q="producer-consumer; fastest search structures">
+  <h3><span class="qid">cd-5</span> Producer-consumer; fastest search structures</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><p>Producer-consumer: one BlockingQueue, producers put, consumers take. Poison pill to stop.</p><p>Exact key: HashMap. Prefix/autocomplete: Trie. Sorted range: TreeMap / binary search on array. Full text: inverted index (ES).</p></div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="patterns">
+  <h2>Design Patterns &amp; SOLID</h2>
+  <p class="blurb">Singleton, factory, strategy</p>
+  
+<article class="card" id="dp-1" data-q="singleton: create, thread-safe, clone, serialize, reflection, dcl, inner class, when">
+  <h3><span class="qid">dp-1</span> Singleton: create, thread-safe, clone, serialize, reflection, DCL, inner class, when</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Singleton is 'only one remote control for the TV.' Use it for true process-wide resources (a metrics registry), not as a disguised global variable.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+public enum Config { INSTANCE; } // best: reflection/serialization safe
+
+public final class HolderSingleton {
+    private HolderSingleton() {}
+    private static class H { static final HolderSingleton I = new HolderSingleton(); }
+    public static HolderSingleton get() { return H.I; }
+}
+
+// DCL — field MUST be volatile
+private static volatile Expensive instance;
+static Expensive get() {
+    if (instance == null) {
+        synchronized (Expensive.class) {
+            if (instance == null) instance = new Expensive();
+        }
+    }
+    return instance;
+}
+</div>
+  <pre class="code"><code>Prevent clone: throw in clone(). Serialization: readResolve() return INSTANCE. Reflection: throw if instance != null in ctor. Spring singleton scope is per container, not per JVM classloader.</code></pre>
+  
+</article>
+
+
+<article class="card" id="dp-2" data-q="prototype vs singleton; factory; builder; strategy in spring">
+  <h3><span class="qid">dp-2</span> Prototype vs singleton; Factory; Builder; Strategy in Spring</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Prototype: each inject gets a new instance (clone when creating is expensive).</li><li>Factory: caller shouldn't new() many subtypes (PaymentGatewayFactory).</li><li>Builder: many optional fields, immutable products (Lombok @Builder, records).</li><li>Strategy: inject Map&lt;String, PayStrategy&gt; and select by key — Spring does this beautifully.</li></ul></div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+@Component("upi") class UpiPay implements PayStrategy {}
+@Component("card") class CardPay implements PayStrategy {}
+@Service
+@RequiredArgsConstructor
+class PayService {
+  private final Map<String, PayStrategy> strategies; // Spring keys = bean names
+  public void pay(String type, Money m) { strategies.get(type).pay(m); }
+}
+</div>
+  
+  
+</article>
+
+
+<article class="card" id="dp-3" data-q="adapter, decorator, observer, template vs callback">
+  <h3><span class="qid">dp-3</span> Adapter, Decorator, Observer, Template vs callback</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Adapter: square peg in round hole (legacy API). Decorator: wrap to add logging. Observer: pub/sub. Template method: inheritance hooks; prefer functional callbacks in Java 8+.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="dp-4" data-q="solid — how you&#x27;ve applied them">
+  <h3><span class="qid">dp-4</span> SOLID — how you&#x27;ve applied them</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>S: PaymentService doesn't send email — NotificationService does.</li><li>O: new payment type = new Strategy bean, not a 400-line switch.</li><li>L: don't make Square extend Rectangle if setWidth breaks area.</li><li>I: Split UserAdminOps from UserLoginOps.</li><li>D: depend on PayStrategy interface, not UpiClient concrete.</li></ul></div></div>
+  
+  
+  
+</article>
+
+</section>
+
+<section id="behavioral">
+  <h2>Behavioral &amp; Code Review</h2>
+  <p class="blurb">Stories, PaymentService review</p>
+  
+<article class="card" id="bh-1" data-q="draw your architecture; production bug you owned; notice period / relocation">
+  <h3><span class="qid">bh-1</span> Draw your architecture; production bug you owned; notice period / relocation</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Prepare a 2-minute diagram: clients → CDN/ALB → Gateway → services → Kafka/DB/Redis → observability. One real incident: symptom → how you found it (metrics/logs) → fix → prevention (alert, test). Be honest on notice period.</div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="bh-2" data-q="conflict with team; user cannot login; why hire you; improve api performance">
+  <h3><span class="qid">bh-2</span> Conflict with team; user cannot login; why hire you; improve API performance</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>Conflict: listen, data over ego, document decision, disagree-and-commit.</li><li>Can't login: classify (401 vs 500 vs lockout vs SSO IdP down vs clock skew vs CORS). Trace one request id.</li><li>Hire you: 3 bullets — shipped X, owned Y in prod, mentor/automation. Tie to their JD.</li><li>API perf: measure, N+1, indexes, cache, parallel IO, payload size, pool sizing — in that order.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="bh-3" data-q="code review: paymentservice.processpayment">
+  <h3><span class="qid">bh-3</span> Code review: PaymentService.processPayment</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>This method can double-charge. Two threads both see status != SUCCESS, both call paymentClient.charge. Also, an HTTP call sits inside @Transactional — the DB row stays locked/open while the network is slow. On HTTP success + DB fail you charged but didn't record. On DB PROCESSING + HTTP fail you may retry and charge twice.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span>
+// Interview rewrite (sketch):
+@Transactional
+public PaymentResponse processPayment(String idempotencyKey, Long paymentId) {
+    int updated = paymentRepository.markProcessingIfNew(paymentId, idempotencyKey);
+    if (updated == 0) {
+        return paymentRepository.responseFor(paymentId); // already done / in-flight
+    }
+    // TRANSACTION ENDS HERE ideally — then charge, then CAS to SUCCESS/FAILED
+}
+</div>
+  <pre class="code"><code>Also: RuntimeException(&#x27;not found&#x27;) → 500; use a domain not-found. Status as magic strings → enum. paymentClient needs timeout. Unique(idempotency_key).</code></pre>
+  
+</article>
+
+
+<article class="card" id="bh-4" data-q="tdd, logging, sonar, postman, agile, prompt engineering (short)">
+  <h3><span class="qid">bh-4</span> TDD, logging, Sonar, Postman, Agile, prompt engineering (short)</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div><ul><li>TDD: failing test → code → refactor. Mockito @Mock vs @MockBean (Spring context). spy = real object + stub some methods.</li><li>Log with SLF4J, JSON logs, MDC correlation id, never PII/tokens.</li><li>Sonar: quality gate on PR. Postman/Newman in CI for contract smoke.</li><li>Scrum: sprint, increment, retro. You care about outcomes not ceremonies.</li><li>Prompts: role, constraints, examples, evaluation — treat like spec.</li></ul></div></div>
+  
+  
+  
+</article>
+
+
+<article class="card" id="bh-camel" data-q="camel: hide employee.image from logs; @mock vs @mockbean vs spy">
+  <h3><span class="qid">bh-camel</span> Camel: hide Employee.image from logs; @Mock vs @MockBean vs spy</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Don't log the whole Exchange body if it has a photo. Copy a DTO without the byte[] or use a custom DataFormat / Log EIP with a mask. Jackson @JsonIgnore on image for API logs.</div></div>
+  <div class="ans"><span class="badge badge-pro">Interview answer</span><ul><li>@Mock: Mockito only, no Spring. @MockBean: replaces a bean in the Spring test context. @Spy / @SpyBean: real object, stub selected methods.</li><li>Stub = canned answers. Mock = also verify interactions.</li></ul></div>
+  
+  
+</article>
+
+
+<article class="card" id="bh-5" data-q="where factory was wrong; where singleton/strategy/thread-local in your project">
+  <h3><span class="qid">bh-5</span> Where factory was wrong; where singleton/strategy/thread-local in your project</h3>
+  <div class="eli5"><span class="badge">ELI5</span><div>Have a story: factory hid a simple if for two types — you replaced with Spring Map of strategies. Singleton: ObjectMapper bean, not a static util with mutable date format. ThreadLocal: request tenant id in a filter, cleared in finally. Strategy: choose enricher per message type in Camel/Kafka listener.</div></div>
+  
+  
+  
+</article>
+
+</section>
+
+    <footer>
+      Generated as a self-contained study page. Practice out loud: ELI5 in 20 seconds, then the professional version in 90 seconds.
+    </footer>
+  </main>
+</div>
+<script>
+const q = document.getElementById('qsearch');
+const cards = [...document.querySelectorAll('.card')];
+q.addEventListener('input', () => {
+  const s = q.value.trim().toLowerCase();
+  cards.forEach(c => {
+    const hit = !s || c.dataset.q.includes(s) || c.textContent.toLowerCase().includes(s);
+    c.style.display = hit ? '' : 'none';
+  });
+});
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', () => document.querySelector('aside').classList.remove('open'));
+});
+const menu = document.querySelector('.menu');
+menu.addEventListener('click', () => document.querySelector('aside').classList.toggle('open'));
+</script>
+</body>
+</html>
